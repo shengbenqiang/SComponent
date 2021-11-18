@@ -1,0 +1,138 @@
+.primary {
+    background-color: #409EFF;
+    border: none;
+    color: #ffffff;
+}
+.success {
+    background-color: #67C23A;
+    border: none;
+    color: #ffffff;
+}
+.warning {
+    background-color: #E6A23C;
+    border: none;
+    color: #ffffff;
+}
+.danger {
+    background-color: #F56C6C;
+    border: none;
+    color: #ffffff;
+}
+.info {
+    background-color: #909399;
+    border: none;
+    color: #ffffff;
+}
+.plainprimary {
+    background-color: #ecf5ff;
+    border: 1px solid #409EFF;
+    color: #409EFF;
+}
+.plainsuccess {
+    background-color: #F0F9EB;
+    border: 1px solid #67C23A;
+    color: #67C23A;
+}
+.plainwarning {
+    background-color: #FDF6EC;
+    border: 1px solid #E6A23C;
+    color: #E6A23C;
+}
+.plaindanger {
+    background-color: #FEF0F0;
+    border: 1px solid #F56C6C;
+    color: #F56C6C;
+}
+.plaininfo {
+    background-color: #F4F4F5;
+    border: 1px solid #909399;
+    color: #909399;
+}
+.disprimary {
+    background-color: #A0CFFF;
+    border: none;
+    color: #ffffff;
+}
+.dissuccess {
+    background-color: #B3E19D;
+    border: none;
+    color: #ffffff;
+}
+.diswarning {
+    background-color: #F3D19E;
+    border: none;
+    color: #ffffff;
+}
+.disdanger {
+    background-color: #FAB6B6;
+    border: none;
+    color: #ffffff;
+}
+.disinfo {
+    background-color: #C8C9CC;
+    border: none;
+    color: #ffffff;
+}
+.displainprimary {
+    background-color: #ECF5FF;
+    border: 1px solid #8CC6FF;
+    color: #8CC6FF;
+}
+.displainsuccess {
+    background-color: #F0F9EB;
+    border: 1px solid #A4DA89;
+    color: #A4DA89;
+}
+.displainwarning {
+    background-color: #FDF6EC;
+    border: 1px solid #F1CD9A;
+    color: #F1CD9A;
+}
+.displaindanger {
+    background-color: #FEF0F0;
+    border: 1px solid #F9A7A7;
+    color: #F9A7A7;
+}
+.displaininfo {
+    background-color: #F4F4F5;
+    border: 1px solid #BCCAD9;
+    color: #BCCAD9;
+}
+.mini {
+    width: 80px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+}
+.small {
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 13px;
+}
+.medium {
+    width: 80px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+}
+.pointSty {
+    cursor: not-allowed;
+}
+.baseStyle {
+    border-radius: 3px;
+    letter-spacing: 1px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+/* 半角样式 */
+.halfCir {
+    border-radius: calc(100vh / 2);
+}
+.SBtnImg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 8px;
+}
