@@ -1,9 +1,9 @@
 <template>
   <SButton
     type="danger"
-    round
+    plain
   >
-    添加组件
+    测试按钮
   </SButton>
 </template>
 
@@ -14,6 +14,14 @@ export default {
   name: 'App',
   components: {
     SButton
+  },
+  data () {
+    return {
+      mySty: {
+        width: '20px',
+        height: '20px'
+      }
+    }
   }
 }
 </script>

@@ -105,13 +105,13 @@
     font-size: 12px;
 }
 .small {
-    width: 80px;
+    width: 90px;
     height: 30px;
     line-height: 30px;
     font-size: 13px;
 }
 .medium {
-    width: 80px;
+    width: 100px;
     height: 40px;
     line-height: 40px;
     font-size: 14px;
@@ -126,6 +126,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    box-sizing: border-box;
+    white-space: nowrap;
 }
 /* 半角样式 */
 .halfCir {
@@ -134,5 +137,8 @@
 .SBtnImg {
     width: 1.5rem;
     height: 1.5rem;
-    margin-right: 8px;
+    margin: 5px;
+}
+.allCir {
+    border-radius: 100%;
 }

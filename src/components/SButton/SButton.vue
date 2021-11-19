@@ -5,12 +5,13 @@
       'baseStyle',
       sizeClass,
       disabled ? 'pointSty' : '',
-      round ? 'halfCir' : ''
+      round ? 'halfCir' : '',
+      circle ? 'allCir' : ''
     ]"
     :disabled="disabled"
     :style="{
       ...styleObj,
-      width: myWidth ? myWidth + 'px' : ''
+      width: myWidth ? myWidth + 'px' : styleObj.width ? styleObj.width : ''
     }"
   >
     <img v-show="icon" :src="icon" alt="" class="SBtnImg">
@@ -54,6 +55,10 @@ export default defineComponent({
     myWidth: {
       type: Number,
       default: 0
+    },
+    circle: {
+      type: Boolean,
+      default: false
     }
   },
   setup (props) {
