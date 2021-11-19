@@ -11,7 +11,10 @@
     :disabled="disabled"
     :style="{
       ...styleObj,
-      width: myWidth ? myWidth + 'px' : styleObj.width ? styleObj.width : ''
+      width: myWidth ? myWidth + 'px' : styleObj.width ? styleObj.width : '',
+      height: myHeight ? myHeight + 'px' : styleObj.height ? styleObj.height : '',
+      fontSize: myFontSize ? myFontSize + 'px' : styleObj.fontSize ? styleObj.fontSize : '',
+      backgroundColor: myBg ? myBg : styleObj.backgroundColor ? styleObj.backgroundColor : ''
     }"
   >
     <img v-show="icon" :src="icon" alt="" class="SBtnImg">
@@ -55,6 +58,18 @@ export default defineComponent({
     myWidth: {
       type: Number,
       default: 0
+    },
+    myFontSize: {
+      type: Number,
+      default: 0
+    },
+    myHeight: {
+      type: Number,
+      default: 0
+    },
+    myBg: {
+      type: String,
+      default: ''
     },
     circle: {
       type: Boolean,
