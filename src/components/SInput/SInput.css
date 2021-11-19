@@ -1,0 +1,74 @@
+.s-input-div {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+.s-input-base-sty {
+    width: 100%;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    color: #666;
+}
+.s-input-padding {
+    padding-left: 15px;
+}
+.s-input-left-padding {
+    padding-left: 40px;
+}
+.s-input-right-padding {
+    padding-right: 40px;
+}
+.s-input-size-max {
+    height: 35px;
+}
+.s-input-size-medium {
+    height: 30px;
+}
+.s-input-size-small {
+    height: 25px;
+}
+.s-input-size-mini {
+    height: 20px;
+}
+input:focus {
+    border: 1px solid #409EFF;
+    outline: none;
+}
+input::placeholder {
+    color: #cccccc;
+    font-size: 13px;
+}
+.disableBg {
+    background-color: #F5F7FA;
+    cursor: not-allowed;
+}
+
+.s-input-span-base-sty {
+    right: 0;
+}
+.s-input-right-icon {
+    right: 0;
+}
+.s-input-left-icon {
+    left: 0;
+}
+.s-input-icon-base {
+    width: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: absolute;
+}
+.s-input-left-slot {
+    border: 1px solid #cccccc;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.s-input-right-slot {
+    border: 1px solid #cccccc;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
