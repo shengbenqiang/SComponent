@@ -4,7 +4,7 @@
     plain
   >
     测试按钮
-  </SButton>2
+  </SButton>
   <br>
   <SInput
     placeholder="Please input"
@@ -16,17 +16,21 @@
       <SButton @click="clickTest" :icon="leftImg" :style-obj="testBtnSty"></SButton>
     </template>
   </SInput>
+  <br>
+  <SInputNumber />
 </template>
 
 <script>
 import SButton from '@/components/SButton/SButton'
 import SInput from '@/components/SInput/SInput'
+import SInputNumber from '@/components/SInputNumber/SInputNumber'
 
 export default {
   name: 'App',
   components: {
     SButton,
-    SInput
+    SInput,
+    SInputNumber
   },
   watch: {
     myInput: {

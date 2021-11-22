@@ -36,6 +36,8 @@
         :minlength="minLength ? minLength : null"
         @input="inputHandle"
         @blur="blurHandle"
+        @change="changeHandle"
+        @focus="focusHandle"
       />
       <span
           v-if="clearable"
@@ -150,10 +152,19 @@ export default defineComponent({
     }
     function clearClick () {
       this.$emit('update:modelValue', '')
+      this.$emit('clear')
       showClear.value = false
     }
     function blurHandle (e) {
       this.$emit('blur', e)
+    }
+    // 用户失去焦点或按下回车时触发 内容改变的情况下
+    function changeHandle (e) {
+      this.$emit('change', e)
+    }
+    // 输入框组件获取焦点是触发事件
+    function focusHandle (e) {
+      this.$emit('focus', e)
     }
     showCLear()
     return {
@@ -162,7 +173,9 @@ export default defineComponent({
       showClear,
       inputHandle,
       clearClick,
-      blurHandle
+      blurHandle,
+      changeHandle,
+      focusHandle
     }
   }
 })
