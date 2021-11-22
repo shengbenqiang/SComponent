@@ -1,12 +1,12 @@
 <template>
-  <SButton
+  <s-button
     type="danger"
     plain
   >
     测试按钮
-  </SButton>
+  </s-button>
   <br>
-  <SInput
+  <s-input
     placeholder="Please input"
     v-model="myInput"
     max-length="10"
@@ -15,9 +15,13 @@
     <template #rightAppend>
       <SButton @click="clickTest" :icon="leftImg" :style-obj="testBtnSty"></SButton>
     </template>
-  </SInput>
+  </s-input>
   <br>
-  <SInputNumber />
+  <s-input-number
+    v-model="myInputNum"
+    :step="2"
+    show-way="right"
+  />
 </template>
 
 <script>
@@ -37,6 +41,11 @@ export default {
       handler (val) {
         console.log(val)
       }
+    },
+    myInputNum: {
+      handler (val) {
+        console.log(val)
+      }
     }
   },
   data () {
@@ -52,7 +61,10 @@ export default {
         backgroundColor: '#F4F6F9',
         border: 'none',
         width: '40px'
-      }
+      },
+      myInputNum: 0,
+      maxNumber: 10,
+      minNumber: 0
     }
   },
   methods: {

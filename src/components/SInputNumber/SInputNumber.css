@@ -1,0 +1,128 @@
+.s-input-div-base-sty {
+    display: flex;
+    flex-direction: row;
+    border-radius: 3px;
+}
+.s-no-focus-div-border {
+    border: 1px solid #cccccc;
+}
+.s-focus-div-border {
+    border: 1px solid #409EFF;
+}
+.s-input-number-base-sty {
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    flex: 1;
+    width: 100%;
+}
+.s-input-number-base-sty:focus {
+    border: none;
+}
+.s-input-number-split-btn::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.s-input-number-split-btn::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.largeSize {
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+.mediumSize {
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+}
+.smallSize {
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+.miniSize {
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+}
+.large-size-div {
+    width: 180px;
+}
+.medium-size-div{
+    width: 140px;
+}
+.small-size-div {
+    width: 120px;
+}
+.mini-size-div {
+    width: 100px;
+}
+.s-input-number-left-operate {
+    border-right: 1px solid #cccccc;
+    font-size: 17px;
+    font-weight: 500;
+    box-sizing: border-box;
+}
+.s-input-number-right-operate {
+    border-left: 1px solid #cccccc;
+    font-size: 17px;
+    font-weight: 500;
+    box-sizing: border-box;
+}
+.s-input-disable-operate-bg {
+    background-color: #F5F7FA;
+}
+.s-input-use-operate-bg {
+    background-color: #F5F7FA;
+}
+.s-input-use-operate-color {
+    color: #85878B;
+}
+.s-input-dis-operate-color {
+    color: #cccccc;
+}
+.s-input-number-operate {
+    cursor: pointer;
+}
+.s-input-number-operate-disable-cursor {
+    cursor: not-allowed;
+}
+.s-large-size-operate {
+    width: 40px;
+}
+.s-medium-size-operate {
+    width: 35px;
+}
+.s-small-size-operate {
+    width: 30px;
+}
+.s-mini-size-operate {
+    width: 25px;
+}
+.s-input-num-dis {
+    color: #cccccc;
+}
+.s-input-operate-hover {
+    color: #409EFF;
+}
+.s-input-way-base {
+    border-left: 1px solid #cccccc;
+    display: flex;
+    flex-direction: column;
+}
+.s-input-way-common {
+    color: #409EFF;
+    font-size: 10px;
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #F5F7FA;
+}
+.s-input-way-top-base {
+    border-bottom: 1px solid #cccccc;
+}
