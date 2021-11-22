@@ -4,7 +4,7 @@
     plain
   >
     测试按钮
-  </SButton>
+  </SButton>2
   <br>
   <SInput
     placeholder="Please input"
