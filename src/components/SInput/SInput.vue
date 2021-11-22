@@ -13,56 +13,66 @@
     >
       <slot name="leftAppend"/>
     </span>
-    <input
+    <div
       :class="[
+        's-input-tow-div'
+      ]"
+    >
+      <input
+        :class="[
         's-input-base-sty',
+        $slots.leftAppend ? 's-input-left-border' : 's-input-base-border',
+        $slots.rightAppend ? 's-input-right-border' : 's-input-base-border',
+        $slots.leftAppend && $slots.rightAppend ? 's-input-all-border' : 's-input-base-border',
         leftIcon ? 's-input-left-padding' : rightIcon ? 's-input-right-padding s-input-padding' : 's-input-padding',
         sInputSize,
         disabled ? 'disableBg' : ''
       ]"
-      :disabled="disabled"
-      :placeholder="placeholder"
-      :value="modelValue"
-      :type="showPassword ? 'password' : ''"
-      :maxlength="maxLength ? maxLength : null"
-      :minlength="minLength ? minLength : null"
-      @input="inputHandle"
-    />
-    <span
-      v-if="clearable"
-      :class="[
-        's-input-span-base-sty',
-        's-input-icon-base',
-        sInputSize,
-      ]"
-      @click="clearClick"
-    >
-      <img
-        :src="clearIcon"
-        alt=""
-        v-show="showClear"
+        :disabled="disabled"
+        :placeholder="placeholder"
+        :value="modelValue"
+        :type="showPassword ? 'password' : ''"
+        :maxlength="maxLength ? maxLength : null"
+        :minlength="minLength ? minLength : null"
+        @input="inputHandle"
+        @blur="blurHandle"
       />
-    </span>
-    <span
-      v-if="rightIcon"
-      :class="[
-        sInputSize,
-        's-input-right-icon',
-        's-input-icon-base'
-      ]"
-    >
-      <img :src="rightIcon" alt=""/>
-    </span>
-    <span
-      v-if="leftIcon"
-      :class="[
-        sInputSize,
-        's-input-left-icon',
-        's-input-icon-base'
-      ]"
-    >
-      <img :src="leftIcon" alt=""/>
-    </span>
+      <span
+          v-if="clearable"
+          :class="[
+          's-input-span-base-sty',
+          's-input-icon-base',
+          sInputSize,
+        ]"
+          @click="clearClick"
+        >
+        <img
+          :src="clearIcon"
+          alt=""
+          v-show="showClear"
+        />
+      </span>
+      <span
+          v-if="rightIcon"
+          :class="[
+          sInputSize,
+          's-input-right-icon',
+          's-input-icon-base'
+        ]"
+        >
+        <img :src="rightIcon" alt=""/>
+      </span>
+      <span
+          v-if="leftIcon"
+          :class="[
+          sInputSize,
+          's-input-left-icon',
+          's-input-icon-base'
+        ]"
+        >
+        <img :src="leftIcon" alt=""/>
+      </span>
+    </div>
     <span
       v-if="$slots.rightAppend"
       :class="[
@@ -142,14 +152,17 @@ export default defineComponent({
       this.$emit('update:modelValue', '')
       showClear.value = false
     }
-    console.log(slots)
+    function blurHandle (e) {
+      this.$emit('blur', e)
+    }
     showCLear()
     return {
       sInputSize,
       clearIcon,
       showClear,
       inputHandle,
-      clearClick
+      clearClick,
+      blurHandle
     }
   }
 })

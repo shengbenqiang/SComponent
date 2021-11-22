@@ -9,11 +9,12 @@
   <SInput
     placeholder="Please input"
     v-model="myInput"
-    :right-icon="rightImg"
     max-length="10"
+    @blur="handleBlur"
   >
-    <template #leftAppend>你好啊</template>
-    <template #rightAppend>我很好</template>
+    <template #rightAppend>
+      <SButton @click="clickTest" :icon="leftImg" :style-obj="testBtnSty"></SButton>
+    </template>
   </SInput>
 </template>
 
@@ -40,9 +41,22 @@ export default {
         width: '20px',
         height: '20px'
       },
-      myInput: '你好啊',
+      myInput: '',
       leftImg: require('./assets/comIcon/inoutSearch.png'),
-      rightImg: require('./assets/comIcon/inputCalendar.png')
+      rightImg: require('./assets/comIcon/inputCalendar.png'),
+      testBtnSty: {
+        backgroundColor: '#F4F6F9',
+        border: 'none',
+        width: '40px'
+      }
+    }
+  },
+  methods: {
+    clickTest () {
+      console.log('测试一下')
+    },
+    handleBlur (e) {
+      console.log(e)
     }
   }
 }
