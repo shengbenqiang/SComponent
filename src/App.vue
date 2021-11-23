@@ -19,9 +19,11 @@
   <br>
   <s-input-number
     v-model="myInputNum"
-    :step="2"
+    :min="1"
+    :max="10"
     show-way="right"
   />
+  <br>
 </template>
 
 <script>

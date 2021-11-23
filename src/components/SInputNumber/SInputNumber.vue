@@ -15,6 +15,7 @@
         's-input-disable-operate-bg s-input-number-operate-disable-cursor s-input-dis-operate-color' :
         's-input-use-operate-bg s-input-number-operate .s-input-use-operate-color',
         leftOperate ? 's-input-operate-hover' : '',
+        limitMax ? 's-input-equal' : '',
         's-input-number-left-operate'
       ]"
       @click="addOperate"
@@ -48,6 +49,7 @@
         's-input-disable-operate-bg s-input-number-operate-disable-cursor s-input-dis-operate-color' :
         's-input-use-operate-bg s-input-number-operate .s-input-use-operate-color',
         rightOperate ? 's-input-operate-hover' : '',
+        limitMin ? 's-input-equal' : '',
         's-input-number-right-operate'
       ]"
       @click="reduceOperate"
@@ -68,19 +70,27 @@
     >
       <div
         :class="[
+          rightTop ? 's-input-right-hover' : '',
+          limitMax ? 's-input-equal' : '',
           's-input-way-top-base',
           's-input-way-common',
-          'fas angle-up'
+          'fa fa-angle-up fa-lg'
         ]"
         @click="addOperate"
+        @mouseenter="operateRightEnter(1)"
+        @mouseleave="operateRightLeave(1)"
       />
       <div
         :class="[
+          rightBto ? 's-input-right-hover' : '',
+          limitMin ? 's-input-equal' : '',
           's-input-way-bot-base',
           's-input-way-common',
-          'fas angle-down'
+          'fa fa-angle-down'
         ]"
         @click="reduceOperate"
+        @mouseenter="operateRightEnter(2)"
+        @mouseleave="operateRightLeave(2)"
       />
     </span>
   </div>
@@ -125,6 +135,10 @@ export default defineComponent({
     const divBorder = ref(false)
     const leftOperate = ref(false)
     const rightOperate = ref(false)
+    const rightTop = ref(false)
+    const rightBto = ref(false)
+    const limitMin = ref(false)
+    const limitMax = ref(false)
     const sizeSty = computed(() => {
       return props.size + 'Size'
     })
@@ -157,6 +171,13 @@ export default defineComponent({
     function addOperate () {
       const that = this
       const add = isAdd(props.modelValue + 1)
+      if (!add) {
+        return
+      }
+      if (props.max !== null || props.min !== null) {
+        limitMax.value = (props.max && props.modelValue + 1 === props.max)
+        limitMin.value = !(props.max + 1 > props.min)
+      }
       if (!props.disabled) {
         if (add && props.max) {
           confirmAdd(that)
@@ -180,6 +201,13 @@ export default defineComponent({
     function reduceOperate () {
       const that = this
       const reduce = isReduce(props.modelValue - 1)
+      if (!reduce) {
+        return
+      }
+      if (props.max !== null || props.min !== null) {
+        limitMin.value = (props.modelValue - 1 === props.min && props.min)
+        limitMax.value = !(props.modelValue - 1 < props.max)
+      }
       if (!props.disabled) {
         if (reduce && props.min !== null) {
           confirmReduce(that)
@@ -207,6 +235,19 @@ export default defineComponent({
       divBorder.value = false
       handleOperateColor(operate, false)
     }
+    function handleRightClass (type, change) {
+      if (type === 1) {
+        rightTop.value = change
+      } else if (type === 2) {
+        rightBto.value = change
+      }
+    }
+    function operateRightEnter (rightType) {
+      handleRightClass(rightType, true)
+    }
+    function operateRightLeave (rightType) {
+      handleRightClass(rightType, false)
+    }
     return {
       sizeSty,
       sizeDiv,
@@ -214,12 +255,18 @@ export default defineComponent({
       divBorder,
       leftOperate,
       rightOperate,
+      rightTop,
+      rightBto,
+      limitMin,
+      limitMax,
       focusNumHandle,
       blurNumHandle,
       addOperate,
       reduceOperate,
       operateEnter,
-      operateLeave
+      operateLeave,
+      operateRightEnter,
+      operateRightLeave
     }
   }
 })
