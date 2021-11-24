@@ -1,10 +1,14 @@
 <template>
+  <div>按钮</div>
+  <br>
   <s-button
     type="danger"
     plain
   >
     测试按钮
   </s-button>
+  <br>
+  <div>输入框</div>
   <br>
   <s-input
     placeholder="Please input"
@@ -17,6 +21,8 @@
     </template>
   </s-input>
   <br>
+  <div>数字输入框</div>
+  <br>
   <s-input-number
     v-model="myInputNum"
     :min="1"
@@ -24,19 +30,48 @@
     show-way="right"
   />
   <br>
+  <div>单选框</div>
+  <br>
+  <!-- medium -->
+  <SRadio
+    v-model="radio1"
+    label="1"
+    size="small"
+    border
+    @change="changeRadio"
+  >
+    Option 1
+  </SRadio>
+  <br>
+  <SRadio
+    v-model="radio1"
+    label="2"
+    border
+    size="small"
+  >
+    Option 2
+  </SRadio>
+  <br>
+  <div>单选框组</div>
+  <br>
+  <SRadioGroup />
 </template>
 
 <script>
 import SButton from '@/components/SButton/SButton'
 import SInput from '@/components/SInput/SInput'
 import SInputNumber from '@/components/SInputNumber/SInputNumber'
+import SRadio from '@/components/SRadio/SRadio'
+import SRadioGroup from '@/components/SRadioGroup/SRadioGroup'
 
 export default {
   name: 'App',
   components: {
     SButton,
     SInput,
-    SInputNumber
+    SInputNumber,
+    SRadio,
+    SRadioGroup
   },
   watch: {
     myInput: {
@@ -66,7 +101,8 @@ export default {
       },
       myInputNum: 0,
       maxNumber: 10,
-      minNumber: 0
+      minNumber: 0,
+      radio1: '1'
     }
   },
   methods: {
@@ -75,6 +111,9 @@ export default {
     },
     handleBlur (e) {
       console.log(e)
+    },
+    changeRadio (val) {
+      console.log(val)
     }
   }
 }

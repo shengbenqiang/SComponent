@@ -1,0 +1,141 @@
+.s-radio-label-base {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 30px;
+    white-space: nowrap;
+}
+.s-radio-label-dis {
+    cursor: not-allowed;
+}
+.s-radio-label-use {
+    cursor: pointer;
+}
+.s-radio-select-border {
+    border: 1px solid #409EFF;
+    border-radius: 3px;
+    padding: 2px 2px 2px 10px;
+}
+.s-radio-un-select-border {
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    padding: 2px 2px 2px 10px;
+}
+/*.s-radio-select-dis-border {*/
+/*    border: 1px solid #cccccc;*/
+/*    border-radius: 3px;*/
+/*    padding: 2px 2px 2px 10px;*/
+/*}*/
+.s-label-large {
+    height: 35px;
+    width: 100px;
+}
+.s-label-medium {
+    height: 30px;
+    width: 100px;
+}
+.s-label-small {
+    height: 25px;
+    width: 85px;
+}
+.s-label-mini {
+    height: 20px;
+    width: 80px;
+}
+
+.s-radio-large-size {
+    width: 18px;
+    height: 18px;
+}
+.s-radio-medium-size {
+    width: 16px;
+    height: 16px;
+}
+.s-radio-small-size {
+    width: 14px;
+    height: 14px;
+}
+.s-radio-mini-size {
+    width: 12px;
+    height: 12px;
+}
+
+.s-radio-text-base {
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: 1px;
+    margin-left: 5px;
+    font-weight: 700;
+}
+
+.s-radio-text-base-color {
+    color: #606266;
+}
+
+.s-radio-large-text-size {
+    line-height: 35px;
+    font-size: 15px;
+}
+.s-radio-medium-text-size {
+    font-size: 14px;
+    line-height: 30px;
+}
+.s-radio-small-text-size {
+    line-height: 25px;
+    font-size: 12px;
+}
+.s-radio-mini-text-size {
+    line-height: 20px;
+}
+.s-radio-text-select {
+    color: #409EFF;
+}
+.s-radio-text-dis {
+    color: #C0C9DB
+}
+
+/* 修改自带样式 */
+.s-radio-base-sty {
+    opacity: 0;
+    outline: none;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.s-radio-span-con {
+    border-radius: 100%;
+    border: 1px solid #cccccc;
+    background-color: #ffffff;
+    position: relative;
+    /*cursor: pointer;*/
+    display: inline-block;
+    box-sizing: border-box;
+}
+.s-radio-span-checked {
+    border: 5px solid #409EFF;
+}
+.s-radio-span-dis-checked {
+    border: 5px solid #C0C9DB;
+}
+.s-radio-span-large-size {
+    width: 19px;
+    height: 19px;
+}
+.s-radio-span-medium-size {
+    width: 17px;
+    height: 17px;
+}
+.s-radio-span-small-size {
+    width: 15px;
+    height: 15px;
+}
+.s-radio-span-mini-size {
+    width: 14px;
+    height: 14px;
+}
+.s-radio-hover-border {
+    border: 1px solid #409EFF;
+}

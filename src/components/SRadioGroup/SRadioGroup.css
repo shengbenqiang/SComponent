@@ -1,0 +1,4 @@
+.s-radio-group-base {
+    display: flex;
+    flex-direction: row;
+}
