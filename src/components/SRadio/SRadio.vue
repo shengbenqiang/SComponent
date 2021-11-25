@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, inject, nextTick } from 'vue'
 
 export default defineComponent({
   name: 'SRadio',
@@ -80,6 +80,15 @@ export default defineComponent({
   setup (props, { emit }) {
     const refRadio = ref()
     const radioBorder = ref(false)
+    const radioGroupValue = inject('groupValue', undefined)
+    console.log(radioGroupValue)
+    nextTick(() => {
+      if (radioGroupValue !== undefined) {
+        console.log(radioGroupValue.name)
+      }
+    })
+    // const sGroup = computed(() => radioGroupValue)
+    // console.log(sGroup)
     const radioSize = computed(() => {
       return 's-radio-' + props.size + '-size'
     })
@@ -106,7 +115,6 @@ export default defineComponent({
       emit('change', modelValues.value)
     }
     function handleRadioEnter () {
-      console.log('能触发')
       radioBorder.value = true
     }
     function handleRadioLeave () {

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, provide, reactive, toRefs } from 'vue'
 
 export default defineComponent({
   name: 'SRadioGroup',
@@ -18,6 +18,13 @@ export default defineComponent({
       type: [String, Number, Boolean],
       default: ''
     }
+  },
+  setup (props) {
+    provide('groupValue', reactive({
+      ...toRefs(props),
+      name: 'SRadioGroup'
+    }))
+    return {}
   }
 })
 </script>

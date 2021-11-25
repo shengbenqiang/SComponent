@@ -54,7 +54,11 @@
   <br>
   <div>单选框组</div>
   <br>
-  <SRadioGroup />
+  <SRadioGroup v-model="radioGroup1">
+    <s-radio size="small" label="1">选项1</s-radio>
+    <s-radio size="small" label="2">选项2</s-radio>
+    <s-radio size="small" label="3">选项3</s-radio>
+  </SRadioGroup>
 </template>
 
 <script>
@@ -102,7 +106,8 @@ export default {
       myInputNum: 0,
       maxNumber: 10,
       minNumber: 0,
-      radio1: '1'
+      radio1: '1',
+      radioGroup1: '1'
     }
   },
   methods: {
