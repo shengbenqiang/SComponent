@@ -59,6 +59,16 @@
     <s-radio size="small" label="2">选项2</s-radio>
     <s-radio size="small" label="3">选项3</s-radio>
   </SRadioGroup>
+  <br>
+  <div>单选框按钮组</div>
+  <br>
+  <!-- medium -->
+  <s-radio-group v-model="radioButtonGroup" size="small">
+    <s-radio-button label="New York"></s-radio-button>
+    <s-radio-button label="Washington"></s-radio-button>
+    <s-radio-button label="Los Angeles"></s-radio-button>
+    <s-radio-button label="Chicago"></s-radio-button>
+  </s-radio-group>
 </template>
 
 <script>
@@ -67,6 +77,7 @@ import SInput from '@/components/SInput/SInput'
 import SInputNumber from '@/components/SInputNumber/SInputNumber'
 import SRadio from '@/components/SRadio/SRadio'
 import SRadioGroup from '@/components/SRadioGroup/SRadioGroup'
+import SRadioButton from '@/components/SRadioButton/SRadioButton'
 
 export default {
   name: 'App',
@@ -75,7 +86,8 @@ export default {
     SInput,
     SInputNumber,
     SRadio,
-    SRadioGroup
+    SRadioGroup,
+    SRadioButton
   },
   watch: {
     myInput: {
@@ -107,7 +119,8 @@ export default {
       maxNumber: 10,
       minNumber: 0,
       radio1: '1',
-      radioGroup1: '1'
+      radioGroup1: '2',
+      radioButtonGroup: 'New York'
     }
   },
   methods: {

@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, ref, inject, nextTick } from 'vue'
+import { computed, defineComponent, ref, inject } from 'vue'
 
 export default defineComponent({
   name: 'SRadio',
@@ -81,28 +81,25 @@ export default defineComponent({
     const refRadio = ref()
     const radioBorder = ref(false)
     const radioGroupValue = inject('groupValue', undefined)
-    console.log(radioGroupValue)
-    nextTick(() => {
-      if (radioGroupValue !== undefined) {
-        console.log(radioGroupValue.name)
+    const isGroup = computed(() => !!radioGroupValue)
+    const modelValues = computed({
+      get () {
+        return isGroup.value ? radioGroupValue.modelValue : props.modelValue
+      },
+      set (val) {
+        if (isGroup.value) {
+          radioGroupValue.changeValue(val)
+        } else {
+          emit('update:modelValue', val)
+        }
+        refRadio.value.checked = (val === props.label)
       }
     })
-    // const sGroup = computed(() => radioGroupValue)
-    // console.log(sGroup)
     const radioSize = computed(() => {
       return 's-radio-' + props.size + '-size'
     })
     const radioTextSize = computed(() => {
       return 's-radio-' + props.size + '-text-size'
-    })
-    const modelValues = computed({
-      get () {
-        return props.modelValue
-      },
-      set (val) {
-        refRadio.value.checked = (val === props.label)
-        emit('update:modelValue', val)
-      }
     })
     const labelSize = computed(() => {
       return 's-label-' + props.size + ''

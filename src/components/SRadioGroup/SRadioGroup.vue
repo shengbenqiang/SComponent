@@ -17,12 +17,26 @@ export default defineComponent({
     modelValue: {
       type: [String, Number, Boolean],
       default: ''
+    },
+    size: {
+      type: String,
+      default: 'large'
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
+    const changeValue = (val) => {
+      emit('update:modelValue', val)
+      // 暴露 change 事件
+      emit('change', val)
+    }
     provide('groupValue', reactive({
       ...toRefs(props),
-      name: 'SRadioGroup'
+      name: 'SRadioGroup',
+      changeValue
     }))
     return {}
   }
