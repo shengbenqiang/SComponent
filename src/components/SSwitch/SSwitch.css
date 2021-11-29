@@ -1,0 +1,98 @@
+.s-switch-con-base {
+    height: 20px;
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+    width: auto;
+}
+.s-switch-base-sty {
+    width: 40px;
+    height: 20px;
+    border-radius: 20px;
+    position: relative;
+    box-sizing: border-box;
+    padding: 1px 2px 1px 2px;
+    /* 实现背景色切换时的过度效果 */
+    transition: background-color 1s;
+    /*cursor: pointer;*/
+}
+.s-switch-use-cursor {
+    cursor: pointer;
+}
+.s-switch-dis-cursor {
+    cursor: not-allowed;
+}
+.s-switch-input-base {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0;
+}
+.s-switch-circle {
+    color: #ffffff;
+    font-size: 17px;
+    transition: transform 1s;
+}
+.s-switch-circle-tran-left {
+    transform: translateX(21px);
+}
+.s-switch-circle-tran-right {
+    transform: translateX(0);
+}
+.s-switch-wai-left {
+    width: auto;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: 549;
+}
+.s-switch-wai-right {
+    width: auto;
+    height: 20px;
+    line-height: 20px;
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: 549;
+}
+.s-switch-text-color {
+    color: #409EFF;
+}
+
+.s-switch-inner-text {
+    font-size: 12px;
+    color: #ffffff;
+}
+.s-switch-left-text {
+    transition: transform 1s;
+    position: absolute;
+    left: 15%;
+}
+.s-switch-right-text {
+    transition: transform 1s;
+    position: absolute;
+    right: 15%;
+}
+.s-switch-left-icon {
+    transition: transform 1s;
+    position: absolute;
+    left: 15%;
+    top: 22%;
+}
+.s-switch--right-icon {
+    transition: transform 1s;
+    position: absolute;
+    right: 15%;
+    top: 22%;
+}
+.s-switch-disabled {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 20px;
+    border-radius: 0;
+    z-index: 5;
+    background-color: rgba(255, 255, 255, 0.7);
+}

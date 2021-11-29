@@ -7,6 +7,7 @@
       modelValues === label ? 's-radio-button-select-bg s-radio-button-select-border' : 's-radio-button-un-select-border',
       radioBtnSize
     ]"
+    :style="radioSetFill && modelValues === label ? `background-color: ${radioSetFill};border-color: ${radioSetFill}` : ''"
     @mouseleave="handleRadioBtnLeave"
     @mouseenter="handleRadioBtnEnter"
     @click.stop.prevent="handleChange"
@@ -35,6 +36,7 @@
         's-radio-button-select-color' :
         's-radio-button-textColor'
       ]"
+      :style="radioSetColor && modelValues === label ? `color: ${radioSetColor}` : ''"
     >
       {{label}}
     </span>
@@ -58,14 +60,6 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
-    },
-    textColor: {
-      type: String,
-      default: ''
-    },
-    fill: {
-      type: String,
-      default: ''
     }
   },
   setup (props, { emit }) {
@@ -97,6 +91,12 @@ export default defineComponent({
     const radioSize = computed(() => {
       return isGroup.value ? groupValue.size : ''
     })
+    const radioSetColor = computed(() => {
+      return isGroup.value ? groupValue.textColor : ''
+    })
+    const radioSetFill = computed(() => {
+      return isGroup.value ? groupValue.fill : ''
+    })
 
     function handleRadioBtnLeave () {
       isEnter.value = false
@@ -118,6 +118,8 @@ export default defineComponent({
       modelValues,
       refRadio,
       setDisabled,
+      radioSetColor,
+      radioSetFill,
       handleRadioBtnLeave,
       handleRadioBtnEnter,
       handleChange

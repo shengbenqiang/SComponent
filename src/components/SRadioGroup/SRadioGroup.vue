@@ -25,6 +25,14 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
+    },
+    textColor: {
+      type: String,
+      default: ''
+    },
+    fill: {
+      type: String,
+      default: ''
     }
   },
   setup (props, { emit }) {

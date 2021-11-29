@@ -69,6 +69,18 @@
     <s-radio-button label="Los Angeles"></s-radio-button>
     <s-radio-button label="Chicago"></s-radio-button>
   </s-radio-group>
+  <br>
+  <div>滑块</div>
+  <br>
+<!--  in-active-text="否"-->
+<!--  active-text="是"-->
+  <s-switch
+    active-color="#13ce66"
+    in-active-color="#ff4949"
+    in-active-icon="fa-times"
+    active-icon="fa-check"
+    disabled
+  />
 </template>
 
 <script>
@@ -78,6 +90,7 @@ import SInputNumber from '@/components/SInputNumber/SInputNumber'
 import SRadio from '@/components/SRadio/SRadio'
 import SRadioGroup from '@/components/SRadioGroup/SRadioGroup'
 import SRadioButton from '@/components/SRadioButton/SRadioButton'
+import SSwitch from '@/components/SSwitch/SSwitch'
 
 export default {
   name: 'App',
@@ -87,7 +100,8 @@ export default {
     SInputNumber,
     SRadio,
     SRadioGroup,
-    SRadioButton
+    SRadioButton,
+    SSwitch
   },
   watch: {
     myInput: {
