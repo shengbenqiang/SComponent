@@ -1,0 +1,87 @@
+.s-checkbox-label-base {
+    height: 18px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    margin-right: 30px;
+}
+.s-checkbox-dis-cursor {
+    cursor: not-allowed;
+}
+.s-checkbox-use-cursor {
+    cursor: pointer;
+}
+.s-checkbox-con {
+    position: relative;
+}
+.s-checkbox-my-sty {
+    width: 14px;
+    height: 14px;
+    text-align: center;
+    line-height: 14px;
+    border: 1px solid #cccccc;
+    display: inline-block;
+    border-radius: 2px;
+}
+.s-checkbox-focus {
+    border-color: #409EFF;
+}
+.s-checkbox-check {
+    background-color: #409EFF;
+    border-color: #409EFF;
+    color: #ffffff;
+}
+
+/* 隐藏掉自带的checkbox */
+.s-checkbox-input-base {
+    opacity: 0;
+    outline: none;
+    position: absolute;
+    margin: 0;
+    width: 0;
+    height: 0;
+    z-index: -1;
+}
+.s-check-label {
+    margin-left: 8px;
+    font-size: 13px;
+}
+.s-check-no-sel-color {
+    color: #606466;
+}
+.s-check-sel-color {
+    color: #409EFF;
+}
+.s-check-label-dis {
+    color: #C2C4CC;
+}
+.s-check-dis-bg {
+    background-color: #EDF2FC;
+    border-color: #dcdfe6;
+}
+.s-checkbox-show-border {
+    border: 1px solid #cccccc;
+}
+
+/* checkbox size */
+.s-checkbox-large-size {
+    height: 38px;
+    width: 78px;
+}
+.s-checkbox-medium-size {
+    height: 36px;
+    width: 78px;
+}
+.s-checkbox-small-size {
+    height: 30px;
+    width: 65px;
+}
+.s-checkbox-mini-size {
+    height: 26px;
+    width: 65px;
+}
+.s-checkbox-border {
+    border-radius: 3px;
+    padding: 0 10px 0 10px;
+}

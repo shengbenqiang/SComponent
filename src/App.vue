@@ -75,11 +75,25 @@
 <!--  in-active-text="否"-->
 <!--  active-text="是"-->
   <s-switch
+    v-model="switchValue"
     active-color="#13ce66"
     in-active-color="#ff4949"
     in-active-icon="fa-times"
     active-icon="fa-check"
-    disabled
+    active-value="100"
+    in-active-value="0"
+    @change="appSwitch"
+  />
+  <br>
+  <div>多选框</div>
+  <br>
+  <SCheckbox
+    v-model="checkValue"
+    label="Option1"
+    true-label="100"
+    false-label="0"
+    border
+    @change="appHandelCheck"
   />
 </template>
 
@@ -91,6 +105,7 @@ import SRadio from '@/components/SRadio/SRadio'
 import SRadioGroup from '@/components/SRadioGroup/SRadioGroup'
 import SRadioButton from '@/components/SRadioButton/SRadioButton'
 import SSwitch from '@/components/SSwitch/SSwitch'
+import SCheckbox from '@/components/SCheckbox/SCheckbox'
 
 export default {
   name: 'App',
@@ -101,7 +116,8 @@ export default {
     SRadio,
     SRadioGroup,
     SRadioButton,
-    SSwitch
+    SSwitch,
+    SCheckbox
   },
   watch: {
     myInput: {
@@ -134,7 +150,9 @@ export default {
       minNumber: 0,
       radio1: '1',
       radioGroup1: '2',
-      radioButtonGroup: 'New York'
+      radioButtonGroup: 'New York',
+      switchValue: '100',
+      checkValue: '100'
     }
   },
   methods: {
@@ -145,6 +163,12 @@ export default {
       console.log(e)
     },
     changeRadio (val) {
+      console.log(val)
+    },
+    appSwitch (val) {
+      console.log(val)
+    },
+    appHandelCheck (val) {
       console.log(val)
     }
   }

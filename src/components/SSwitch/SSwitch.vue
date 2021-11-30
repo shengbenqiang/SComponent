@@ -126,7 +126,7 @@ export default defineComponent({
     },
     modelValue: {
       type: [String, Number, Boolean],
-      default: ''
+      default: false
     },
     activeColor: {
       type: String,
@@ -167,15 +167,34 @@ export default defineComponent({
       default: ''
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
     const switchRef = ref(null)
-    const checked = ref(false)
+    const checked = ref(props.modelValue)
     function switchValue () {
-      if (props.disabled) {
-        return
+      if (props.disabled) return
+      if (props.activeValue || props.inActiveValue) {
+        haveValue()
+      } else {
+        eventSolve(!checked.value)
+        checked.value = !checked.value
       }
-      checked.value = !checked.value
     }
+
+    function haveValue () {
+      if (checked.value) {
+        checked.value = false
+        eventSolve(props.inActiveValue)
+      } else {
+        checked.value = true
+        eventSolve(props.activeValue)
+      }
+    }
+
+    function eventSolve (val) {
+      emit('update:modelValue', val)
+      emit('change', val)
+    }
+
     return {
       switchRef,
       checked,
