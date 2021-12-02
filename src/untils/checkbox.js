@@ -1,9 +1,29 @@
-import { computed, ref, getCurrentInstance } from 'vue'
+import { computed, ref, getCurrentInstance, inject } from 'vue'
+import { isObj, isArr } from '@/untils/common'
 
 export const useCheckbox = (props) => {
   const { emit } = getCurrentInstance()
   const isFocus = ref(false)
-  const isChecked = ref(props.modelValue)
+  const checkGroupValue = inject('checkGroupValue', undefined)
+  const isCheckGroup = computed(() => checkGroupValue && checkGroupValue.name === 'checkGroup')
+  // eslint-disable-next-line vue/return-in-computed-property
+  const isChecked = computed(() => {
+    if (isCheckGroup.value) {
+      const tempValue = checkGroupValue.modelValue
+      const { value } = tempValue
+      if (isObj(value)) {
+        return null
+      } else if (isArr(value)) {
+        return value.includes(props.label)
+      }
+    } else {
+      if (props.trueLabel || props.falseLabel) {
+        return props.modelValue === props.trueLabel
+      } else {
+        return props.modelValue
+      }
+    }
+  })
   function handleCheckFocus () {
     isFocus.value = true
   }
@@ -13,19 +33,30 @@ export const useCheckbox = (props) => {
   }
   function handleCheckChange () {
     if (props.disabled) return
-    if (props.trueLabel || props.falseLabel) {
-      handleValue()
+    if (isCheckGroup.value) {
+      const tempValue = checkGroupValue.modelValue
+      const { value } = tempValue
+      if (isArr(value)) {
+        if (value.includes(props.label)) {
+          const tempValue = value.filter(item => item !== props.label)
+          checkGroupValue.eventSolve(tempValue)
+        } else {
+          value.push(props.label)
+          checkGroupValue.eventSolve(value)
+        }
+      }
     } else {
-      eventSolve(!isChecked.value)
-      isChecked.value = !isChecked.value
+      if (props.trueLabel || props.falseLabel) {
+        handleValue()
+      } else {
+        eventSolve(!isChecked.value)
+      }
     }
   }
   function handleValue () {
     if (isChecked.value) {
-      isChecked.value = false
       eventSolve(props.falseLabel)
     } else {
-      isChecked.value = true
       eventSolve(props.trueLabel)
     }
   }

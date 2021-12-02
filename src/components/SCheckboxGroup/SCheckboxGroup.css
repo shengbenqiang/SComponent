@@ -1,0 +1,6 @@
+.s-checkbox-group-base {
+    box-sizing: border-box;
+    padding: 10px;
+    display: inline-flex;
+    background-color: #ffffff;
+}

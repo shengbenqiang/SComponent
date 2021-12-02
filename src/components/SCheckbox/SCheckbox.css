@@ -1,10 +1,10 @@
 .s-checkbox-label-base {
     height: 18px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: auto;
     margin-right: 30px;
+    box-sizing: border-box;
+    display: inline-flex;
+    white-space: nowrap;
+    position: relative;
 }
 .s-checkbox-dis-cursor {
     cursor: not-allowed;
@@ -21,7 +21,7 @@
     text-align: center;
     line-height: 14px;
     border: 1px solid #cccccc;
-    display: inline-block;
+    display: block;
     border-radius: 2px;
 }
 .s-checkbox-focus {
@@ -46,6 +46,8 @@
 .s-check-label {
     margin-left: 8px;
     font-size: 13px;
+    box-sizing: border-box;
+    padding-bottom: 3px;
 }
 .s-check-no-sel-color {
     color: #606466;
@@ -67,21 +69,24 @@
 /* checkbox size */
 .s-checkbox-large-size {
     height: 38px;
-    width: 78px;
+    padding: 8px 10px 8px 10px;
 }
 .s-checkbox-medium-size {
     height: 36px;
-    width: 78px;
+    padding: 8px 10px 8px 10px;
 }
 .s-checkbox-small-size {
     height: 30px;
-    width: 65px;
+    padding: 6px 10px 6px 10px;
 }
 .s-checkbox-mini-size {
     height: 26px;
-    width: 65px;
+    padding: 4px 6px 4px 6px;
 }
 .s-checkbox-border {
     border-radius: 3px;
-    padding: 0 10px 0 10px;
+    box-sizing: border-box;
+}
+.s-checkbox-sel-border {
+    border-color: #409EFF;
 }

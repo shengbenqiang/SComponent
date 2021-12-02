@@ -87,14 +87,23 @@
   <br>
   <div>多选框</div>
   <br>
+  <!-- medium / small / mini -->
   <SCheckbox
     v-model="checkValue"
     label="Option1"
     true-label="100"
     false-label="0"
     border
-    @change="appHandelCheck"
+    size="medium"
   />
+  <br>
+  <div style="margin-top: 15px">复选框组</div>
+  <br>
+  <SCheckboxGroup v-model="checkedGroupArr">
+    <s-checkbox label="Option A" />
+    <s-checkbox label="Option B" />
+    <s-checkbox label="Option C" />
+  </SCheckboxGroup>
 </template>
 
 <script>
@@ -106,6 +115,7 @@ import SRadioGroup from '@/components/SRadioGroup/SRadioGroup'
 import SRadioButton from '@/components/SRadioButton/SRadioButton'
 import SSwitch from '@/components/SSwitch/SSwitch'
 import SCheckbox from '@/components/SCheckbox/SCheckbox'
+import SCheckboxGroup from '@/components/SCheckboxGroup/SCheckboxGroup'
 
 export default {
   name: 'App',
@@ -117,7 +127,8 @@ export default {
     SRadioGroup,
     SRadioButton,
     SSwitch,
-    SCheckbox
+    SCheckbox,
+    SCheckboxGroup
   },
   watch: {
     myInput: {
@@ -129,6 +140,12 @@ export default {
       handler (val) {
         console.log(val)
       }
+    },
+    checkValue: {
+      handler (val) {
+        console.log(val)
+      },
+      deep: true
     }
   },
   data () {
@@ -152,7 +169,8 @@ export default {
       radioGroup1: '2',
       radioButtonGroup: 'New York',
       switchValue: '100',
-      checkValue: '100'
+      checkValue: '100',
+      checkedGroupArr: ['Option A']
     }
   },
   methods: {

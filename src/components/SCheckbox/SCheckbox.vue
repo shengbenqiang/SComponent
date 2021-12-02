@@ -4,6 +4,7 @@
       's-checkbox-label-base',
       disabled ? 's-checkbox-dis-cursor' : 's-checkbox-use-cursor',
       border ? 's-checkbox-show-border s-checkbox-border' : '',
+      isChecked ? 's-checkbox-sel-border' : '',
       size
     ]"
   >
@@ -26,8 +27,8 @@
         ]"
         :disabled="disabled"
         type="checkbox"
-        @focus="handleCheckFocus"
-        @blur="handleCheckBlur"
+        @focus.prevent.stop="handleCheckFocus"
+        @blur.prevent.stop="handleCheckBlur"
         @change.prevent.stop="handleCheckChange"
       >
     </span>
@@ -47,6 +48,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { useCheckbox } from '@/untils/checkbox'
+import './SCheckbox.css'
 
 export default defineComponent({
   name: 'SCheckbox',
@@ -89,7 +91,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-@import "./SCheckbox.css";
-</style>
