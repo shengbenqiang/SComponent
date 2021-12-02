@@ -1,5 +1,5 @@
 import { computed, ref, getCurrentInstance, inject } from 'vue'
-import { isObj, isArr } from '@/untils/common'
+import { isArr } from '@/untils/common'
 
 export const useCheckbox = (props) => {
   const { emit } = getCurrentInstance()
@@ -11,9 +11,7 @@ export const useCheckbox = (props) => {
     if (isCheckGroup.value) {
       const tempValue = checkGroupValue.modelValue
       const { value } = tempValue
-      if (isObj(value)) {
-        return null
-      } else if (isArr(value)) {
+      if (isArr(value)) {
         return value.includes(props.label)
       }
     } else {
@@ -65,10 +63,14 @@ export const useCheckbox = (props) => {
     emit('change', val)
   }
   const size = computed(() => {
-    return 's-checkbox-' + props.size + '-size'
+    if (isCheckGroup.value) {
+      return 's-checkbox-' + checkGroupValue.size + '-size'
+    } else {
+      return 's-checkbox-' + props.size + '-size'
+    }
   })
   const disabled = computed(() => {
-    return props.disabled
+    return isCheckGroup.value ? checkGroupValue.disabled : props.disabled
   })
   const border = computed(() => {
     return props.border

@@ -99,7 +99,7 @@
   <br>
   <div style="margin-top: 15px">复选框组</div>
   <br>
-  <SCheckboxGroup v-model="checkedGroupArr">
+  <SCheckboxGroup disabled @change="appChange" v-model="checkedGroupArr">
     <s-checkbox label="Option A" />
     <s-checkbox label="Option B" />
     <s-checkbox label="Option C" />
@@ -187,6 +187,9 @@ export default {
       console.log(val)
     },
     appHandelCheck (val) {
+      console.log(val)
+    },
+    appChange (val) {
       console.log(val)
     }
   }

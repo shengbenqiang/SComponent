@@ -54,7 +54,6 @@ export default defineComponent({
       }
     })
     const eventSolve = (value) => {
-      console.log(value)
       emit('update:modelValue', value)
       emit('change', value)
     }
