@@ -1,0 +1,84 @@
+.s-input-check-button {
+    opacity: 0;
+    outline: none;
+    position: absolute;
+    margin: 0;
+    width: 0;
+    height: 0;
+    z-index: -1;
+}
+.s-checkbox-button-base {
+    box-sizing: border-box;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+.s-checkbox-button-base:first-child {
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.s-checkbox-button-base:last-child {
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+.s-checkbox-large-size {
+    padding: 12px 20px;
+}
+.s-checkbox-medium-size {
+    padding: 10px 20px;
+}
+.s-checkbox-small-size {
+    padding: 9px 15px;
+}
+.s-checkbox-mini-size {
+    padding: 7px 15px;
+}
+.s-checkbox-one-size {
+    font-size: 14px;
+}
+.s-checkbox-two-size {
+    font-size: 12px;
+}
+.s-checkbox-checked-color {
+    color: #ffffff;
+}
+.s-checkbox-un-checked-color {
+    color: #666666;
+}
+.s-checkbox-checked-bg {
+    background-color: #409EFF;
+    border-color: #409EFF!important;
+    border-right: 1px solid #8CC5FF!important;
+}
+.s-checkbox-checked-bg:last-child {
+    border-right: 1px solid #409EFF;
+}
+.s-checkbox-un-check-bg {
+    background-color: #ffffff;
+}
+.s-checkbox-hover-color {
+    color: #409EFF;
+}
+.s-checkbox-disabled {
+    cursor: not-allowed;
+    background-color: #EDF2FC;
+    border-color: #cccccc!important;
+}
+.s-checkbox-dis-color {
+    color: #C0C7CE;
+}
+.s-checkbox-disabled-dis-checked {
+    cursor: not-allowed;
+}
+

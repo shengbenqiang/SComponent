@@ -99,11 +99,23 @@
   <br>
   <div style="margin-top: 15px">复选框组</div>
   <br>
-  <SCheckboxGroup disabled @change="appChange" v-model="checkedGroupArr">
+  <SCheckboxGroup @change="appChange" :min="1" :max="2" v-model="checkedGroupArr">
     <s-checkbox label="Option A" />
     <s-checkbox label="Option B" />
     <s-checkbox label="Option C" />
   </SCheckboxGroup>
+  <br>
+  <div style="margin-top: 15px">复选框按钮</div>
+  <br>
+  <s-checkbox-group v-model="checkButton" @change="changeButton" size="small">
+    <s-check-button label="Option A" true-label="100" false-label="0"/>
+    <s-check-button label="Option B" disabled/>
+    <s-check-button label="Option C" />
+    <s-check-button label="Option D" />
+  </s-checkbox-group>
+  <br>
+  <div style="margin-top: 15px">泡泡组件</div>
+  <br>
 </template>
 
 <script>
@@ -116,6 +128,7 @@ import SRadioButton from '@/components/SRadioButton/SRadioButton'
 import SSwitch from '@/components/SSwitch/SSwitch'
 import SCheckbox from '@/components/SCheckbox/SCheckbox'
 import SCheckboxGroup from '@/components/SCheckboxGroup/SCheckboxGroup'
+import SCheckButton from '@/components/SCheckButton/SCheckButton'
 
 export default {
   name: 'App',
@@ -128,7 +141,8 @@ export default {
     SRadioButton,
     SSwitch,
     SCheckbox,
-    SCheckboxGroup
+    SCheckboxGroup,
+    SCheckButton
   },
   watch: {
     myInput: {
@@ -170,7 +184,8 @@ export default {
       radioButtonGroup: 'New York',
       switchValue: '100',
       checkValue: '100',
-      checkedGroupArr: ['Option A']
+      checkedGroupArr: ['Option A'],
+      checkButton: ['100']
     }
   },
   methods: {
@@ -190,6 +205,9 @@ export default {
       console.log(val)
     },
     appChange (val) {
+      console.log(val)
+    },
+    changeButton (val) {
       console.log(val)
     }
   }
