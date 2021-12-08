@@ -1,0 +1,48 @@
+.s-popper-base-sty {
+    display: inline-block;
+    cursor: pointer;
+}
+#popperCon {
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+#popperCon {
+    display: none;
+}
+#popperCon[data-show] {
+    display: block;
+}
+#arrow, #arrow::before {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: inherit;
+}
+
+#arrow {
+    visibility: hidden;
+}
+
+#arrow::before {
+    visibility: visible;
+    content: '';
+    transform: rotate(45deg);
+}
+#popperCon[data-popper-placement^='top'] > #arrow {
+    bottom: -4px;
+}
+
+#popperCon[data-popper-placement^='bottom'] > #arrow {
+    top: -4px;
+}
+
+#popperCon[data-popper-placement^='left'] > #arrow {
+    right: -4px;
+}
+
+#popperCon[data-popper-placement^='right'] > #arrow {
+    left: -4px;
+}

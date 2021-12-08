@@ -116,6 +116,9 @@
   <br>
   <div style="margin-top: 15px">泡泡组件</div>
   <br>
+  <s-popper content="你好啊，帅哥">
+    给出泡泡提示内容
+  </s-popper>
 </template>
 
 <script>
@@ -129,6 +132,7 @@ import SSwitch from '@/components/SSwitch/SSwitch'
 import SCheckbox from '@/components/SCheckbox/SCheckbox'
 import SCheckboxGroup from '@/components/SCheckboxGroup/SCheckboxGroup'
 import SCheckButton from '@/components/SCheckButton/SCheckButton'
+import SPopper from '@/components/SPopper/SPopper'
 
 export default {
   name: 'App',
@@ -142,7 +146,8 @@ export default {
     SSwitch,
     SCheckbox,
     SCheckboxGroup,
-    SCheckButton
+    SCheckButton,
+    SPopper
   },
   watch: {
     myInput: {
@@ -219,5 +224,13 @@ html, body{
   margin: 0;
   padding: 10px;
   font-size: 10px;
+}
+body {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 2000px;
+}
+body::-webkit-scrollbar {
+  display: none;
 }
 </style>
