@@ -116,8 +116,9 @@
   <br>
   <div style="margin-top: 15px">泡泡组件</div>
   <br>
-  <s-popper content="你好啊，帅哥">
-    给出泡泡提示内容
+  <s-popper effect="light" placement="right">
+    <template #content>你好啊，帅哥</template>
+    泡泡组件
   </s-popper>
 </template>
 

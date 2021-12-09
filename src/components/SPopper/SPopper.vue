@@ -7,17 +7,26 @@
     <div id="showPopper">
       <slot />
     </div>
-    <div id="popperCon">
-      {{ content }}
+    <!-- showAfter ? delayTime : '',transition -->
+    <div
+      id="popperCon"
+      :class="[
+        effect === 'dark' ? 's-popper-dark-bg' : 's-popper-light-bg',
+        'animate__animated'
+      ]"
+    >
+      {{ content ? content : '' }}
+      <slot name="content"/>
       <div id="arrow" data-popper-arrow></div>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, onMounted, ref, watch } from 'vue'
+import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
 import './SPopper.css'
+import 'animate.css'
 
 const showEvents = ['mouseenter', 'focus']
 const hideEvents = ['mouseleave', 'blur']
@@ -47,10 +56,43 @@ export default defineComponent({
     offset: {
       type: Array,
       default: () => ([0, 6])
+    },
+    // dark | light
+    effect: {
+      type: String,
+      default: 'dark'
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    transition: {
+      type: String,
+      default: 'animate__fadeIn'
+    },
+    showAfter: {
+      type: Number,
+      default: 0
+    },
+    hideAfter: {
+      type: Number,
+      default: 500
     }
   },
   setup (props) {
     const instance = ref(null)
+    const slotDom = ref(null)
+    const showDom = ref(null)
+    const animation = ref(false)
+
+    const delayTime = computed(() => {
+      return 'animate__delay-' + props.showAfter + 's'
+    })
+
+    const hideDelayTime = computed(() => {
+      const tempTime = props.hideAfter / 1000
+      return 'animate__delay-' + tempTime + 's'
+    })
 
     function setInstance () {
       instance.value.setOptions({
@@ -65,30 +107,61 @@ export default defineComponent({
       })
     }
     onMounted(() => {
-      const slotDom = document.getElementById('showPopper')
-      const showDom = document.getElementById('popperCon')
-      instance.value = createPopper(slotDom, showDom)
+      slotDom.value = document.getElementById('showPopper')
+      showDom.value = document.getElementById('popperCon')
+      instance.value = createPopper(slotDom.value, showDom.value)
       setInstance()
       showEvents.forEach(item => {
-        slotDom.addEventListener(item, show)
+        slotDom.value.addEventListener(item, show)
+        showDom.value.addEventListener(item, show)
       })
       hideEvents.forEach(item => {
-        slotDom.addEventListener(item, hide)
+        slotDom.value.addEventListener(item, hide)
+        showDom.value.addEventListener(item, hide)
       })
-
-      function show () {
-        showDom.setAttribute('data-show', '')
-        setInstance()
-      }
-      // 隐藏事件
-      function hide () {
-        showDom.removeAttribute('data-show')
-      }
     })
+
+    // 显示时间
+    function show () {
+      if (props.disabled) { return }
+      if (props.effect === 'light') {
+        showDom.value.setAttribute('data-light', 'light')
+      }
+      showDom.value.setAttribute('data-show', '')
+      if (props.showAfter) {
+        showDom.value.classList.add(delayTime)
+      }
+      showDom.value.classList.add(props.transition)
+      showDom.value.addEventListener('animationend', () => delClass())
+      setInstance()
+    }
+    // 隐藏事件
+    function hide () {
+      if (props.effect === 'light') {
+        showDom.value.removeAttribute('data-light')
+      }
+      showDom.value.removeAttribute('data-show')
+      showDom.value.classList.add('hideDelayTime', 'animate__fadeOut')
+      showDom.value.addEventListener('animationend', () => delClass())
+    }
+    // 删除类方法
+    function delClass () {
+      if (props.showAfter) {
+        showDom.value.classList.remove('delayTime')
+      }
+      showDom.value.classList.remove(props.transition)
+      showDom.value.classList.remove('hideDelayTime', 'animate__fadeOut')
+    }
 
     watch(props, () => {
       setInstance()
     })
+
+    return {
+      delayTime,
+      animation,
+      hideDelayTime
+    }
   }
 })
 </script>
