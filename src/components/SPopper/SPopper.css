@@ -2,7 +2,7 @@
     display: inline-block;
     cursor: pointer;
 }
-#popperCon {
+.s-popper-show-base {
     padding: 5px 10px;
     border-radius: 4px;
     font-size: 13px;
@@ -16,10 +16,10 @@
     border: 1px solid #cccccc;
     color: #000000;
 }
-#popperCon {
+.s-popper-show-base {
     display: none;
 }
-#popperCon[data-show] {
+.s-popper-show-base[data-show] {
     display: block;
 }
 #arrow, #arrow::before {
@@ -38,42 +38,42 @@
     content: '';
     transform: rotate(45deg);
 }
-#popperCon[data-popper-placement^='top'] > #arrow {
+.s-popper-show-base[data-popper-placement^='top'] > #arrow {
     bottom: -4px;
 }
 
-#popperCon[data-popper-placement^='top'][data-light^='light'] > #arrow::before {
+.s-popper-show-base[data-popper-placement^='top'][data-light^='light'] > #arrow::before {
     border-bottom: 1px solid #cccccc;
     border-right: 1px solid #cccccc;
 }
 
-#popperCon[data-popper-placement^='bottom'] > #arrow {
+.s-popper-show-base[data-popper-placement^='bottom'] > #arrow {
     top: -4px;
 }
 
-#popperCon[data-popper-placement^='bottom'][data-light^='light'] > #arrow {
+.s-popper-show-base[data-popper-placement^='bottom'][data-light^='light'] > #arrow {
     top: -5px;
 }
 
-#popperCon[data-popper-placement^='bottom'][data-light^='light'] > #arrow::before {
+.s-popper-show-base[data-popper-placement^='bottom'][data-light^='light'] > #arrow::before {
     border-top: 1px solid #cccccc;
     border-left: 1px solid #cccccc;
 }
 
-#popperCon[data-popper-placement^='left'] > #arrow {
+.s-popper-show-base[data-popper-placement^='left'] > #arrow {
     right: -4px;
 }
-#popperCon[data-popper-placement^='left'][data-light^='light'] > #arrow::before {
+.s-popper-show-base[data-popper-placement^='left'][data-light^='light'] > #arrow::before {
     border: 1px solid #cccccc;
 }
 
-#popperCon[data-popper-placement^='right'] > #arrow {
+.s-popper-show-base[data-popper-placement^='right'] > #arrow {
     left: -4px;
 }
-#popperCon[data-popper-placement^='right'][data-light^='light'] > #arrow {
+.s-popper-show-base[data-popper-placement^='right'][data-light^='light'] > #arrow {
     left: -5px;
 }
-#popperCon[data-popper-placement^='right'][data-light^='light'] > #arrow::before {
+.s-popper-show-base[data-popper-placement^='right'][data-light^='light'] > #arrow::before {
     border-left: 1px solid #cccccc;
     border-bottom: 1px solid #cccccc;
 }

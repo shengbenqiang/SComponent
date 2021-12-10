@@ -12,7 +12,8 @@
       id="popperCon"
       :class="[
         effect === 'dark' ? 's-popper-dark-bg' : 's-popper-light-bg',
-        'animate__animated'
+        'animate__animated',
+        's-popper-show-base'
       ]"
     >
       {{ content ? content : '' }}
@@ -25,6 +26,7 @@
 <script>
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
+// import { GenNonDuplicateID } from '@/untils/common'
 import './SPopper.css'
 import 'animate.css'
 
@@ -81,6 +83,8 @@ export default defineComponent({
   },
   setup (props) {
     const instance = ref(null)
+    // const slotDomId = GenNonDuplicateID()
+    // const showDomId = GenNonDuplicateID()
     const slotDom = ref(null)
     const showDom = ref(null)
     const animation = ref(false)
@@ -107,6 +111,7 @@ export default defineComponent({
       })
     }
     onMounted(() => {
+      console.log('执行几次')
       slotDom.value = document.getElementById('showPopper')
       showDom.value = document.getElementById('popperCon')
       instance.value = createPopper(slotDom.value, showDom.value)
@@ -141,8 +146,6 @@ export default defineComponent({
         showDom.value.removeAttribute('data-light')
       }
       showDom.value.removeAttribute('data-show')
-      showDom.value.classList.add('hideDelayTime', 'animate__fadeOut')
-      showDom.value.addEventListener('animationend', () => delClass())
     }
     // 删除类方法
     function delClass () {
@@ -150,7 +153,6 @@ export default defineComponent({
         showDom.value.classList.remove('delayTime')
       }
       showDom.value.classList.remove(props.transition)
-      showDom.value.classList.remove('hideDelayTime', 'animate__fadeOut')
     }
 
     watch(props, () => {

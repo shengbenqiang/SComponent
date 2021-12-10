@@ -8,6 +8,12 @@
     测试按钮
   </s-button>
   <br>
+  <s-button
+    plain
+  >
+    普通按钮
+  </s-button>
+  <br>
   <div>输入框</div>
   <br>
   <s-input
@@ -118,8 +124,20 @@
   <br>
   <s-popper effect="light" placement="right">
     <template #content>你好啊，帅哥</template>
-    泡泡组件
+    测试的泡泡组件1
   </s-popper>
+  <br>
+<!--  <s-popper placement="right">-->
+<!--    <template #content>你好啊，美女</template>-->
+<!--    测试的泡泡组件2-->
+<!--  </s-popper>-->
+  <br>
+  <div style="margin-top: 15px">选择器组件</div>
+  <br>
+  <!-- large/medium/small/mini -->
+  <s-select
+    size="medium"
+  />
 </template>
 
 <script>
@@ -134,6 +152,7 @@ import SCheckbox from '@/components/SCheckbox/SCheckbox'
 import SCheckboxGroup from '@/components/SCheckboxGroup/SCheckboxGroup'
 import SCheckButton from '@/components/SCheckButton/SCheckButton'
 import SPopper from '@/components/SPopper/SPopper'
+import SSelect from '@/components/SSelect/SSelect'
 
 export default {
   name: 'App',
@@ -148,7 +167,8 @@ export default {
     SCheckbox,
     SCheckboxGroup,
     SCheckButton,
-    SPopper
+    SPopper,
+    SSelect
   },
   watch: {
     myInput: {

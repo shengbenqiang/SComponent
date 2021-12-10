@@ -13,3 +13,7 @@ export const isObj = date => {
 export const isArr = date => {
   return Object.prototype.toString.call(date) === '[object Array]'
 }
+// 生成绝不重复的字符串
+export const GenNonDuplicateID = (randomLength) => {
+  return Number(Math.random().toString().substr(3, randomLength) + Date.now()).toString(36)
+}
