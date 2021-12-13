@@ -108,6 +108,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import './SSwitch.css'
 
 export default defineComponent({
   name: 'SSwitch',
@@ -203,7 +204,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-@import "./SSwitch.css";
-</style>

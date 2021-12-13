@@ -10,7 +10,7 @@
 
 <script>
 import { computed, defineComponent, provide, toRefs } from 'vue'
-// import './SCheckboxGroup.css'
+import './SCheckboxGroup.css'
 
 export default defineComponent({
   name: 'SCheckboxGroup',
@@ -66,7 +66,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-@import "./SCheckboxGroup.css";
-</style>

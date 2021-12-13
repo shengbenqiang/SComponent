@@ -89,6 +89,7 @@
 
 <script>
 import { defineComponent, computed, ref } from 'vue'
+import './SInput.css'
 
 export default defineComponent({
   name: 'SInput',
@@ -180,7 +181,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-@import "./SInput.css";
-</style>

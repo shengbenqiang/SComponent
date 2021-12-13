@@ -98,6 +98,7 @@
 
 <script>
 import { defineComponent, computed, ref } from 'vue'
+import './SInputNumber.css'
 
 export default defineComponent({
   name: 'SInputNumber',
@@ -271,7 +272,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-@import "./SInputNumber.css";
-</style>

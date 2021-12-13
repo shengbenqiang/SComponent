@@ -45,6 +45,7 @@
 
 <script>
 import { computed, defineComponent, inject, ref } from 'vue'
+import './SRadioButton.css'
 
 export default defineComponent({
   name: 'SRadioButton',
@@ -127,7 +128,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style>
-@import "./SRadioButton.css";
-</style>

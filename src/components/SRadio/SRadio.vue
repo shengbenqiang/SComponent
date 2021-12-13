@@ -48,6 +48,7 @@
 
 <script>
 import { computed, defineComponent, ref, inject } from 'vue'
+import './SRadio.css'
 
 export default defineComponent({
   name: 'SRadio',
@@ -133,7 +134,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style>
-@import "./SRadio.css";
-</style>

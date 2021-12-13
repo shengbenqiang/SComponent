@@ -24,6 +24,7 @@
 
 <script>
 import { defineComponent, computed, watch, ref } from 'vue'
+import './SButton.css'
 export default defineComponent({
   name: 'SButton',
   props: {
@@ -102,7 +103,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-@import "./SButton.css";
-</style>

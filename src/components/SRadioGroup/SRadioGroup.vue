@@ -10,6 +10,7 @@
 
 <script>
 import { defineComponent, provide, reactive, toRefs } from 'vue'
+import './SRadioGroup.css'
 
 export default defineComponent({
   name: 'SRadioGroup',
@@ -50,7 +51,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style>
-@import "./SRadioGroup.css";
-</style>
