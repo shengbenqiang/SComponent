@@ -86,3 +86,11 @@
 .s-select-input-icon[data-bottom^='bottom']::before{
     transform: rotate(0deg);
 }
+.s-select-to-options {
+    transition: all 0.5s;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.s-select-to-options::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+}

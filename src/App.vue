@@ -122,22 +122,26 @@
   <br>
   <div style="margin-top: 15px">泡泡组件</div>
   <br>
-  <s-popper effect="light" placement="right">
+  <s-popper placement="bottom">
     <template #content>你好啊，帅哥</template>
     测试的泡泡组件1
   </s-popper>
-  <br>
-<!--  <s-popper placement="right">-->
-<!--    <template #content>你好啊，美女</template>-->
-<!--    测试的泡泡组件2-->
-<!--  </s-popper>-->
+  <div style="margin-top: 15px"></div>
+  <s-popper placement="right" effect="light" :visible="true">
+    <template #content>你好啊，美女</template>
+    测试的泡泡组件2
+  </s-popper>
   <br>
   <div style="margin-top: 15px">选择器组件</div>
   <br>
   <!-- large/medium/small/mini -->
   <s-select
     size="medium"
-  />
+  >
+    <div>你好啊</div>
+    <div>你好啊</div>
+    <div>你好啊</div>
+  </s-select>
 </template>
 
 <script>

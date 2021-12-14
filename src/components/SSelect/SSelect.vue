@@ -1,14 +1,4 @@
 <template>
-<!--  <div>-->
-<!--    <s-popper-->
-<!--      effect="light"-->
-<!--    >-->
-<!--      <template #content>-->
-<!--        这是给options溜的空间-->
-<!--      </template>-->
-<!--      -->
-<!--    </s-popper>-->
-<!--  </div>-->
   <div
     :class="[
       's-select-div'
@@ -16,38 +6,64 @@
     @mouseenter="handleSelectEnter"
     @mouseleave="handleSelectLeave"
   >
-    <input
-      ref="selectInput"
-      :class="[
-        sizeSty,
-        enterBorder ? focusBorder ? 's-select-input-focus-border' : 's-select-input-enter-border' : focusBorder ? 's-select-input-focus-border' : 's-select-input-common-border',
-        focusBorder ? 's-select-input-focus-border' : '',
-        's-select-input-sty'
-      ]"
-      :readonly="true"
-      :placeholder="placeholder"
-      @focus="handleSelectFocus"
-      @blur="handleSelectBlur"
-      @click="handleSelectClick"
+    <s-popper
+      effect="light"
+      :visible="showPopper"
+      placement="bottom"
     >
-    <span
-      ref="selectSpan"
-      :class="[
-        's-select-input-icon',
-        'fa s-select-fa-color fa-angle-down',
-        enterBorder ? 's-select-icon-enter' : 's-select-icon-common',
-        focusBorder ? 's-select-icon-focus' : '',
-        sizeSty
-      ]"
-      @click="handleIconClick"
-    ></span>
+      <template #content>
+        <div
+          :id="showDomId"
+          :class="[
+            's-select-to-options'
+          ]"
+        >
+<!--          <div v-if="showWhich < 2">-->
+<!--            暂无数据-->
+<!--          </div>-->
+          <slot />
+        </div>
+      </template>
+      <div
+        :class="[
+          's-select-div'
+        ]"
+      >
+        <input
+          ref="selectInput"
+          :class="[
+            sizeSty,
+            enterBorder ? focusBorder ? 's-select-input-focus-border' : 's-select-input-enter-border' : focusBorder ? 's-select-input-focus-border' : 's-select-input-common-border',
+            focusBorder ? 's-select-input-focus-border' : '',
+            's-select-input-sty'
+          ]"
+          :readonly="true"
+          :placeholder="placeholder"
+          @focus="handleSelectFocus"
+          @blur="handleSelectBlur"
+          @click="handleSelectClick"
+        >
+        <span
+          ref="selectSpan"
+          :class="[
+            's-select-input-icon',
+            'fa s-select-fa-color fa-angle-down',
+            enterBorder ? 's-select-icon-enter' : 's-select-icon-common',
+            focusBorder ? 's-select-icon-focus' : '',
+            sizeSty
+          ]"
+          @click="handleIconClick"
+        ></span>
+      </div>
+    </s-popper>
   </div>
 </template>
 
 <script>
-import { ref, computed, defineComponent, watch } from 'vue'
+import { ref, computed, defineComponent, watch, onMounted } from 'vue'
 import './SSelect.css'
-// import SPopper from '@/components/SPopper/SPopper'
+import SPopper from '@/components/SPopper/SPopper'
+import { GenNonDuplicateID } from '@/untils/common'
 
 export default defineComponent({
   name: 'SSelect',
@@ -61,15 +77,18 @@ export default defineComponent({
       default: 'Select'
     }
   },
-  // components: {
-  //   SPopper
-  // },
+  components: {
+    SPopper
+  },
   setup (props, { emit }) {
     const selectInput = ref()
     const selectSpan = ref()
     const enterBorder = ref(false)
     const focusBorder = ref(false)
     const iconTransition = ref(false)
+    const showPopper = ref(false)
+    const showPopperDom = ref(null)
+    const showDomId = GenNonDuplicateID()
     const sizeSty = computed(() => {
       return 's-select-input-' + props.size + '-size'
     })
@@ -90,16 +109,31 @@ export default defineComponent({
     function handleSelectBlur (e) {
       focusBorder.value = false
       iconTransition.value = false
+      showPopper.value = false
       emit('blur', e)
     }
 
     function handleIconClick () {
       focusBorder.value = !focusBorder.value
       iconTransition.value = !iconTransition.value
+      showPopper.value = !showPopper.value
+      Unfold()
     }
 
     function handleSelectClick () {
       iconTransition.value = !iconTransition.value
+      showPopper.value = !showPopper.value
+      Unfold()
+    }
+
+    function Unfold () {
+      showPopperDom.value = document.getElementById(showDomId)
+      const realHeight = showPopperDom.value.getAttribute('real-height')
+      if (showPopper.value) {
+        showPopperDom.value.style.height = realHeight
+      } else {
+        showPopperDom.value.style.height = '0px'
+      }
     }
 
     watch(iconTransition, (val) => {
@@ -112,6 +146,12 @@ export default defineComponent({
       }
     })
 
+    onMounted(() => {
+      showPopperDom.value = document.getElementById(showDomId)
+      showPopperDom.value.setAttribute('real-height', '150px')
+      showPopperDom.value.style.height = '0px'
+    })
+
     return {
       sizeSty,
       selectInput,
@@ -119,6 +159,8 @@ export default defineComponent({
       focusBorder,
       selectSpan,
       iconTransition,
+      showPopper,
+      showDomId,
       handleSelectEnter,
       handleSelectLeave,
       handleSelectFocus,

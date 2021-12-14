@@ -4,12 +4,11 @@
       's-popper-base-sty'
     ]"
   >
-    <div id="showPopper">
+    <div :id="slotDomId">
       <slot />
     </div>
-    <!-- showAfter ? delayTime : '',transition -->
     <div
-      id="popperCon"
+      :id="showDomId"
       :class="[
         effect === 'dark' ? 's-popper-dark-bg' : 's-popper-light-bg',
         'animate__animated',
@@ -17,7 +16,7 @@
       ]"
     >
       {{ content ? content : '' }}
-      <slot name="content"/>
+      <slot name="content" />
       <div id="arrow" data-popper-arrow></div>
     </div>
   </div>
@@ -26,11 +25,12 @@
 <script>
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
-// import { GenNonDuplicateID } from '@/untils/common'
+import { GenNonDuplicateID } from '@/untils/common'
 import './SPopper.css'
 import 'animate.css'
+import '@/assets/transition/transition.css'
 
-const showEvents = ['mouseenter', 'focus']
+let showEvents = ['mouseenter', 'focus']
 const hideEvents = ['mouseleave', 'blur']
 
 export default defineComponent({
@@ -79,15 +79,27 @@ export default defineComponent({
     hideAfter: {
       type: Number,
       default: 500
+    },
+    emitType: {
+      type: Array,
+      default: () => ([])
+    },
+    visible: {
+      type: Boolean,
+      default: undefined
     }
   },
   setup (props) {
     const instance = ref(null)
-    // const slotDomId = GenNonDuplicateID()
-    // const showDomId = GenNonDuplicateID()
+    const slotDomId = GenNonDuplicateID()
+    const showDomId = GenNonDuplicateID()
     const slotDom = ref(null)
     const showDom = ref(null)
     const animation = ref(false)
+
+    const emitLength = computed(() => {
+      return props.emitType.length
+    })
 
     const delayTime = computed(() => {
       return 'animate__delay-' + props.showAfter + 's'
@@ -110,21 +122,38 @@ export default defineComponent({
         }]
       })
     }
-    onMounted(() => {
-      console.log('执行几次')
-      slotDom.value = document.getElementById('showPopper')
-      showDom.value = document.getElementById('popperCon')
-      instance.value = createPopper(slotDom.value, showDom.value)
-      setInstance()
-      showEvents.forEach(item => {
-        slotDom.value.addEventListener(item, show)
-        showDom.value.addEventListener(item, show)
-      })
-      hideEvents.forEach(item => {
-        slotDom.value.addEventListener(item, hide)
-        showDom.value.addEventListener(item, hide)
-      })
-    })
+    function setShowStatus () {
+      if (typeof props.visible !== 'boolean') {
+        if (emitLength.value > 0) {
+          showEvents = props.emitType
+          showEvents.forEach(item => {
+            slotDom.value.addEventListener(item, show)
+            showDom.value.addEventListener(item, show)
+          })
+        } else {
+          showEvents.forEach(item => {
+            slotDom.value.addEventListener(item, show)
+            showDom.value.addEventListener(item, show)
+          })
+          hideEvents.forEach(item => {
+            slotDom.value.addEventListener(item, hide)
+            showDom.value.addEventListener(item, hide)
+          })
+        }
+      } else {
+        if (props.visible) {
+          showDom.value.setAttribute('data-show', '')
+          if (props.effect === 'light') {
+            showDom.value.setAttribute('data-light', 'light')
+          }
+        } else {
+          showDom.value.removeAttribute('data-show')
+          if (props.effect === 'light') {
+            showDom.value.removeAttribute('data-light')
+          }
+        }
+      }
+    }
 
     // 显示时间
     function show () {
@@ -155,14 +184,25 @@ export default defineComponent({
       showDom.value.classList.remove(props.transition)
     }
 
+    onMounted(() => {
+      slotDom.value = document.getElementById(slotDomId)
+      showDom.value = document.getElementById(showDomId)
+      instance.value = createPopper(slotDom.value, showDom.value)
+      setInstance()
+      setShowStatus()
+    })
+
     watch(props, () => {
       setInstance()
+      setShowStatus()
     })
 
     return {
       delayTime,
       animation,
-      hideDelayTime
+      hideDelayTime,
+      slotDomId,
+      showDomId
     }
   }
 })
