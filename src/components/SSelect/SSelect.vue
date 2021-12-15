@@ -13,14 +13,21 @@
     >
       <template #content>
         <div
+          v-show="!showWhich"
+          :class="[
+              's-select-popper-un-date'
+            ]"
+        >
+          暂无数据
+        </div>
+        <div
+          v-show="showWhich"
           :id="showDomId"
           :class="[
             's-select-to-options'
           ]"
         >
-<!--          <div v-if="showWhich < 2">-->
-<!--            暂无数据-->
-<!--          </div>-->
+
           <slot />
         </div>
       </template>
@@ -31,6 +38,7 @@
       >
         <input
           ref="selectInput"
+          v-model="selectValue"
           :class="[
             sizeSty,
             enterBorder ? focusBorder ? 's-select-input-focus-border' : 's-select-input-enter-border' : focusBorder ? 's-select-input-focus-border' : 's-select-input-common-border',
@@ -60,7 +68,7 @@
 </template>
 
 <script>
-import { ref, computed, defineComponent, watch, onMounted } from 'vue'
+import { reactive, provide, ref, computed, defineComponent, watch, onMounted, onUpdated, toRefs } from 'vue'
 import './SSelect.css'
 import SPopper from '@/components/SPopper/SPopper'
 import { GenNonDuplicateID } from '@/untils/common'
@@ -75,6 +83,10 @@ export default defineComponent({
     placeholder: {
       type: String,
       default: 'Select'
+    },
+    modelValue: {
+      type: [String, Number],
+      default: ''
     }
   },
   components: {
@@ -89,6 +101,8 @@ export default defineComponent({
     const showPopper = ref(false)
     const showPopperDom = ref(null)
     const showDomId = GenNonDuplicateID()
+    const showWhich = ref(undefined)
+    const selectValue = ref(undefined)
     const sizeSty = computed(() => {
       return 's-select-input-' + props.size + '-size'
     })
@@ -117,23 +131,15 @@ export default defineComponent({
       focusBorder.value = !focusBorder.value
       iconTransition.value = !iconTransition.value
       showPopper.value = !showPopper.value
-      Unfold()
     }
 
     function handleSelectClick () {
       iconTransition.value = !iconTransition.value
       showPopper.value = !showPopper.value
-      Unfold()
     }
 
-    function Unfold () {
-      showPopperDom.value = document.getElementById(showDomId)
-      const realHeight = showPopperDom.value.getAttribute('real-height')
-      if (showPopper.value) {
-        showPopperDom.value.style.height = realHeight
-      } else {
-        showPopperDom.value.style.height = '0px'
-      }
+    function selectChange (modelLabel) {
+      selectValue.value = modelLabel
     }
 
     watch(iconTransition, (val) => {
@@ -146,11 +152,43 @@ export default defineComponent({
       }
     })
 
+    watch(showPopper, (val) => {
+      showPopperDom.value = document.getElementById(showDomId)
+      const realHeight = showPopperDom.value.getAttribute('real-height')
+      if (val) {
+        showPopperDom.value.style.height = realHeight
+      } else {
+        showPopperDom.value.style.height = '0px'
+      }
+    })
+
+    function isWhich () {
+      showPopperDom.value.childNodes.forEach(itemNode => {
+        if (itemNode.nodeType !== 8 && showPopperDom.value.childNodes.length > 2) {
+          showWhich.value = true
+          return showWhich.value
+        } else {
+          showWhich.value = false
+        }
+      })
+    }
+
     onMounted(() => {
       showPopperDom.value = document.getElementById(showDomId)
-      showPopperDom.value.setAttribute('real-height', '150px')
+      showPopperDom.value.setAttribute('real-height', ((showPopperDom.value.childNodes.length - 2) * 30) + 'px')
       showPopperDom.value.style.height = '0px'
+      isWhich()
     })
+
+    onUpdated(() => {
+      isWhich()
+    })
+
+    provide('selectValue', reactive({
+      name: 'select',
+      ...toRefs(props),
+      selectChange
+    }))
 
     return {
       sizeSty,
@@ -161,6 +199,8 @@ export default defineComponent({
       iconTransition,
       showPopper,
       showDomId,
+      showWhich,
+      selectValue,
       handleSelectEnter,
       handleSelectLeave,
       handleSelectFocus,

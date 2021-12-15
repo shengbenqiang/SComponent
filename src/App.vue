@@ -122,13 +122,11 @@
   <br>
   <div style="margin-top: 15px">泡泡组件</div>
   <br>
-  <s-popper placement="bottom">
-    <template #content>你好啊，帅哥</template>
+  <s-popper placement="bottom" content="你好啊，帅哥">
     测试的泡泡组件1
   </s-popper>
   <div style="margin-top: 15px"></div>
-  <s-popper placement="right" effect="light" :visible="true">
-    <template #content>你好啊，美女</template>
+  <s-popper placement="right" effect="light" :visible="true" content="你好啊，美女">
     测试的泡泡组件2
   </s-popper>
   <br>
@@ -137,13 +135,14 @@
   <!-- large/medium/small/mini -->
   <s-select
     size="medium"
+    v-model="optionValue"
   >
-    <div>你好啊</div>
-    <div>你好啊</div>
-    <div>你好啊</div>
+    <s-option label="北京" value="1" disabled/>
+    <s-option label="南京" value="2"/>
+    <s-option label="杭州" value="3"/>
+    <s-option label="成都" value="4"/>
   </s-select>
 </template>
-
 <script>
 import SButton from '@/components/SButton/SButton'
 import SInput from '@/components/SInput/SInput'
@@ -157,6 +156,7 @@ import SCheckboxGroup from '@/components/SCheckboxGroup/SCheckboxGroup'
 import SCheckButton from '@/components/SCheckButton/SCheckButton'
 import SPopper from '@/components/SPopper/SPopper'
 import SSelect from '@/components/SSelect/SSelect'
+import SOption from '@/components/SOption/SOption'
 
 export default {
   name: 'App',
@@ -172,7 +172,8 @@ export default {
     SCheckboxGroup,
     SCheckButton,
     SPopper,
-    SSelect
+    SSelect,
+    SOption
   },
   watch: {
     myInput: {
@@ -215,7 +216,8 @@ export default {
       switchValue: '100',
       checkValue: '100',
       checkedGroupArr: ['Option A'],
-      checkButton: ['100']
+      checkButton: ['100'],
+      optionValue: '2'
     }
   },
   methods: {

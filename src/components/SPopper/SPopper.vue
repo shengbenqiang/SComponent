@@ -12,7 +12,8 @@
       :class="[
         effect === 'dark' ? 's-popper-dark-bg' : 's-popper-light-bg',
         'animate__animated',
-        's-popper-show-base'
+        's-popper-show-base',
+        content ? 's-popper-content-padding' : 's-popper-slot-padding'
       ]"
     >
       {{ content ? content : '' }}

@@ -1,0 +1,21 @@
+.s-option-base {
+    min-width: 205px;
+    height: 30px;
+    line-height: 30px;
+    box-sizing: border-box;
+    padding-left: 10px;
+}
+.s-option-hover-bg {
+    background-color: #f5f7fa;
+}
+.s-option-disabled {
+    cursor: not-allowed;
+    color: #cccccc;
+}
+.s-option-use {
+    cursor: pointer;
+    color: #666666;
+}
+.s-option-selected {
+    color: #409EFF;
+}
