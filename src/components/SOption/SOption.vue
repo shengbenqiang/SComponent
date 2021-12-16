@@ -8,10 +8,10 @@
     ]"
     @mouseenter="handleOptionEnter"
     @mouseleave="handleOptionLeave"
-    @click="handleOptionClick"
+    @click="handleOptionClick('12')"
   >
     <slot>
-      <span>{{ currentLabel }}</span>
+      <span >{{ currentLabel }}</span>
     </slot>
   </div>
 </template>
@@ -43,14 +43,16 @@ export default defineComponent({
     const getSelectValue = inject('selectValue', undefined)
 
     const selected = computed(() => {
+      if (getSelectValue.modelValue === props.value) {
+        getSelectValue.selectChange(props.label, props.value)
+      }
       return getSelectValue.modelValue === props.value
     })
 
-    watch(selected, (val) => {
-      if (val) {
-        getSelectValue.selectChange(props.label)
-      }
-    }, { immediate: true })
+    function handleOptionClick () {
+      if (props.disabled) { return }
+      getSelectValue.selectChange(props.label, props.value)
+    }
 
     function handleOptionEnter () {
       if (props.disabled) { return }
@@ -59,10 +61,6 @@ export default defineComponent({
 
     function handleOptionLeave () {
       mouseEnter.value = false
-    }
-
-    function handleOptionClick () {
-      console.log('执行了')
     }
 
     watch(() => props.label, (val) => {

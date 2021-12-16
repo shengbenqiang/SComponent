@@ -3,7 +3,6 @@
     cursor: pointer;
 }
 .s-popper-show-base {
-    /*padding: 5px 10px;*/
     border-radius: 4px;
     font-size: 13px;
 }
@@ -84,4 +83,7 @@
 .s-popper-show-base[data-popper-placement^='right'][data-light^='light'] > #arrow::before {
     border-left: 1px solid #cccccc;
     border-bottom: 1px solid #cccccc;
+}
+.s-popper-transition-all {
+    transition: all 0.5s;
 }

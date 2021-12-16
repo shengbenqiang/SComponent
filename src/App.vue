@@ -141,6 +141,7 @@
     <s-option label="南京" value="2"/>
     <s-option label="杭州" value="3"/>
     <s-option label="成都" value="4"/>
+    <s-option label="西安" value="5"/>
   </s-select>
 </template>
 <script>
@@ -192,6 +193,11 @@ export default {
       },
       deep: true
     }
+    // optionValue: {
+    //   handler (val) {
+    //     console.log(val)
+    //   }
+    // }
   },
   data () {
     return {

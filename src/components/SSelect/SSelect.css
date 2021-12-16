@@ -87,7 +87,7 @@
     transform: rotate(0deg);
 }
 .s-select-to-options {
-    transition: all 0.5s;
+    transition: all .5s;
     overflow-x: hidden;
     overflow-y: scroll;
     max-height: 180px;

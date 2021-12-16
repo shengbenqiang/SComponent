@@ -10,6 +10,7 @@
       effect="light"
       :visible="showPopper"
       placement="bottom"
+      transition-all
     >
       <template #content>
         <div
@@ -138,7 +139,8 @@ export default defineComponent({
       showPopper.value = !showPopper.value
     }
 
-    function selectChange (modelLabel) {
+    function selectChange (modelLabel, bindValue) {
+      emit('update:modelValue', bindValue)
       selectValue.value = modelLabel
     }
 
@@ -158,7 +160,9 @@ export default defineComponent({
       if (val) {
         showPopperDom.value.style.height = realHeight
       } else {
-        showPopperDom.value.style.height = '0px'
+        setTimeout(() => {
+          showPopperDom.value.style.height = '0px'
+        }, 100)
       }
     })
 
@@ -175,7 +179,7 @@ export default defineComponent({
 
     onMounted(() => {
       showPopperDom.value = document.getElementById(showDomId)
-      showPopperDom.value.setAttribute('real-height', ((showPopperDom.value.childNodes.length - 2) * 30) + 'px')
+      showPopperDom.value.setAttribute('real-height', ((showPopperDom.value.childNodes.length - 2) * 35) + 'px')
       showPopperDom.value.style.height = '0px'
       isWhich()
     })
