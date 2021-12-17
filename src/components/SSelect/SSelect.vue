@@ -10,14 +10,14 @@
       effect="light"
       :visible="showPopper"
       placement="bottom"
-      transition-all
     >
       <template #content>
         <div
           v-show="!showWhich"
           :class="[
-              's-select-popper-un-date'
-            ]"
+            's-select-popper-un-date'
+          ]"
+          @mouseenter.stop.prevent="handlePopperEnter"
         >
           暂无数据
         </div>
@@ -27,6 +27,7 @@
           :class="[
             's-select-to-options'
           ]"
+          @mouseenter.stop.prevent="handlePopperEnter"
         >
 
           <slot />
@@ -44,22 +45,40 @@
             sizeSty,
             enterBorder ? focusBorder ? 's-select-input-focus-border' : 's-select-input-enter-border' : focusBorder ? 's-select-input-focus-border' : 's-select-input-common-border',
             focusBorder ? 's-select-input-focus-border' : '',
-            's-select-input-sty'
+            's-select-input-sty',
+            disabled ? 's-select-input-disabled' : 's-select-input-use'
           ]"
-          :readonly="true"
+          :readonly="readVisible"
           :placeholder="placeholder"
+          :disabled="disabled"
           @focus="handleSelectFocus"
           @blur="handleSelectBlur"
           @click="handleSelectClick"
         >
         <span
+          v-show="showClear"
+          :class="[
+            's-select-input-icon',
+            'fa s-select-clear-color',
+            clearIcon,
+            enterBorder ? 's-select-icon-enter' : 's-select-icon-common',
+            focusBorder ? 's-select-icon-focus' : '',
+            sizeSty,
+            disabled ? 's-select-input-disabled' : 's-select-input-use'
+          ]"
+          @click="handleClearClick"
+        ></span>
+        <span
+          v-show="!showClear"
           ref="selectSpan"
           :class="[
             's-select-input-icon',
-            'fa s-select-fa-color fa-angle-down',
+            'fa s-select-fa-color',
+            suffixIcon,
             enterBorder ? 's-select-icon-enter' : 's-select-icon-common',
             focusBorder ? 's-select-icon-focus' : '',
-            sizeSty
+            sizeSty,
+            disabled ? 's-select-input-disabled' : 's-select-input-use'
           ]"
           @click="handleIconClick"
         ></span>
@@ -88,6 +107,35 @@ export default defineComponent({
     modelValue: {
       type: [String, Number],
       default: ''
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    clearable: {
+      type: Boolean,
+      default: false
+    },
+    // 是否支持多选 封装完 tag 标签后完善
+    multiple: {
+      type: Boolean,
+      default: false
+    },
+    autocomplete: {
+      type: String,
+      default: 'off'
+    },
+    filterable: {
+      type: Boolean,
+      default: false
+    },
+    clearIcon: {
+      type: String,
+      default: 'fa-times'
+    },
+    suffixIcon: {
+      type: String,
+      default: 'fa-angle-down'
     }
   },
   components: {
@@ -104,19 +152,34 @@ export default defineComponent({
     const showDomId = GenNonDuplicateID()
     const showWhich = ref(undefined)
     const selectValue = ref(undefined)
+    const showClear = ref(false)
+    const readVisible = computed(() => {
+      return !props.filterable
+    })
     const sizeSty = computed(() => {
       return 's-select-input-' + props.size + '-size'
     })
 
     function handleSelectEnter () {
+      if (props.disabled) { return }
+      if (props.clearable && selectValue.value) {
+        showClear.value = true
+      }
       enterBorder.value = true
     }
 
     function handleSelectLeave () {
+      if (props.clearable) {
+        showClear.value = false
+      }
       enterBorder.value = false
     }
 
     function handleSelectFocus (e) {
+      if (props.disabled) {
+        focusBorder.value = false
+        return
+      }
       focusBorder.value = true
       emit('focus', e)
     }
@@ -129,19 +192,43 @@ export default defineComponent({
     }
 
     function handleIconClick () {
+      if (props.disabled) { return }
       focusBorder.value = !focusBorder.value
       iconTransition.value = !iconTransition.value
       showPopper.value = !showPopper.value
     }
 
     function handleSelectClick () {
+      if (props.disabled) { return }
       iconTransition.value = !iconTransition.value
       showPopper.value = !showPopper.value
     }
 
     function selectChange (modelLabel, bindValue) {
       emit('update:modelValue', bindValue)
+      emit('change', bindValue)
       selectValue.value = modelLabel
+    }
+
+    function isWhich () {
+      showPopperDom.value.childNodes.forEach(itemNode => {
+        if (itemNode.nodeType !== 8 && showPopperDom.value.childNodes.length > 2) {
+          showWhich.value = true
+          return showWhich.value
+        } else {
+          showWhich.value = false
+        }
+      })
+    }
+
+    function handleClearClick () {
+      selectValue.value = ''
+      showClear.value = false
+      emit('clear')
+    }
+
+    function handlePopperEnter () {
+      showClear.value = false
     }
 
     watch(iconTransition, (val) => {
@@ -164,18 +251,8 @@ export default defineComponent({
           showPopperDom.value.style.height = '0px'
         }, 100)
       }
+      emit('visibleChange', val)
     })
-
-    function isWhich () {
-      showPopperDom.value.childNodes.forEach(itemNode => {
-        if (itemNode.nodeType !== 8 && showPopperDom.value.childNodes.length > 2) {
-          showWhich.value = true
-          return showWhich.value
-        } else {
-          showWhich.value = false
-        }
-      })
-    }
 
     onMounted(() => {
       showPopperDom.value = document.getElementById(showDomId)
@@ -191,6 +268,7 @@ export default defineComponent({
     provide('selectValue', reactive({
       name: 'select',
       ...toRefs(props),
+      selectInput: selectValue,
       selectChange
     }))
 
@@ -205,12 +283,16 @@ export default defineComponent({
       showDomId,
       showWhich,
       selectValue,
+      showClear,
+      readVisible,
       handleSelectEnter,
       handleSelectLeave,
       handleSelectFocus,
       handleSelectBlur,
       handleIconClick,
-      handleSelectClick
+      handleSelectClick,
+      handleClearClick,
+      handlePopperEnter
     }
   }
 })

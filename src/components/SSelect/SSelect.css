@@ -1,9 +1,16 @@
 .s-select-div {
     display: inline-flex;
 }
+.s-select-input-disabled {
+    cursor: not-allowed;
+    background-color: #F5F7FA;
+    color: #C0C5CD;
+}
+.s-select-input-use {
+    cursor: pointer;
+}
 .s-select-input-sty {
     outline: none;
-    cursor: pointer;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     box-sizing: border-box;
@@ -75,6 +82,11 @@
 .s-select-fa-color {
     color: #cccccc;
     font-size: 16px;
+}
+.s-select-clear-color {
+    font-weight: 10;
+    font-size: 16px;
+    color: #cccccc;
 }
 .s-select-fa-color::before {
     display: block;

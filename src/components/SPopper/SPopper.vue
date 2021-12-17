@@ -13,7 +13,6 @@
         effect === 'dark' ? 's-popper-dark-bg' : 's-popper-light-bg',
         'animate__animated',
         's-popper-show-base',
-        transitionAll ? 's-popper-transition-all' : '',
         content ? 's-popper-content-padding' : 's-popper-slot-padding'
       ]"
     >
@@ -89,10 +88,6 @@ export default defineComponent({
     visible: {
       type: Boolean,
       default: undefined
-    },
-    transitionAll: {
-      type: Boolean,
-      default: false
     }
   },
   setup (props) {

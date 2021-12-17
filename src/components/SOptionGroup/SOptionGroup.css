@@ -1,0 +1,24 @@
+.s-option-group-div-con {
+    width: 205px;
+    box-sizing: border-box;
+    position: relative;
+}
+.s-option-group-label-base {
+    width: inherit;
+    height: 35px;
+    line-height: 35px;
+    color: #cccccc;
+    font-size: 12px;
+    box-sizing: border-box;
+    padding-left: 10px;
+}
+.s-option-group-div-con:not(:last-child):after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    display: block;
+    height: 1px;
+    background-color: #cccccc;
+    width: 185px;
+}

@@ -1,14 +1,31 @@
 <template>
   <div
+    v-if="!isFilter"
     :class="[
       's-option-base',
-      disabled ? 's-option-disabled' : 's-option-use',
+      disabled || optionDisabled ? 's-option-disabled' : 's-option-use',
       mouseEnter ? 's-option-hover-bg' : '',
       selected ? 's-option-selected' : ''
     ]"
     @mouseenter="handleOptionEnter"
     @mouseleave="handleOptionLeave"
-    @click="handleOptionClick('12')"
+    @click="handleOptionClick"
+  >
+    <slot>
+      <span >{{ currentLabel }}</span>
+    </slot>
+  </div>
+  <div
+    v-if="isFilter && filterShow"
+    :class="[
+      's-option-base',
+      disabled || optionDisabled ? 's-option-disabled' : 's-option-use',
+      mouseEnter ? 's-option-hover-bg' : '',
+      selected ? 's-option-selected' : ''
+    ]"
+    @mouseenter="handleOptionEnter"
+    @mouseleave="handleOptionLeave"
+    @click="handleOptionClick"
   >
     <slot>
       <span >{{ currentLabel }}</span>
@@ -41,6 +58,16 @@ export default defineComponent({
     const currentLabel = ref(undefined)
     const mouseEnter = ref(false)
     const getSelectValue = inject('selectValue', undefined)
+    const getOptionGroupValue = inject('optionGroupValue', undefined)
+    const isOption = computed(() => getOptionGroupValue && getOptionGroupValue.name === 'optionGroup')
+    const filterShow = ref(false)
+    const isFilter = getSelectValue.filterable
+    // eslint-disable-next-line vue/return-in-computed-property
+    const optionDisabled = computed(() => {
+      if (isOption.value) {
+        return getOptionGroupValue.disabled
+      }
+    })
 
     const selected = computed(() => {
       if (getSelectValue.modelValue === props.value) {
@@ -71,10 +98,20 @@ export default defineComponent({
       }
     }, { immediate: true })
 
+    watch(() => getSelectValue.selectInput, (val) => {
+      if (!getSelectValue.filterable) { return }
+      if (props.label.indexOf(val) !== -1) {
+        filterShow.value = true
+      }
+    })
+
     return {
       currentLabel,
       mouseEnter,
       selected,
+      optionDisabled,
+      isFilter,
+      filterShow,
       handleOptionEnter,
       handleOptionLeave,
       handleOptionClick

@@ -132,16 +132,49 @@
   <br>
   <div style="margin-top: 15px">选择器组件</div>
   <br>
-  <!-- large/medium/small/mini -->
+  <!-- large/medium/small/mini disabled-->
   <s-select
     size="medium"
     v-model="optionValue"
+    clearable
   >
     <s-option label="北京" value="1" disabled/>
     <s-option label="南京" value="2"/>
     <s-option label="杭州" value="3"/>
     <s-option label="成都" value="4"/>
     <s-option label="西安" value="5"/>
+  </s-select>
+  <br>
+  <div style="margin-top: 15px">选择器复杂功能测试1</div>
+  <br>
+  <s-select>
+    <s-option-group
+      v-for="item in optionGroupData"
+      :key="item.label"
+      :label="item.label"
+      :disabled="item.dis"
+    >
+      <s-option
+        v-for="option in item.options"
+        :key="option.value"
+        :label="option.label"
+        :value="option.value"
+      ></s-option>
+    </s-option-group>
+  </s-select>
+  <br>
+  <div style="margin-top: 15px">选择器复杂功能测试2</div>
+  <br>
+  <s-select
+    filterable
+    v-model="filterValue"
+  >
+    <s-option
+      v-for="option in filterOptionArr"
+      :key="option.value"
+      :label="option.label"
+      :value="option.value"
+    ></s-option>
   </s-select>
 </template>
 <script>
@@ -158,6 +191,7 @@ import SCheckButton from '@/components/SCheckButton/SCheckButton'
 import SPopper from '@/components/SPopper/SPopper'
 import SSelect from '@/components/SSelect/SSelect'
 import SOption from '@/components/SOption/SOption'
+import SOptionGroup from '@/components/SOptionGroup/SOptionGroup'
 
 export default {
   name: 'App',
@@ -174,7 +208,8 @@ export default {
     SCheckButton,
     SPopper,
     SSelect,
-    SOption
+    SOption,
+    SOptionGroup
   },
   watch: {
     myInput: {
@@ -223,7 +258,81 @@ export default {
       checkValue: '100',
       checkedGroupArr: ['Option A'],
       checkButton: ['100'],
-      optionValue: '2'
+      optionValue: '2',
+      diffOption: '',
+      optionGroupData: [
+        {
+          label: 'Popular cities',
+          dis: true,
+          options: [
+            {
+              value: 'Shanghai',
+              label: 'Shanghai'
+            },
+            {
+              value: 'Beijing',
+              label: 'Beijing'
+            }
+          ]
+        },
+        {
+          label: 'City name',
+          dis: false,
+          options: [
+            {
+              value: 'Chengdu',
+              label: 'Chengdu'
+            },
+            {
+              value: 'Shenzhen',
+              label: 'Shenzhen'
+            },
+            {
+              value: 'Guangzhou',
+              label: 'Guangzhou'
+            },
+            {
+              value: 'Dalian',
+              label: 'Dalian'
+            }
+          ]
+        }
+      ],
+      filterOptionArr: [
+        {
+          value: 'Chengdu',
+          label: 'Chengdu'
+        },
+        {
+          value: 'Shenzhen',
+          label: 'Shenzhen'
+        },
+        {
+          value: 'Guangzhou',
+          label: 'Guangzhou'
+        },
+        {
+          value: 'Dalian',
+          label: 'Dalian'
+        },
+        {
+          value: 'Heifer',
+          label: 'Heifer'
+        },
+        {
+          value: 'Beijing',
+          label: 'Beijing'
+        },
+        {
+          value: 'Nanjing',
+          label: 'Nanjing'
+        },
+        {
+          value: 'Xian',
+          label: 'Xian'
+        }
+      ],
+      filterValue: ''
     }
   },
   methods: {
