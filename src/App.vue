@@ -176,6 +176,14 @@
       :value="option.value"
     ></s-option>
   </s-select>
+  <br>
+  <div style="margin-top: 15px">tag 组件</div>
+  <br>
+  <s-tag closable>tag 1</s-tag>
+  <s-tag type="success">tag 2</s-tag>
+  <s-tag type="info">tag 3</s-tag>
+  <s-tag type="warning">tag 4</s-tag>
+  <s-tag type="danger">tag 5</s-tag>
 </template>
 <script>
 import SButton from '@/components/SButton/SButton'
@@ -192,6 +200,7 @@ import SPopper from '@/components/SPopper/SPopper'
 import SSelect from '@/components/SSelect/SSelect'
 import SOption from '@/components/SOption/SOption'
 import SOptionGroup from '@/components/SOptionGroup/SOptionGroup'
+import STag from '@/components/STag/STag'
 
 export default {
   name: 'App',
@@ -209,7 +218,8 @@ export default {
     SPopper,
     SSelect,
     SOption,
-    SOptionGroup
+    SOptionGroup,
+    STag
   },
   watch: {
     myInput: {

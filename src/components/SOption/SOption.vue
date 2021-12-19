@@ -100,10 +100,12 @@ export default defineComponent({
 
     watch(() => getSelectValue.selectInput, (val) => {
       if (!getSelectValue.filterable) { return }
-      if (props.label.indexOf(val) !== -1) {
+      if (val) {
+        filterShow.value = props.label.indexOf(val.toString()) !== -1
+      } else if (!val) {
         filterShow.value = true
       }
-    })
+    }, { immediate: true })
 
     return {
       currentLabel,

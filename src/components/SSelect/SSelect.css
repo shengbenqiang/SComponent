@@ -103,6 +103,7 @@
     overflow-x: hidden;
     overflow-y: scroll;
     max-height: 180px;
+    min-width: 205px;
 }
 .s-select-to-options::-webkit-scrollbar {
     display: none; /* Chrome Safari */

@@ -1,0 +1,74 @@
+.s-tag-span-con {
+    border: 1px solid;
+    font-size: 12px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-left: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    height: 30px;
+}
+.s-tag-light-default-effect {
+    background-color: #ecf5ff;
+}
+.s-tag-light-success-effect {
+    background-color: #f0f9eb;
+}
+.s-tag-light-info-effect {
+    background-color: #f4f4f5;
+}
+.s-tag-light-warning-effect {
+    background-color: #fdf6ec;
+}
+.s-tag-light-danger-effect {
+    background-color: #fef0f0;
+}
+
+.s-tag-dark-effect {}
+.s-tag-plain-effect {}
+
+.s-tag-default-type{
+    color: #77B8FF;
+    border-color: #77B8FF;
+}
+.s-tag-success-type{
+    color: #67c23a;
+    border-color: #67c23a;
+}
+.s-tag-info-type{
+    color: #909399;
+    border-color: #909399;
+}
+.s-tag-warning-type{
+    color: #e6a23c;
+    border-color: #e6a23c;
+}
+.s-tag-danger-type{
+    color: #f56c6c;
+    border-color: #f56c6c;
+}
+
+
+.s-size-large {
+    padding: 0 10px;
+}
+.s-size-medium {
+    padding: 0 10px;
+}
+.s-size-small {
+    padding: 0 8px;
+}
+.s-size-mini {
+    padding: 0 5px;
+}
+.closeSty {
+    width: 16px;
+    height: 16px;
+    border-radius: 100%;
+    text-align: right;
+    line-height: 16px;
+    font-weight: 10;
+    font-size: 10px;
+}
