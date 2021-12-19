@@ -8,21 +8,31 @@
     ]"
   >
     <slot />
+<!--    <span-->
+<!--      v-if="closable"-->
+<!--      :class="[-->
+<!--        'fa fa-times closeSty'-->
+<!--      ]"-->
+<!--    />-->
     <span
       v-if="closable"
-      :class="[
-        'fa fa-times closeSty'
-      ]"
-    />
+      :class="['closeSty']"
+    >
+      <SIcon iconType="fa-regular" iconString="fa-xmark" />
+    </span>
   </span>
 </template>
 
 <script>
 import { computed, defineComponent } from 'vue'
 import './STag.css'
+import SIcon from '../SIcon/SIcon'
 
 export default defineComponent({
   name: 'STag',
+  components: {
+    SIcon
+  },
   props: {
     type: {
       type: String,
