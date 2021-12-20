@@ -16,16 +16,15 @@ export default defineComponent({
   props: {
     iconType: {
       type: String,
-      default: '',
       require: true
     },
     iconString: {
       type: String,
-      default: '',
       require: true
     }
   },
   setup () {
+    console.log('执行了')
     library.add(far)
   }
 })

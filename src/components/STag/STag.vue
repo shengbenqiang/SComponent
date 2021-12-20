@@ -18,6 +18,7 @@
       v-if="closable"
       :class="['closeSty']"
     >
+      <!-- 思考：未准备默认值 -->
       <SIcon iconType="fa-regular" iconString="fa-xmark" />
     </span>
   </span>
