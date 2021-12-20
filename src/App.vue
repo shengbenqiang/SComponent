@@ -180,10 +180,24 @@
   <div style="margin-top: 15px">tag 组件</div>
   <br>
   <s-tag closable>tag 1</s-tag>
-  <s-tag type="success">tag 2</s-tag>
-  <s-tag type="info">tag 3</s-tag>
-  <s-tag type="warning">tag 4</s-tag>
+  <s-tag type="success" effect="dark" closable>tag 2</s-tag>
+  <s-tag type="info" effect="plain" closable>tag 3</s-tag>
+  <s-tag type="warning" color="#E6433C">tag 4</s-tag>
   <s-tag type="danger">tag 5</s-tag>
+  <br>
+  <div style="margin-top: 15px">选择器复杂功能测试3</div>
+  <br>
+  <s-select
+    v-model="multipleArr"
+    multiple
+  >
+    <s-option
+      v-for="option in filterOptionArr"
+      :key="option.value"
+      :label="option.label"
+      :value="option.value"
+    ></s-option>
+  </s-select>
 </template>
 <script>
 import SButton from '@/components/SButton/SButton'
@@ -342,7 +356,8 @@ export default {
           label: 'Xian'
         }
       ],
-      filterValue: ''
+      filterValue: '',
+      multipleArr: []
     }
   },
   methods: {

@@ -1,6 +1,9 @@
 .s-select-div {
     display: inline-flex;
 }
+.s-select-multiple {
+    position: relative;
+}
 .s-select-input-disabled {
     cursor: not-allowed;
     background-color: #F5F7FA;
@@ -115,4 +118,11 @@
     line-height: 24px;
     font-size: 12px;
     color: #cccccc;
+}
+.s-select-multiple-div {
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    border: 1px solid #cccccc;
+    top: 50%;
 }

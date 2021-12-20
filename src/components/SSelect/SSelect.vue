@@ -29,15 +29,21 @@
           ]"
           @mouseenter.stop.prevent="handlePopperEnter"
         >
-
           <slot />
         </div>
       </template>
       <div
         :class="[
-          's-select-div'
+          's-select-div',
+          multiple ? 's-select-multiple' : ''
         ]"
       >
+        <div
+          v-if="multiple"
+          :class="[
+            's-select-multiple-div'
+          ]"
+        ></div>
         <input
           ref="selectInput"
           v-model="selectValue"
@@ -105,7 +111,7 @@ export default defineComponent({
       default: 'Select'
     },
     modelValue: {
-      type: [String, Number],
+      type: [String, Number, Array],
       default: ''
     },
     disabled: {

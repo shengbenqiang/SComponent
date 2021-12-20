@@ -2,32 +2,36 @@
   <span
     :class="[
       effectSty,
-      typeColor,
+      effect !== 'dark' ? typeColor : 's-tag-dark-color',
       sizeStyl,
       's-tag-span-con'
     ]"
+    :style="{
+      backgroundColor: color,
+      borderColor: color
+    }"
+    @click.stop="tagClick"
   >
     <slot />
-<!--    <span-->
-<!--      v-if="closable"-->
-<!--      :class="[-->
-<!--        'fa fa-times closeSty'-->
-<!--      ]"-->
-<!--    />-->
-    <span
+    <SIcon
       v-if="closable"
-      :class="['closeSty']"
-    >
-      <!-- 思考：未准备默认值 -->
-      <SIcon iconType="fa-regular" iconString="fa-xmark" />
-    </span>
+      :class="[
+        's-tag-close-sty',
+        iconMouse ? iconHoverSty : '',
+        effect !== 'dark' ? 's-tag-close-padding' : ''
+      ]"
+      icon="icon-close1"
+      @mouseleave="handleIconLeave"
+      @mouseenter="handleIconEnter"
+      @click.stop.prevent="delClick"
+    />
   </span>
 </template>
 
 <script>
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import './STag.css'
-import SIcon from '../SIcon/SIcon'
+import SIcon from '@/components/SIcon/SIcon'
 
 export default defineComponent({
   name: 'STag',
@@ -43,6 +47,7 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    // 暂未开放
     disableTransitions: {
       type: Boolean,
       default: false
@@ -61,7 +66,8 @@ export default defineComponent({
       default: 'light'
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
+    const iconMouse = ref(false)
     const effectSty = computed(() => {
       return 's-tag-' + props.effect + '-' + props.type + '-effect'
     })
@@ -74,10 +80,36 @@ export default defineComponent({
       return 's-size-' + props.size
     })
 
+    const iconHoverSty = computed(() => {
+      return 's-tag-icon-' + props.effect + '-' + props.type + '-hover'
+    })
+
+    function handleIconLeave () {
+      iconMouse.value = false
+    }
+
+    function handleIconEnter () {
+      iconMouse.value = true
+    }
+
+    function delClick () {
+      emit('close')
+    }
+
+    function tagClick () {
+      emit('click')
+    }
+
     return {
       effectSty,
       typeColor,
-      sizeStyl
+      sizeStyl,
+      iconMouse,
+      iconHoverSty,
+      handleIconLeave,
+      handleIconEnter,
+      delClick,
+      tagClick
     }
   }
 })

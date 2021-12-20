@@ -26,8 +26,45 @@
     background-color: #fef0f0;
 }
 
-.s-tag-dark-effect {}
-.s-tag-plain-effect {}
+.s-tag-dark-default-effect {
+    background-color: #409EFF;
+    border-color: #409EFF;
+}
+.s-tag-dark-success-effect {
+    background-color: #67C23A;
+    border-color: #67C23A;
+}
+.s-tag-dark-info-effect {
+    background-color: #909399;
+    border-color: #909399;
+}
+.s-tag-dark-warning-effect {
+    background-color: #E6A23C;
+    border-color: #E6A23C;
+}
+.s-tag-dark-danger-effect {
+    background-color: #F56C6C;
+    border-color: #F56C6C;
+}
+.s-tag-dark-color {
+    color: #ffffff;
+}
+
+.s-tag-plain-default-effect {
+    background-color: #ffffff;
+}
+.s-tag-plain-success-effect {
+    background-color: #ffffff;
+}
+.s-tag-plain-info-effect {
+    background-color: #ffffff;
+}
+.s-tag-plain-warning-effect {
+    background-color: #ffffff;
+}
+.s-tag-plain-danger-effect {
+    background-color: #ffffff;
+}
 
 .s-tag-default-type{
     color: #77B8FF;
@@ -63,12 +100,73 @@
 .s-size-mini {
     padding: 0 5px;
 }
-.closeSty {
+.s-tag-close-sty {
     width: 16px;
     height: 16px;
     border-radius: 100%;
-    text-align: right;
-    line-height: 16px;
-    font-weight: 10;
-    font-size: 10px;
+    text-align: center;
+    line-height: 18px;
+    margin-left: 5px;
+    box-sizing: border-box;
+}
+.s-tag-close-padding {
+    padding-right: 1px;
+}
+
+.s-tag-icon-light-default-hover {
+    color: #ffffff;
+    background-color: #77B8FF;
+}
+.s-tag-icon-light-success-hover {
+    color: #ffffff;
+    background-color: #67C23A;
+}
+.s-tag-icon-light-info-hover {
+    color: #ffffff;
+    background-color: #909399;
+}
+.s-tag-icon-light-warning-hover {
+    color: #ffffff;
+    background-color: #E6A23C;
+}
+.s-tag-icon-light-danger-hover {
+    color: #ffffff;
+    background-color: #F56C6C;
+}
+
+.s-tag-icon-dark-default-hover {
+    background-color: #66b1ff;
+}
+.s-tag-icon-dark-success-hover {
+    background-color: #85ce61;
+}
+.s-tag-icon-dark-info-hover {
+    background-color: #a6a9ad;
+}
+.s-tag-icon-dark-warning-hover {
+    background-color: #f78989;
+}
+.s-tag-icon-dark-danger-hover {
+    background-color: #ebb563;
+}
+
+.s-tag-icon-plain-default-hover {
+    color: #ffffff;
+    background-color: #77B8FF;
+}
+.s-tag-icon-plain-success-hover {
+    color: #ffffff;
+    background-color: #67C23A;
+}
+.s-tag-icon-plain-info-hover {
+    color: #ffffff;
+    background-color: #909399;
+}
+.s-tag-icon-plain-warning-hover {
+    color: #ffffff;
+    background-color: #E6A23C;
+}
+.s-tag-icon-plain-danger-hover {
+    color: #ffffff;
+    background-color: #F56C6C;
 }
