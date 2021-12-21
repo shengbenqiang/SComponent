@@ -77,7 +77,7 @@ export default defineComponent({
     })
 
     function handleOptionClick () {
-      if (props.disabled) { return }
+      if (props.disabled || optionDisabled.value) { return }
       getSelectValue.selectChange(props.label, props.value)
     }
 

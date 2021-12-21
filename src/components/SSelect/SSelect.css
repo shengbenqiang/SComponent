@@ -112,7 +112,7 @@
     display: none; /* Chrome Safari */
 }
 .s-select-popper-un-date {
-    width: 185px;
+    width: 205px;
     height: 22px;
     text-align: center;
     line-height: 24px;
@@ -121,8 +121,6 @@
 }
 .s-select-multiple-div {
     position: absolute;
-    width: 100px;
-    height: 30px;
-    border: 1px solid #cccccc;
-    top: 50%;
+    width: 172px;
+    left: 15px;
 }

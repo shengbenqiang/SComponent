@@ -32,18 +32,20 @@
           <slot />
         </div>
       </template>
+      <!--multiple ? 's-select-multiple' : ''-->
       <div
         :class="[
-          's-select-div',
-          multiple ? 's-select-multiple' : ''
+          's-select-div'
         ]"
       >
-        <div
-          v-if="multiple"
-          :class="[
-            's-select-multiple-div'
-          ]"
-        ></div>
+<!--        <div-->
+<!--          v-if="multiple"-->
+<!--          :class="[-->
+<!--            's-select-multiple-div',-->
+<!--            sizeSty-->
+<!--          ]"-->
+<!--          @click="handleIconClick"-->
+<!--        ></div>-->
         <input
           ref="selectInput"
           v-model="selectValue"
@@ -57,9 +59,9 @@
           :readonly="readVisible"
           :placeholder="placeholder"
           :disabled="disabled"
-          @focus="handleSelectFocus"
-          @blur="handleSelectBlur"
-          @click="handleSelectClick"
+          @focus.stop.prevent="handleSelectFocus"
+          @blur.stop.prevent="handleSelectBlur"
+          @click.stop.prevent="handleSelectClick"
         >
         <span
           v-show="showClear"
@@ -159,9 +161,11 @@ export default defineComponent({
     const showWhich = ref(undefined)
     const selectValue = ref(undefined)
     const showClear = ref(false)
+
     const readVisible = computed(() => {
       return !props.filterable
     })
+
     const sizeSty = computed(() => {
       return 's-select-input-' + props.size + '-size'
     })
@@ -191,10 +195,10 @@ export default defineComponent({
     }
 
     function handleSelectBlur (e) {
+      emit('blur', e)
       focusBorder.value = false
       iconTransition.value = false
       showPopper.value = false
-      emit('blur', e)
     }
 
     function handleIconClick () {
