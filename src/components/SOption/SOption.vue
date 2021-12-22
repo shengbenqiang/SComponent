@@ -9,7 +9,7 @@
     ]"
     @mouseenter="handleOptionEnter"
     @mouseleave="handleOptionLeave"
-    @click="handleOptionClick"
+    @click.stop.prevent="handleOptionClick"
   >
     <slot>
       <span >{{ currentLabel }}</span>
@@ -70,11 +70,14 @@ export default defineComponent({
     })
 
     const selected = computed(() => {
+      return getSelectValue.modelValue === props.value
+    })
+
+    function handleDefault () {
       if (getSelectValue.modelValue === props.value) {
         getSelectValue.selectChange(props.label, props.value)
       }
-      return getSelectValue.modelValue === props.value
-    })
+    }
 
     function handleOptionClick () {
       if (props.disabled || optionDisabled.value) { return }
@@ -106,6 +109,8 @@ export default defineComponent({
         filterShow.value = true
       }
     }, { immediate: true })
+
+    handleDefault()
 
     return {
       currentLabel,

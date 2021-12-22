@@ -147,7 +147,10 @@
   <br>
   <div style="margin-top: 15px">选择器复杂功能测试1</div>
   <br>
-  <s-select>
+  <s-select
+    v-model="groupValue"
+    @change="optionChange"
+  >
     <s-option-group
       v-for="item in optionGroupData"
       :key="item.label"
@@ -252,11 +255,6 @@ export default {
       },
       deep: true
     }
-    // optionValue: {
-    //   handler (val) {
-    //     console.log(val)
-    //   }
-    // }
   },
   data () {
     return {
@@ -357,6 +355,7 @@ export default {
         }
       ],
       filterValue: '',
+      groupValue: '',
       multipleArr: []
     }
   },
@@ -380,6 +379,15 @@ export default {
       console.log(val)
     },
     changeButton (val) {
+      console.log(val)
+    },
+    filterChange (val) {
+      console.log(val)
+    },
+    changeMore (val) {
+      console.log(val)
+    },
+    optionChange (val) {
       console.log(val)
     }
   }

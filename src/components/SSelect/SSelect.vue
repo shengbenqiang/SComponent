@@ -32,35 +32,37 @@
           <slot />
         </div>
       </template>
-      <!--multiple ? 's-select-multiple' : ''-->
       <div
         :class="[
-          's-select-div'
+          's-select-div',
+          multiple ? 's-select-multiple' : ''
         ]"
       >
-<!--        <div-->
-<!--          v-if="multiple"-->
-<!--          :class="[-->
-<!--            's-select-multiple-div',-->
-<!--            sizeSty-->
-<!--          ]"-->
-<!--          @click="handleIconClick"-->
-<!--        ></div>-->
+        <div
+          v-if="multiple"
+          :class="[
+            's-select-multiple-div',
+            sizeSty
+          ]"
+          @click.stop.prevent="handleIconClick"
+          @mousedown.prevent="handleIconMouseDown"
+        ></div>
         <input
           ref="selectInput"
           v-model="selectValue"
           :class="[
             sizeSty,
-            enterBorder ? focusBorder ? 's-select-input-focus-border' : 's-select-input-enter-border' : focusBorder ? 's-select-input-focus-border' : 's-select-input-common-border',
-            focusBorder ? 's-select-input-focus-border' : '',
+            enterBorder ?
+            focusBorder ? 's-select-input-focus-border' : 's-select-input-enter-border' :
+            focusBorder ? 's-select-input-focus-border' : 's-select-input-common-border',
             's-select-input-sty',
-            disabled ? 's-select-input-disabled' : 's-select-input-use'
+            disabled ? 's-select-input-disabled' : 's-select-input-use',
           ]"
           :readonly="readVisible"
           :placeholder="placeholder"
           :disabled="disabled"
-          @focus.stop.prevent="handleSelectFocus"
-          @blur.stop.prevent="handleSelectBlur"
+          @focus="handleSelectFocus"
+          @blur="handleSelectBlur"
           @click.stop.prevent="handleSelectClick"
         >
         <span
@@ -74,7 +76,7 @@
             sizeSty,
             disabled ? 's-select-input-disabled' : 's-select-input-use'
           ]"
-          @click="handleClearClick"
+          @click.stop.prevent="handleClearClick"
         ></span>
         <span
           v-show="!showClear"
@@ -86,9 +88,11 @@
             enterBorder ? 's-select-icon-enter' : 's-select-icon-common',
             focusBorder ? 's-select-icon-focus' : '',
             sizeSty,
-            disabled ? 's-select-input-disabled' : 's-select-input-use'
+            disabled ? 's-select-input-disabled' : 's-select-input-use',
+            focusBorder ? 's-select-icon-focus' : '',
           ]"
-          @click="handleIconClick"
+          @click.stop.prevent="handleIconClick"
+          @mousedown.prevent="handleIconMouseDown"
         ></span>
       </div>
     </s-popper>
@@ -203,9 +207,23 @@ export default defineComponent({
 
     function handleIconClick () {
       if (props.disabled) { return }
-      focusBorder.value = !focusBorder.value
-      iconTransition.value = !iconTransition.value
-      showPopper.value = !showPopper.value
+      if (focusBorder.value) {
+        if (showPopper.value) {
+          focusBorder.value = !focusBorder.value
+          iconTransition.value = !iconTransition.value
+          showPopper.value = !showPopper.value
+          selectInput.value.blur()
+        } else {
+          focusBorder.value = true
+          iconTransition.value = true
+          showPopper.value = true
+        }
+      } else {
+        focusBorder.value = true
+        iconTransition.value = true
+        showPopper.value = true
+        selectInput.value.focus()
+      }
     }
 
     function handleSelectClick () {
@@ -214,7 +232,11 @@ export default defineComponent({
       showPopper.value = !showPopper.value
     }
 
-    function selectChange (modelLabel, bindValue) {
+    function handleIconMouseDown () {
+      event.preventDefault()
+    }
+
+    const selectChange = (modelLabel, bindValue) => {
       emit('update:modelValue', bindValue)
       emit('change', bindValue)
       selectValue.value = modelLabel
@@ -300,9 +322,10 @@ export default defineComponent({
       handleSelectFocus,
       handleSelectBlur,
       handleIconClick,
-      handleSelectClick,
       handleClearClick,
-      handlePopperEnter
+      handlePopperEnter,
+      handleIconMouseDown,
+      handleSelectClick
     }
   }
 })
