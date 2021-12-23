@@ -1,0 +1,19 @@
+.s-check-tag-base {
+    display: inline-block;
+    width: 70px;
+    height: 22px;
+    border-radius: 3px;
+    font-size: 10px;
+    white-space: nowrap;
+    text-align: center;
+    line-height: 22px;
+    cursor: pointer;
+}
+.s-check-tag-checked {
+    background-color: #deedfc;
+    color: #53a8ff;
+}
+.s-check-tag-un-checked {
+    background-color: #f5f7fa;
+    color: #909399;
+}

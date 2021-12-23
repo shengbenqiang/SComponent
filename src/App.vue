@@ -183,10 +183,14 @@
   <div style="margin-top: 15px">tag 组件</div>
   <br>
   <s-tag closable>tag 1</s-tag>
+  &nbsp;
   <s-tag type="success" effect="dark" closable>tag 2</s-tag>
+  &nbsp;
   <s-tag type="info" effect="plain" closable>tag 3</s-tag>
+  &nbsp;
   <s-tag type="warning" color="#E6433C">tag 4</s-tag>
-  <s-tag type="danger">tag 5</s-tag>
+  &nbsp;
+  <s-tag type="danger" size="mini">tag 5</s-tag>
   <br>
   <div style="margin-top: 15px">选择器复杂功能测试3</div>
   <br>
@@ -201,6 +205,19 @@
       :value="option.value"
     ></s-option>
   </s-select>
+  <br>
+  <div style="margin-top: 15px">可选中的标签</div>
+  <br>
+  <s-check-tag
+    @change="onChange"
+    :checked="checked"
+  >
+    SCheckTag
+  </s-check-tag>
+  <br>
+  <div style="margin-top: 15px">滑块</div>
+  <br>
+  <s-slider />
 </template>
 <script>
 import SButton from '@/components/SButton/SButton'
@@ -218,6 +235,8 @@ import SSelect from '@/components/SSelect/SSelect'
 import SOption from '@/components/SOption/SOption'
 import SOptionGroup from '@/components/SOptionGroup/SOptionGroup'
 import STag from '@/components/STag/STag'
+import SCheckTag from '@/components/SCheckTag/SCheckTag'
+import SSlider from '@/components/SSlider/SSlider'
 
 export default {
   name: 'App',
@@ -236,7 +255,9 @@ export default {
     SSelect,
     SOption,
     SOptionGroup,
-    STag
+    STag,
+    SCheckTag,
+    SSlider
   },
   watch: {
     myInput: {
@@ -356,7 +377,8 @@ export default {
       ],
       filterValue: '',
       groupValue: '',
-      multipleArr: []
+      multipleArr: [],
+      checked: false
     }
   },
   methods: {
@@ -389,6 +411,9 @@ export default {
     },
     optionChange (val) {
       console.log(val)
+    },
+    onChange (checked) {
+      this.checked = checked
     }
   }
 }

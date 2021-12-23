@@ -44,9 +44,19 @@
             's-select-multiple-div',
             sizeSty
           ]"
-          @click.stop.prevent="handleIconClick"
+          @click.stop.prevent="handleMultipleClick"
           @mousedown.prevent="handleIconMouseDown"
-        ></div>
+        >
+          <s-check-tag
+            v-for="item in multipleData"
+            :key="item"
+            size="mini"
+            type="info"
+            effect="plain"
+          >
+            {{ item }}
+          </s-check-tag>
+        </div>
         <input
           ref="selectInput"
           v-model="selectValue"
@@ -59,7 +69,7 @@
             disabled ? 's-select-input-disabled' : 's-select-input-use',
           ]"
           :readonly="readVisible"
-          :placeholder="placeholder"
+          :placeholder="multipleData.length > 0 ? '' : placeholder"
           :disabled="disabled"
           @focus="handleSelectFocus"
           @blur="handleSelectBlur"
@@ -91,6 +101,7 @@
             disabled ? 's-select-input-disabled' : 's-select-input-use',
             focusBorder ? 's-select-icon-focus' : '',
           ]"
+          :style="{height: changeInputHeight ? changeInputHeight + 'px' : ''}"
           @click.stop.prevent="handleIconClick"
           @mousedown.prevent="handleIconMouseDown"
         ></span>
@@ -100,9 +111,10 @@
 </template>
 
 <script>
-import { reactive, provide, ref, computed, defineComponent, watch, onMounted, onUpdated, toRefs } from 'vue'
+import { reactive, provide, ref, computed, defineComponent, watch, onMounted, onUpdated, toRefs, nextTick } from 'vue'
 import './SSelect.css'
 import SPopper from '@/components/SPopper/SPopper'
+import SCheckTag from '@/components/SCheckTag/SCheckTag'
 import { GenNonDuplicateID } from '@/untils/common'
 
 export default defineComponent({
@@ -151,7 +163,8 @@ export default defineComponent({
     }
   },
   components: {
-    SPopper
+    SPopper,
+    SCheckTag
   },
   setup (props, { emit }) {
     const selectInput = ref()
@@ -165,6 +178,8 @@ export default defineComponent({
     const showWhich = ref(undefined)
     const selectValue = ref(undefined)
     const showClear = ref(false)
+    const multipleData = reactive([])
+    const changeInputHeight = ref(undefined)
 
     const readVisible = computed(() => {
       return !props.filterable
@@ -226,6 +241,11 @@ export default defineComponent({
       }
     }
 
+    const handleMultipleClick = () => {
+      selectInput.value.focus()
+      handleSelectClick()
+    }
+
     function handleSelectClick () {
       if (props.disabled) { return }
       iconTransition.value = !iconTransition.value
@@ -237,9 +257,22 @@ export default defineComponent({
     }
 
     const selectChange = (modelLabel, bindValue) => {
-      emit('update:modelValue', bindValue)
-      emit('change', bindValue)
-      selectValue.value = modelLabel
+      if (props.multiple) {
+        if (multipleData.includes(bindValue)) {
+          const tempIndex = multipleData.indexOf(bindValue)
+          multipleData.splice(tempIndex, 1)
+        } else {
+          multipleData.push(bindValue)
+        }
+        emit('update:modelValue', multipleData)
+        emit('change', multipleData)
+      } else {
+        emit('update:modelValue', bindValue)
+        emit('change', bindValue)
+        selectValue.value = modelLabel
+        iconTransition.value = false
+        showPopper.value = false
+      }
     }
 
     function isWhich () {
@@ -286,6 +319,13 @@ export default defineComponent({
       emit('visibleChange', val)
     })
 
+    watch(multipleData, () => {
+      const dom = document.getElementsByClassName('s-select-multiple-div')
+      nextTick(() => {
+        changeInputHeight.value = dom[0].offsetHeight
+      })
+    })
+
     onMounted(() => {
       showPopperDom.value = document.getElementById(showDomId)
       showPopperDom.value.setAttribute('real-height', ((showPopperDom.value.childNodes.length - 2) * 35) + 'px')
@@ -301,6 +341,7 @@ export default defineComponent({
       name: 'select',
       ...toRefs(props),
       selectInput: selectValue,
+      multipleData,
       selectChange
     }))
 
@@ -317,6 +358,9 @@ export default defineComponent({
       selectValue,
       showClear,
       readVisible,
+      multipleData,
+      changeInputHeight,
+      handleMultipleClick,
       handleSelectEnter,
       handleSelectLeave,
       handleSelectFocus,

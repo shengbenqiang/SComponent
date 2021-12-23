@@ -10,6 +10,7 @@
     @mouseenter="handleOptionEnter"
     @mouseleave="handleOptionLeave"
     @click.stop.prevent="handleOptionClick"
+    @mousedown="handleOptionDown"
   >
     <slot>
       <span >{{ currentLabel }}</span>
@@ -34,7 +35,7 @@
 </template>
 
 <script>
-import { defineComponent, watch, ref, inject, computed } from 'vue'
+import { defineComponent, watch, ref, inject, computed, watchEffect } from 'vue'
 import './SOption.css'
 
 export default defineComponent({
@@ -61,16 +62,13 @@ export default defineComponent({
     const getOptionGroupValue = inject('optionGroupValue', undefined)
     const isOption = computed(() => getOptionGroupValue && getOptionGroupValue.name === 'optionGroup')
     const filterShow = ref(false)
+    const selected = ref(false)
     const isFilter = getSelectValue.filterable
     // eslint-disable-next-line vue/return-in-computed-property
     const optionDisabled = computed(() => {
       if (isOption.value) {
         return getOptionGroupValue.disabled
       }
-    })
-
-    const selected = computed(() => {
-      return getSelectValue.modelValue === props.value
     })
 
     function handleDefault () {
@@ -93,6 +91,10 @@ export default defineComponent({
       mouseEnter.value = false
     }
 
+    function handleOptionDown () {
+      event.preventDefault()
+    }
+
     watch(() => props.label, (val) => {
       if (val) {
         currentLabel.value = val
@@ -110,6 +112,14 @@ export default defineComponent({
       }
     }, { immediate: true })
 
+    watchEffect(() => {
+      if (getSelectValue.multiple) {
+        selected.value = getSelectValue.multipleData.includes(props.value)
+      } else {
+        selected.value = getSelectValue.modelValue === props.value
+      }
+    })
+
     handleDefault()
 
     return {
@@ -121,7 +131,8 @@ export default defineComponent({
       filterShow,
       handleOptionEnter,
       handleOptionLeave,
-      handleOptionClick
+      handleOptionClick,
+      handleOptionDown
     }
   }
 })

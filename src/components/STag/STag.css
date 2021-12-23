@@ -3,12 +3,10 @@
     font-size: 12px;
     border-radius: 4px;
     box-sizing: border-box;
-    margin-left: 10px;
     cursor: pointer;
     display: inline-flex;
     flex-direction: row;
     align-items: center;
-    height: 30px;
 }
 .s-tag-light-default-effect {
     background-color: #ecf5ff;
@@ -90,15 +88,19 @@
 
 .s-size-large {
     padding: 0 10px;
+    height: 30px;
 }
 .s-size-medium {
     padding: 0 10px;
+    height: 28px;
 }
 .s-size-small {
     padding: 0 8px;
+    height: 26px;
 }
 .s-size-mini {
     padding: 0 5px;
+    height: 23px;
 }
 .s-tag-close-sty {
     width: 16px;

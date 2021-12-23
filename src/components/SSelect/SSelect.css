@@ -47,19 +47,19 @@
     border-bottom: 1px solid #999999;
 }
 .s-select-input-large-size {
-    height: 35px;
+    min-height: 35px;
     line-height: 30px;
 }
 .s-select-input-medium-size {
-    height: 33px;
+    min-height: 33px;
     line-height: 28px;
 }
 .s-select-input-small-size {
-    height: 30px;
+    min-height: 30px;
     line-height: 26px;
 }
 .s-select-input-mini-size {
-    height: 28px;
+    min-height: 28px;
     line-height: 24px;
 }
 .s-select-input-icon {
@@ -123,4 +123,15 @@
     position: absolute;
     width: 172px;
     left: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.s-select-multiple-div > * {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.s-select-multiple-div > span:nth-child(even) {
+    margin-left: 10px;
 }
