@@ -1,0 +1,36 @@
+.hover {
+    cursor: grab;
+}
+.dragging {
+    cursor: grabbing;
+}
+.s-slider-icon {
+    border-radius: 50%;
+    border: 2px solid #409EFF;
+    display: inline-block;
+    vertical-align: middle;
+    box-sizing: border-box;
+    user-select: none;
+    background-color: #ffffff;
+    transition: width 0.2s, height 0.2s;
+}
+.s-slider-icon-div {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    top: -15px;
+    background-color: transparent;
+    line-height: 30px;
+    transform: translate(-50%);
+    text-align: center;
+    /* 文本不可选中 */
+    user-select: none;
+}
+.s-slider-enter-button {
+    width: 22px;
+    height: 22px;
+}
+.s-slider-common-button {
+    width: 20px;
+    height: 20px;
+}

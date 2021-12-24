@@ -17,3 +17,11 @@ export const isArr = date => {
 export const GenNonDuplicateID = (randomLength) => {
   return Number(Math.random().toString().substr(3, randomLength) + Date.now()).toString(36)
 }
+
+export const on = (eventName, eventFun) => {
+  window.addEventListener(eventName, eventFun)
+}
+
+export const off = (eventName, eventFun) => {
+  window.removeEventListener(eventName, eventFun)
+}

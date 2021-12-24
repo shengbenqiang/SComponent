@@ -6,43 +6,13 @@
     border-radius: 3px;
     background-color: #E4E7ED;
     position: relative;
+    cursor: pointer;
 }
-
-.s-slider-icon-div {
-    /*border: 1px solid #cccccc;*/
+.s-slider-have-line {
     position: absolute;
-    width: 36px;
-    height: 36px;
-    top: -15px;
-    background-color: transparent;
-    line-height: 30px;
-    transform: translate(-50%);
-    text-align: center;
-    /* 文本不可选中 */
-    user-select: none;
-}
-.s-slider-icon {
-    border-radius: 50%;
-    border: 2px solid #409EFF;
-    display: inline-block;
-    vertical-align: middle;
-    box-sizing: border-box;
-    user-select: none;
-    background-color: #ffffff;
-    transition: width 0.2s, height 0.2s;
-}
-
-.s-slider-icon-enter {
-    width: 22px;
-    height: 22px;
-}
-.s-slider-icon-leave {
-    width: 20px;
-    height: 20px;
-}
-.s-slider-mouse-down {
-    cursor: grabbing;
-}
-.s-slider-cursor-enter {
-    cursor: grab;
+    width: 0;
+    height: 6px;
+    background-color: #409EFF;
+    border-radius: 3px;
+    left: 0;
 }
