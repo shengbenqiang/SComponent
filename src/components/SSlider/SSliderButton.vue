@@ -129,7 +129,15 @@ export default defineComponent({
         resetSize()
         let diff
         const { clientX, clientY } = getClientXY(event)
-        if (props.vertical) {}
+        if (props.vertical) {
+          initData.currentY = clientY
+          diff = ((initData.startY - initData.currentY) / sliderSize.value) * 100
+        } else {
+          initData.currentX = clientX
+          diff = ((initData.currentX - initData.startX) / sliderSize.valueOf()) * 100
+        }
+        initData.newPosition = initData.startPosition + diff
+        setPosition(initData.newPosition)
       }
     }
 
