@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, toRefs, inject, ref, computed, watch } from 'vue'
+import { defineComponent, reactive, toRefs, inject, ref, computed, watch, nextTick } from 'vue'
 import './SSliderButton.css'
 import { on, off } from '@/untils/common'
 
@@ -40,16 +40,17 @@ export default defineComponent({
   setup (props) {
     const locate = ref(null)
 
-    const sliderValue = inject('sliderValue', undefined)
-
     const {
+      resetSize,
       disabled,
       sliderSize,
       mini,
       max
-    } = toRefs(sliderValue)
+    } = inject('sliderValue', undefined)
 
-    const { resetSize } = sliderValue
+    nextTick(() => {
+      console.log(sliderSize)
+    })
 
     const initData = reactive({
       hovering: false,
@@ -91,7 +92,7 @@ export default defineComponent({
       dragging.value = !dragging.value
     }
 
-    const setPosition = (percent) => {
+    const setPosition = async (percent) => {
       if (percent === null || isNaN(percent)) { return }
       if (props.vertical) {
         locate.value = { bottom: `${percent}%` }
@@ -135,10 +136,8 @@ export default defineComponent({
           diff = ((initData.startY - initData.currentY) / sliderSize.value) * 100
         } else {
           initData.currentX = clientX
-          console.log(sliderSize)
           diff = ((initData.currentX - initData.startX) / sliderSize.value) * 100
         }
-        console.log(diff)
         initData.newPosition = initData.startPosition + diff
         setPosition(initData.newPosition)
       }
@@ -153,18 +152,6 @@ export default defineComponent({
     watch(() => props.modelValue, (val) => {
       if (val) { return }
       setPosition(val)
-    })
-
-    watch([
-      () => sliderValue.sliderSize,
-      () => sliderValue.disabled,
-      () => sliderValue.mini,
-      () => sliderValue.max
-    ], (val) => {
-      sliderSize.value = val[0]
-      disabled.value = val[1]
-      mini.value = val[2]
-      max.value = val[3]
     })
 
     return {

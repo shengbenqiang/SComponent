@@ -104,12 +104,12 @@ export default defineComponent({
 
     const { firstValue, sliderSize } = toRefs(initData)
 
-    provide('sliderValue', reactive({
+    provide('sliderValue', {
       name: 'slider',
       ...toRefs(props),
       resetSize,
       sliderSize
-    }))
+    })
 
     return {
       slider,
