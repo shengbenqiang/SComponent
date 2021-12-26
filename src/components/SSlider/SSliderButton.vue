@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, toRefs, inject, ref, computed } from 'vue'
+import { defineComponent, reactive, toRefs, inject, ref, computed, watch } from 'vue'
 import './SSliderButton.css'
 import { on, off } from '@/untils/common'
 
@@ -44,11 +44,12 @@ export default defineComponent({
 
     const {
       disabled,
-      resetSize,
       sliderSize,
       mini,
       max
-    } = sliderValue
+    } = toRefs(sliderValue)
+
+    const { resetSize } = sliderValue
 
     const initData = reactive({
       hovering: false,
@@ -134,8 +135,10 @@ export default defineComponent({
           diff = ((initData.startY - initData.currentY) / sliderSize.value) * 100
         } else {
           initData.currentX = clientX
-          diff = ((initData.currentX - initData.startX) / sliderSize.valueOf()) * 100
+          console.log(sliderSize)
+          diff = ((initData.currentX - initData.startX) / sliderSize.value) * 100
         }
+        console.log(diff)
         initData.newPosition = initData.startPosition + diff
         setPosition(initData.newPosition)
       }
@@ -146,6 +149,23 @@ export default defineComponent({
       off('mousemove', iconDragging)
       off('mouseup', iconDragEnd)
     }
+
+    watch(() => props.modelValue, (val) => {
+      if (val) { return }
+      setPosition(val)
+    })
+
+    watch([
+      () => sliderValue.sliderSize,
+      () => sliderValue.disabled,
+      () => sliderValue.mini,
+      () => sliderValue.max
+    ], (val) => {
+      sliderSize.value = val[0]
+      disabled.value = val[1]
+      mini.value = val[2]
+      max.value = val[3]
+    })
 
     return {
       hovering,
