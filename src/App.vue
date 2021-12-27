@@ -122,8 +122,8 @@
   <br>
   <div style="margin-top: 15px">泡泡组件</div>
   <br>
-  <s-popper placement="bottom" content="你好啊，帅哥">
-    测试的泡泡组件1
+  <s-popper placement="top" content="60%">
+    <div>测试的泡泡组件1</div>
   </s-popper>
   <div style="margin-top: 15px"></div>
   <s-popper placement="right" effect="light" :visible="true" content="你好啊，美女">
@@ -217,7 +217,9 @@
   <br>
   <div style="margin-top: 15px">滑块</div>
   <br>
-  <s-slider />
+  <s-slider
+    v-model="sliderNum"
+  />
 </template>
 <script>
 import SButton from '@/components/SButton/SButton'
@@ -276,6 +278,11 @@ export default {
       },
       deep: true
     }
+    // sliderNum: {
+    //   handler (val) {
+    //     console.log(val)
+    //   }
+    // }
   },
   data () {
     return {
@@ -378,7 +385,8 @@ export default {
       filterValue: '',
       groupValue: '',
       multipleArr: [],
-      checked: false
+      checked: false,
+      sliderNum: 30
     }
   },
   methods: {

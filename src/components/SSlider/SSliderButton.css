@@ -16,15 +16,14 @@
 }
 .s-slider-icon-div {
     position: absolute;
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
     top: -15px;
     background-color: transparent;
-    line-height: 30px;
     transform: translate(-50%);
-    text-align: center;
-    /* 文本不可选中 */
+    /*text-align: center;*/
     user-select: none;
+    z-index: 1;
 }
 .s-slider-enter-button {
     width: 22px;

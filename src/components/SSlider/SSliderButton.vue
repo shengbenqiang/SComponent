@@ -2,28 +2,31 @@
   <div
     :class="[
       's-slider-icon-div',
-      hovering ? 'hover' : '',
-      dragging ? 'dragging' : ''
     ]"
     :style="locate"
   >
-    <div
-      class="s-slider-icon"
-      :class="[
-        hovering ? 's-slider-enter-button' : 's-slider-common-button'
-      ]"
-      @mouseenter="handleSliderIconEnter"
-      @mouseleave="handleSliderIconLeave"
-      @mousedown="handleSliderIconDown"
-      @mouseup="handleSliderIconUp"
-    ></div>
+    <s-popper placement="top" :content="currentPosition">
+      <div
+        class="s-slider-icon"
+        :class="[
+          hovering ? 's-slider-enter-button' : 's-slider-common-button',
+          hovering ? dragging ? '' : 'hover' : '',
+          dragging ? 'dragging' : ''
+        ]"
+        @mouseenter="handleSliderIconEnter"
+        @mouseleave="handleSliderIconLeave"
+        @mousedown="handleSliderIconDown"
+        @mouseup="handleSliderIconUp"
+      ></div>
+    </s-popper>
   </div>
 </template>
 
 <script>
-import { defineComponent, reactive, toRefs, inject, ref, computed, watch, nextTick } from 'vue'
+import { defineComponent, reactive, toRefs, inject, ref, computed } from 'vue'
 import './SSliderButton.css'
 import { on, off } from '@/untils/common'
+import SPopper from '@/components/SPopper/SPopper'
 
 export default defineComponent({
   name: 'SSliderButton',
@@ -37,7 +40,10 @@ export default defineComponent({
       default: false
     }
   },
-  setup (props) {
+  components: {
+    SPopper
+  },
+  setup (props, { emit }) {
     const locate = ref(null)
 
     const {
@@ -47,10 +53,6 @@ export default defineComponent({
       mini,
       max
     } = inject('sliderValue', undefined)
-
-    nextTick(() => {
-      console.log(sliderSize)
-    })
 
     const initData = reactive({
       hovering: false,
@@ -66,7 +68,7 @@ export default defineComponent({
     const { hovering, dragging } = toRefs(initData)
 
     const currentPosition = computed(() => {
-      return `${((props.modelValue - mini.value) / (max.value - mini.value)) * 100}%`
+      return `${parseInt(((props.modelValue - mini.value) / (max.value - mini.value)) * 100)}%`
     })
 
     const handleSliderIconEnter = () => {
@@ -88,17 +90,17 @@ export default defineComponent({
     }
 
     const handleSliderIconUp = () => {
-      if (disabled.value) { return }
-      dragging.value = !dragging.value
+      if (disabled.value) { }
     }
 
     const setPosition = async (percent) => {
-      if (percent === null || isNaN(percent)) { return }
+      if (percent === null || isNaN(percent) || percent < mini.value || percent > max.value) { return }
       if (props.vertical) {
         locate.value = { bottom: `${percent}%` }
       } else {
         locate.value = { left: `${percent}%` }
       }
+      emitEvent(percent)
     }
 
     const iconDragStart = (event) => {
@@ -147,17 +149,18 @@ export default defineComponent({
       initData.dragging = false
       off('mousemove', iconDragging)
       off('mouseup', iconDragEnd)
+      emitEvent(initData.newPosition)
     }
 
-    watch(() => props.modelValue, (val) => {
-      if (val) { return }
-      setPosition(val)
-    })
+    const emitEvent = (position) => {
+      emit('update:modelValue', position)
+    }
 
     return {
       hovering,
       dragging,
       locate,
+      currentPosition,
       handleSliderIconEnter,
       handleSliderIconLeave,
       handleSliderIconDown,

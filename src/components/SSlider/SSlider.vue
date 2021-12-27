@@ -16,6 +16,7 @@
         ref="firstButton"
         :vertical="vertical"
         :model-value="firstValue"
+        @update:model-value="setNewVal"
       />
       <s-slider-button
         v-if="range"
@@ -26,7 +27,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, provide, onMounted, toRefs, nextTick } from 'vue'
+import { defineComponent, ref, reactive, provide, onMounted, toRefs, nextTick, watch } from 'vue'
 import './SSlider.css'
 import SSliderButton from './SSliderButton.vue'
 
@@ -61,15 +62,17 @@ export default defineComponent({
   components: {
     SSliderButton
   },
-  setup (props) {
+  setup (props, { emit }) {
     const slider = ref()
     const firstButton = ref(null)
     const lineSty = ref(null)
+    const firstValue = ref(props.modelValue)
 
     const initData = reactive({
-      sliderSize: 1,
-      firstValue: 0
+      sliderSize: 1
     })
+
+    const { sliderSize } = toRefs(initData)
 
     const resetSize = () => {
       if (slider.value) {
@@ -90,19 +93,30 @@ export default defineComponent({
       if (props.vertical) {
         const sliderOffsetBottom = slider.value.getBoundingClientRect().bottom
         setPosition(((sliderOffsetBottom - event.clientY) / initData.sliderSize) * 100)
+        firstValue.value = ((sliderOffsetBottom - event.clientY) / initData.sliderSize) * 100
       } else {
         const sliderOffsetLeft = slider.value.getBoundingClientRect().left
         setPosition(((event.clientX - sliderOffsetLeft) / initData.sliderSize) * 100)
+        firstValue.value = ((event.clientX - sliderOffsetLeft) / initData.sliderSize) * 100
       }
+    }
+
+    const setNewVal = (val) => {
+      firstValue.value = val
+      lineSty.value = { width: `${val}%` }
     }
 
     onMounted(async () => {
       window.addEventListener('resize', resetSize)
       await nextTick()
       resetSize()
+      setPosition(firstValue.value)
     })
 
-    const { firstValue, sliderSize } = toRefs(initData)
+    watch(firstValue, (val) => {
+      emit('update:modelValue', val)
+      emit('change', val)
+    })
 
     provide('sliderValue', {
       name: 'slider',
@@ -116,6 +130,7 @@ export default defineComponent({
       firstButton,
       firstValue,
       lineSty,
+      setNewVal,
       handleSliderLineClick
     }
   }
