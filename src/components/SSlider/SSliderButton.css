@@ -13,17 +13,9 @@
     user-select: none;
     background-color: #ffffff;
     transition: width 0.2s, height 0.2s;
-}
-.s-slider-icon-div {
     position: absolute;
-    width: 30px;
-    height: 30px;
-    top: -15px;
-    background-color: transparent;
+    top: -8px;
     transform: translate(-50%);
-    /*text-align: center;*/
-    user-select: none;
-    z-index: 1;
 }
 .s-slider-enter-button {
     width: 22px;

@@ -1,6 +1,7 @@
 .s-popper-base-sty {
     display: inline-block;
     cursor: pointer;
+    transform: none;
 }
 .s-popper-show-base {
     border-radius: 4px;
@@ -24,6 +25,7 @@
 .s-popper-show-base {
     opacity: 0;
     z-index: 8888;
+    line-height: normal;
 }
 .s-popper-show-base[data-show] {
     opacity: 1;
@@ -37,6 +39,7 @@
 
 #arrow {
     visibility: hidden;
+    text-align: left;
 }
 
 #arrow::before {

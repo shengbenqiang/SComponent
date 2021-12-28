@@ -1,32 +1,25 @@
 <template>
   <div
+    ref="sliderButton"
+    class="s-slider-icon"
     :class="[
-      's-slider-icon-div',
+      hovering ? 's-slider-enter-button' : 's-slider-common-button',
+      // hovering ? dragging ? '' : 'hover' : '',
+      dragging ? 'dragging' : 'hover'
     ]"
     :style="locate"
-  >
-    <s-popper placement="top" :content="currentPosition">
-      <div
-        class="s-slider-icon"
-        :class="[
-          hovering ? 's-slider-enter-button' : 's-slider-common-button',
-          hovering ? dragging ? '' : 'hover' : '',
-          dragging ? 'dragging' : ''
-        ]"
-        @mouseenter="handleSliderIconEnter"
-        @mouseleave="handleSliderIconLeave"
-        @mousedown="handleSliderIconDown"
-        @mouseup="handleSliderIconUp"
-      ></div>
-    </s-popper>
-  </div>
+    @mouseenter="handleSliderIconEnter"
+    @mouseleave="handleSliderIconLeave"
+    @mousedown="handleSliderIconDown"
+    @mouseup="handleSliderIconUp"
+  ></div>
 </template>
 
 <script>
-import { defineComponent, reactive, toRefs, inject, ref, computed } from 'vue'
+import { defineComponent, reactive, inject, ref, computed } from 'vue'
 import './SSliderButton.css'
 import { on, off } from '@/untils/common'
-import SPopper from '@/components/SPopper/SPopper'
+// import SPopper from '@/components/SPopper/SPopper'
 
 export default defineComponent({
   name: 'SSliderButton',
@@ -41,10 +34,17 @@ export default defineComponent({
     }
   },
   components: {
-    SPopper
+    // SPopper
   },
   setup (props, { emit }) {
     const locate = ref(null)
+    const sliderButton = ref(null)
+    const hovering = ref(false)
+    const dragging = ref(false)
+    const startX = ref(0)
+    const currentX = ref(0)
+    const startPosition = ref(0)
+    const newPosition = ref(0)
 
     const {
       resetSize,
@@ -55,17 +55,9 @@ export default defineComponent({
     } = inject('sliderValue', undefined)
 
     const initData = reactive({
-      hovering: false,
-      dragging: false,
-      startX: 0,
-      currentX: 0,
       startY: 0,
-      currentY: 0,
-      startPosition: 0,
-      newPosition: 0
+      currentY: 0
     })
-
-    const { hovering, dragging } = toRefs(initData)
 
     const currentPosition = computed(() => {
       return `${parseInt(((props.modelValue - mini.value) / (max.value - mini.value)) * 100)}%`
@@ -83,14 +75,15 @@ export default defineComponent({
 
     const handleSliderIconDown = (event) => {
       if (disabled.value) { return }
-      event.preventDefault()
+      dragging.value = true
       iconDragStart(event)
       on('mousemove', iconDragging)
       on('mouseup', iconDragEnd)
     }
 
     const handleSliderIconUp = () => {
-      if (disabled.value) { }
+      if (disabled.value) { return }
+      dragging.value = false
     }
 
     const setPosition = async (percent) => {
@@ -104,20 +97,48 @@ export default defineComponent({
     }
 
     const iconDragStart = (event) => {
-      initData.dragging = true
       const { clientX, clientY } = getClientXY(event)
       if (props.vertical) {
+        // 暂时不进行处理的逻辑
         initData.startY = clientY
       } else {
-        initData.startX = clientX
+        startX.value = clientX
       }
-      initData.startPosition = parseFloat(currentPosition.value)
-      initData.newPosition = initData.startPosition
+      startPosition.value = parseFloat(currentPosition.value)
+      newPosition.value = startPosition.value
+    }
+
+    const iconDragging = (event) => {
+      if (dragging.value) {
+        resetSize()
+        let diff
+        const { clientX, clientY, shiftX } = getClientXY(event)
+        if (props.vertical) {
+          // 暂时不进行处理的逻辑
+          initData.currentY = clientY
+          diff = ((initData.startY - initData.currentY) / sliderSize.value) * 100
+        } else {
+          // 处理位置的核心currentX.value - startX.value
+          currentX.value = clientX
+          diff = ((currentX.value - startX.value) / sliderSize.value) * 100 - shiftX
+        }
+        newPosition.value = startPosition.value + diff
+        setPosition(newPosition.value)
+      }
+    }
+
+    const iconDragEnd = () => {
+      // dragging.value = false
+      off('mousemove', iconDragging)
+      off('mouseup', iconDragEnd)
+      emitEvent(newPosition.value)
     }
 
     const getClientXY = (event) => {
       let clientX
       let clientY
+      const shiftX = ((event.clientX - sliderButton.value.getBoundingClientRect().left) / sliderSize.value) * 100
+      const shiftY = event.clientY - sliderButton.value.getBoundingClientRect().top
       if (event.type.startsWith('touch')) {
         console.log(event)
       } else {
@@ -125,31 +146,7 @@ export default defineComponent({
         clientX = event.clientX
       }
 
-      return { clientX, clientY }
-    }
-
-    const iconDragging = (event) => {
-      if (initData.dragging) {
-        resetSize()
-        let diff
-        const { clientX, clientY } = getClientXY(event)
-        if (props.vertical) {
-          initData.currentY = clientY
-          diff = ((initData.startY - initData.currentY) / sliderSize.value) * 100
-        } else {
-          initData.currentX = clientX
-          diff = ((initData.currentX - initData.startX) / sliderSize.value) * 100
-        }
-        initData.newPosition = initData.startPosition + diff
-        setPosition(initData.newPosition)
-      }
-    }
-
-    const iconDragEnd = () => {
-      initData.dragging = false
-      off('mousemove', iconDragging)
-      off('mouseup', iconDragEnd)
-      emitEvent(initData.newPosition)
+      return { clientX, clientY, shiftX, shiftY }
     }
 
     const emitEvent = (position) => {
@@ -161,6 +158,7 @@ export default defineComponent({
       dragging,
       locate,
       currentPosition,
+      sliderButton,
       handleSliderIconEnter,
       handleSliderIconLeave,
       handleSliderIconDown,
