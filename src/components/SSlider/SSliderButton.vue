@@ -1,169 +1,89 @@
 <template>
   <div
     ref="sliderButton"
-    class="s-slider-icon"
     :class="[
-      hovering ? 's-slider-enter-button' : 's-slider-common-button',
-      // hovering ? dragging ? '' : 'hover' : '',
-      dragging ? 'dragging' : 'hover'
+      's-slider-button-con'
     ]"
-    :style="locate"
-    @mouseenter="handleSliderIconEnter"
-    @mouseleave="handleSliderIconLeave"
-    @mousedown="handleSliderIconDown"
-    @mouseup="handleSliderIconUp"
-  ></div>
+    :style="newPosition"
+  >
+    <s-popper :content="currentPosition" placement="top">
+      <div
+        :class="[
+          's-slider-button-ball'
+        ]"
+        @mousedown="handleBallDown"
+      ></div>
+    </s-popper>
+  </div>
 </template>
 
 <script>
-import { defineComponent, reactive, inject, ref, computed } from 'vue'
+import { defineComponent, ref, inject, computed, watch } from 'vue'
 import './SSliderButton.css'
+import SPopper from '@/components/SPopper/SPopper'
 import { on, off } from '@/untils/common'
-// import SPopper from '@/components/SPopper/SPopper'
 
 export default defineComponent({
   name: 'SSliderButton',
+  components: {
+    SPopper
+  },
   props: {
     modelValue: {
       type: Number,
       default: 0
-    },
-    vertical: {
-      type: Boolean,
-      default: false
     }
-  },
-  components: {
-    // SPopper
   },
   setup (props, { emit }) {
-    const locate = ref(null)
-    const sliderButton = ref(null)
-    const hovering = ref(false)
     const dragging = ref(false)
-    const startX = ref(0)
-    const currentX = ref(0)
-    const startPosition = ref(0)
-    const newPosition = ref(0)
-
-    const {
-      resetSize,
-      disabled,
-      sliderSize,
-      mini,
-      max
-    } = inject('sliderValue', undefined)
-
-    const initData = reactive({
-      startY: 0,
-      currentY: 0
-    })
+    const sliderButton = ref(null)
+    const shiftX = ref(0)
+    const newPosition = ref(null)
+    const positionNum = ref(undefined)
+    const sliderData = inject('sliderValue', undefined)
+    const { mini, max, slider, sliderSize } = sliderData
 
     const currentPosition = computed(() => {
-      return `${parseInt(((props.modelValue - mini.value) / (max.value - mini.value)) * 100)}%`
+      return `${((props.modelValue - mini.value) / (max.value - mini.value)) * 100}%`
     })
 
-    const handleSliderIconEnter = () => {
-      if (disabled.value) { return }
-      hovering.value = true
-    }
-
-    const handleSliderIconLeave = () => {
-      if (disabled.value) { return }
-      hovering.value = false
-    }
-
-    const handleSliderIconDown = (event) => {
-      if (disabled.value) { return }
+    const handleBallDown = (event) => {
       dragging.value = true
-      iconDragStart(event)
-      on('mousemove', iconDragging)
-      on('mouseup', iconDragEnd)
+      event.preventDefault()
+      shiftX.value = event.clientX - sliderButton.value.getBoundingClientRect().left
+      on('mousemove', handleBallMove)
+      on('mouseup', handleBallUp)
     }
 
-    const handleSliderIconUp = () => {
-      if (disabled.value) { return }
-      dragging.value = false
-    }
-
-    const setPosition = async (percent) => {
-      if (percent === null || isNaN(percent) || percent < mini.value || percent > max.value) { return }
-      if (props.vertical) {
-        locate.value = { bottom: `${percent}%` }
-      } else {
-        locate.value = { left: `${percent}%` }
+    const handleBallMove = (event) => {
+      let newLeft = event.clientX - shiftX.value - slider.value.getBoundingClientRect().left
+      if (newLeft < 0) {
+        newLeft = 0
       }
-      emitEvent(percent)
-    }
-
-    const iconDragStart = (event) => {
-      const { clientX, clientY } = getClientXY(event)
-      if (props.vertical) {
-        // 暂时不进行处理的逻辑
-        initData.startY = clientY
-      } else {
-        startX.value = clientX
+      const rightEdge = slider.value.offsetWidth - sliderButton.value.offsetWidth
+      if (newLeft > rightEdge) {
+        newLeft = rightEdge
       }
-      startPosition.value = parseFloat(currentPosition.value)
-      newPosition.value = startPosition.value
+      positionNum.value = newLeft
+      newPosition.value = { left: `${newLeft}px` }
     }
 
-    const iconDragging = (event) => {
-      if (dragging.value) {
-        resetSize()
-        let diff
-        const { clientX, clientY, shiftX } = getClientXY(event)
-        if (props.vertical) {
-          // 暂时不进行处理的逻辑
-          initData.currentY = clientY
-          diff = ((initData.startY - initData.currentY) / sliderSize.value) * 100
-        } else {
-          // 处理位置的核心currentX.value - startX.value
-          currentX.value = clientX
-          diff = ((currentX.value - startX.value) / sliderSize.value) * 100 - shiftX
-        }
-        newPosition.value = startPosition.value + diff
-        setPosition(newPosition.value)
-      }
+    const handleBallUp = () => {
+      off('mousemove', handleBallMove)
+      off('mouseup', handleBallUp)
     }
 
-    const iconDragEnd = () => {
-      // dragging.value = false
-      off('mousemove', iconDragging)
-      off('mouseup', iconDragEnd)
-      emitEvent(newPosition.value)
-    }
-
-    const getClientXY = (event) => {
-      let clientX
-      let clientY
-      const shiftX = ((event.clientX - sliderButton.value.getBoundingClientRect().left) / sliderSize.value) * 100
-      const shiftY = event.clientY - sliderButton.value.getBoundingClientRect().top
-      if (event.type.startsWith('touch')) {
-        console.log(event)
-      } else {
-        clientY = event.clientY
-        clientX = event.clientX
-      }
-
-      return { clientX, clientY, shiftX, shiftY }
-    }
-
-    const emitEvent = (position) => {
-      emit('update:modelValue', position)
-    }
+    watch(positionNum, (val) => {
+      const percentNum = (val / sliderSize.value) * 100
+      emit('update:modelValue', Math.round(percentNum))
+    })
 
     return {
-      hovering,
       dragging,
-      locate,
       currentPosition,
       sliderButton,
-      handleSliderIconEnter,
-      handleSliderIconLeave,
-      handleSliderIconDown,
-      handleSliderIconUp,
-      setPosition
+      newPosition,
+      handleBallDown
     }
   }
 })

@@ -19,9 +19,9 @@ export const GenNonDuplicateID = (randomLength) => {
 }
 
 export const on = (eventName, eventFun) => {
-  window.addEventListener(eventName, eventFun)
+  document.addEventListener(eventName, eventFun)
 }
 
 export const off = (eventName, eventFun) => {
-  window.removeEventListener(eventName, eventFun)
+  document.removeEventListener(eventName, eventFun)
 }

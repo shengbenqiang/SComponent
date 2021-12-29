@@ -1,27 +1,31 @@
-.hover {
+.s-slider-button-con {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #cccccc;
+    position: absolute;
+    top: -16px;
+    left: -18px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.s-slider-button-con:hover {
     cursor: grab;
 }
-.dragging {
+.s-slider-button-con:active {
     cursor: grabbing;
 }
-.s-slider-icon {
-    border-radius: 50%;
-    border: 2px solid #409EFF;
-    display: inline-block;
-    vertical-align: middle;
-    box-sizing: border-box;
-    user-select: none;
-    background-color: #ffffff;
-    transition: width 0.2s, height 0.2s;
-    position: absolute;
-    top: -8px;
-    transform: translate(-50%);
-}
-.s-slider-enter-button {
-    width: 22px;
-    height: 22px;
-}
-.s-slider-common-button {
+.s-slider-button-ball {
     width: 20px;
     height: 20px;
+    box-sizing: border-box;
+    border: 2px solid #409EFF;
+    border-radius: 50%;
+}
+.s-slider-button-ball:hover {
+    cursor: grab;
+}
+.s-slider-button-ball:active {
+    cursor: grabbing;
 }

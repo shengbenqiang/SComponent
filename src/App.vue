@@ -217,9 +217,7 @@
   <br>
   <div style="margin-top: 15px">滑块</div>
   <br>
-  <s-slider
-    v-model="sliderNum"
-  />
+  <s-slider v-model="sliderNum"/>
 </template>
 <script>
 import SButton from '@/components/SButton/SButton'
@@ -386,7 +384,7 @@ export default {
       groupValue: '',
       multipleArr: [],
       checked: false,
-      sliderNum: 30
+      sliderNum: 20
     }
   },
   methods: {
