@@ -86,7 +86,6 @@ export default defineComponent({
       default: () => ([])
     },
     visible: {
-      type: Boolean,
       default: undefined
     }
   },

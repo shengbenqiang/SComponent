@@ -217,7 +217,12 @@
   <br>
   <div style="margin-top: 15px">滑块</div>
   <br>
-  <s-slider v-model="sliderNum"/>
+  <!-- disabled -->
+  <s-slider
+    v-model="sliderNum"
+    :show-tooltip="true"
+    :format-tooltip="true"
+  />
 </template>
 <script>
 import SButton from '@/components/SButton/SButton'

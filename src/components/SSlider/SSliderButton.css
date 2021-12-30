@@ -1,20 +1,9 @@
 .s-slider-button-con {
     width: 36px;
     height: 36px;
-    border: 1px solid #cccccc;
+    /*border: 1px solid #cccccc;*/
     position: absolute;
     top: -16px;
-    left: -18px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-.s-slider-button-con:hover {
-    cursor: grab;
-}
-.s-slider-button-con:active {
-    cursor: grabbing;
 }
 .s-slider-button-ball {
     width: 20px;
@@ -22,10 +11,33 @@
     box-sizing: border-box;
     border: 2px solid #409EFF;
     border-radius: 50%;
+    background-color: #ffffff;
 }
-.s-slider-button-ball:hover {
+.s-slider-button-popper-con {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.s-slider-button-popper-room {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: -19px;
+}
+.s-slider-button-ball-dis {
+    border-color: #C0C4CC;
+    cursor: not-allowed;
+}
+.s-slider-button-ball-oth {
     cursor: grab;
 }
-.s-slider-button-ball:active {
+.s-slider-button-ball-drag {
     cursor: grabbing;
+}
+.s-slider-button-ball-un-drag {
+    cursor: grab;
 }

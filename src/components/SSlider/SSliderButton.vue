@@ -6,19 +6,30 @@
     ]"
     :style="newPosition"
   >
-    <s-popper :content="currentPosition" placement="top">
-      <div
-        :class="[
-          's-slider-button-ball'
-        ]"
-        @mousedown="handleBallDown"
-      ></div>
-    </s-popper>
+    <div :class="['s-slider-button-popper-con']">
+      <div :class="['s-slider-button-popper-room']">
+        <s-popper
+          :content="currentPosition"
+          :visible="showTooltip ? undefined : showTooltip"
+          placement="top"
+        >
+          <div
+            id="ball"
+            :class="[
+              's-slider-button-ball',
+              disabled ? 's-slider-button-ball-dis' : 's-slider-button-ball-oth',
+              isDrag ? 's-slider-button-ball-drag' : 's-slider-button-ball-un-drag'
+            ]"
+            @mousedown.stop.prevent="handleBallDown"
+          ></div>
+        </s-popper>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, inject, computed, watch } from 'vue'
+import { defineComponent, ref, inject, computed } from 'vue'
 import './SSliderButton.css'
 import SPopper from '@/components/SPopper/SPopper'
 import { on, off } from '@/untils/common'
@@ -32,24 +43,41 @@ export default defineComponent({
     modelValue: {
       type: Number,
       default: 0
+    },
+    vertical: {
+      type: Boolean,
+      default: false
+    },
+    showTooltip: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   setup (props, { emit }) {
-    const dragging = ref(false)
+    const isDrag = ref(false)
     const sliderButton = ref(null)
     const shiftX = ref(0)
     const newPosition = ref(null)
     const positionNum = ref(undefined)
     const sliderData = inject('sliderValue', undefined)
-    const { mini, max, slider, sliderSize } = sliderData
+    const { mini, max, slider, sliderSize, formatTooltip } = sliderData
 
     const currentPosition = computed(() => {
-      return `${((props.modelValue - mini.value) / (max.value - mini.value)) * 100}%`
+      if (formatTooltip.value) {
+        return `${Math.floor((((props.modelValue - mini.value) / (max.value - mini.value)) * 100) * 100) / 100}%`
+      } else {
+        return `${((props.modelValue - mini.value) / (max.value - mini.value)) * 100}%`
+      }
     })
 
     const handleBallDown = (event) => {
-      dragging.value = true
+      if (props.disabled) { return }
       event.preventDefault()
+      isDrag.value = true
       shiftX.value = event.clientX - sliderButton.value.getBoundingClientRect().left
       on('mousemove', handleBallMove)
       on('mouseup', handleBallUp)
@@ -60,30 +88,36 @@ export default defineComponent({
       if (newLeft < 0) {
         newLeft = 0
       }
-      const rightEdge = slider.value.offsetWidth - sliderButton.value.offsetWidth
-      if (newLeft > rightEdge) {
-        newLeft = rightEdge
+      if (newLeft > sliderSize.value) {
+        newLeft = sliderSize.value
       }
-      positionNum.value = newLeft
-      newPosition.value = { left: `${newLeft}px` }
+      positionNum.value = (newLeft / sliderSize.value) * 100
+      setPosition(positionNum.value)
     }
 
     const handleBallUp = () => {
+      emit('ballMoveEnd')
+      isDrag.value = false
       off('mousemove', handleBallMove)
       off('mouseup', handleBallUp)
     }
 
-    watch(positionNum, (val) => {
-      const percentNum = (val / sliderSize.value) * 100
-      emit('update:modelValue', Math.round(percentNum))
-    })
+    const setPosition = (percent) => {
+      if (props.vertical) {
+        console.log('竖向')
+      } else {
+        newPosition.value = { left: `${percent}%` }
+      }
+      emit('update:modelValue', percent)
+    }
 
     return {
-      dragging,
       currentPosition,
       sliderButton,
       newPosition,
-      handleBallDown
+      isDrag,
+      handleBallDown,
+      setPosition
     }
   }
 })
