@@ -1,3 +1,9 @@
+.s-slider-room {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 .s-slider-base-line {
     width: 100%;
     height: 6px;
@@ -16,4 +22,31 @@
 }
 .s-slider-select-use {
     background-color: #409EFF;
+}
+.s-slider-show-stops-div {
+    width: 100%;
+    height: 6px;
+    background-color: transparent;
+    border-radius: 3px;
+    position: relative;
+}
+.s-slider-stop {
+    width: 6px;
+    height: 6px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    position: absolute;
+}
+.s-slider-input-width {
+    width: calc(100% - 180px);
+}
+.s-slider-default-width {
+    width: 100%;
+}
+.s-slider-input-room {
+    width: 180px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }

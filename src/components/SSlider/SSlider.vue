@@ -1,27 +1,63 @@
 <template>
   <div
-    ref="slider"
     :class="[
-      's-slider-base-line'
+      's-slider-room'
     ]"
-    @click="lineClick"
   >
     <div
+      ref="slider"
       :class="[
+      's-slider-base-line',
+      showInput ? 's-slider-input-width' : 's-slider-default-width'
+    ]"
+      @click="lineClick"
+    >
+      <div
+        :class="[
         's-slider-select-line',
         disabled ? 's-slider-select-dis' : 's-slider-select-use'
       ]"
-      :style="selectLine"
-    ></div>
-    <s-slider-button
-      ref="firstButton"
-      :model-value="firstValue"
-      :vertical="vertical"
-      :show-tooltip="showTooltip"
-      :disabled="disabled"
-      @update:model-value="updateFirst"
-      @ballMoveEnd="handleBallMoveEnd"
-    />
+        :style="selectLine"
+      ></div>
+      <s-slider-button
+        ref="firstButton"
+        :model-value="firstValue"
+        :vertical="vertical"
+        :show-tooltip="showTooltip"
+        :disabled="disabled"
+        @update:model-value="updateFirst"
+        @ballMoveEnd="handleBallMoveEnd"
+      />
+      <div
+        v-if="showStops"
+        :class="[
+        's-slider-show-stops-div'
+      ]"
+      >
+        <div
+          :class="[
+          's-slider-stop'
+        ]"
+          v-for="itemStop in stopsArr"
+          :key="itemStop"
+          :style="{ left: itemStop }"
+        ></div>
+      </div>
+    </div>
+    <div
+      v-if="showInput"
+      :class="[
+        's-slider-input-room'
+      ]"
+    >
+      <s-input-number
+        :size="inputSize"
+        :max="max"
+        :min="mini"
+        :step="step"
+        v-model="inputNum"
+      />
+    </div>
   </div>
 </template>
 
@@ -29,11 +65,14 @@
 import { defineComponent, ref, provide, toRefs, watch, onMounted, nextTick } from 'vue'
 import './SSlider.css'
 import SSliderButton from './SSliderButton'
+import SInputNumber from '@/components/SInputNumber/SInputNumber'
+import { IntegerForensics, toIntNum } from '@/untils/common'
 
 export default defineComponent({
   name: 'SSlider',
   components: {
-    SSliderButton
+    SSliderButton,
+    SInputNumber
   },
   props: {
     modelValue: {
@@ -67,6 +106,18 @@ export default defineComponent({
     step: {
       type: Number,
       default: 1
+    },
+    showStops: {
+      type: Boolean,
+      default: false
+    },
+    showInput: {
+      type: Boolean,
+      default: false
+    },
+    inputSize: {
+      type: String,
+      default: 'medium'
     }
   },
   setup (props, { emit }) {
@@ -76,6 +127,8 @@ export default defineComponent({
     const slider = ref(null)
     const selectLine = ref(null)
     const sliderSize = ref(undefined)
+    const stopsArr = ref([])
+    const inputNum = ref(undefined)
 
     const resetSize = () => {
       if (slider.value) {
@@ -105,13 +158,39 @@ export default defineComponent({
         if (props.formatTooltip) {
           firstButton.value.setPosition(Math.floor((((event.clientX - sliderOffsetLeft) / sliderSize.value) * 100) * 100) / 100)
         } else {
-          firstButton.value.setPosition(Math.round(((event.clientX - sliderOffsetLeft) / sliderSize.value) * 100))
+          const stepLength = Math.round(sliderSize.value / props.step)
+          const takePercent = Math.round((event.clientX - sliderOffsetLeft) / props.step)
+          let percentNum
+          if (props.step === 1) {
+            percentNum = Math.round((takePercent / stepLength) * 100)
+          } else {
+            percentNum = IntegerForensics(Math.round((takePercent / stepLength) * 100))
+          }
+          if (percentNum > props.max) {
+            percentNum = props.max
+          } else if (percentNum < props.mini) {
+            percentNum = props.mini
+          }
+          console.log(percentNum)
+          firstButton.value.setPosition(percentNum)
         }
       }
     }
 
     const handleBallMoveEnd = () => {
       firstBallBrag.value = true
+    }
+
+    const handleStops = () => {
+      if (props.showStops) {
+        // 段数
+        const share = (props.max - props.mini) / props.step
+        // 每段多长
+        const shareLength = sliderSize.value / share
+        for (let i = 1; i <= share; i++) {
+          stopsArr.value.push(`${Number(((i * shareLength) / sliderSize.value).toFixed(2)) * 100}%`)
+        }
+      }
     }
 
     provide('sliderValue', {
@@ -123,7 +202,14 @@ export default defineComponent({
 
     watch(firstValue, (val) => {
       selectLine.value = { width: `${val}%` }
+      // console.log(Number(val.toFixed(0)))
+      inputNum.value = toIntNum(val)
       emit('update:modelValue', val)
+    })
+
+    watch(inputNum, (val) => {
+      firstValue.value = val
+      firstButton.value.setPosition(val)
     })
 
     onMounted(async () => {
@@ -132,6 +218,8 @@ export default defineComponent({
       resetSize()
       firstButton.value.setPosition(props.modelValue)
       selectLine.value = { width: `${props.modelValue}%` }
+      handleStops()
+      inputNum.value = props.modelValue
     })
 
     return {
@@ -139,6 +227,8 @@ export default defineComponent({
       firstValue,
       slider,
       selectLine,
+      stopsArr,
+      inputNum,
       updateFirst,
       lineClick,
       handleBallMoveEnd

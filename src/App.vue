@@ -29,11 +29,11 @@
   <br>
   <div>数字输入框</div>
   <br>
+  <!-- show-way="right" -->
   <s-input-number
     v-model="myInputNum"
     :min="1"
     :max="10"
-    show-way="right"
   />
   <br>
   <div>单选框</div>
@@ -223,6 +223,22 @@
     :show-tooltip="true"
     :format-tooltip="true"
   />
+  <br>
+  <div style="margin-top: 15px">滑块高级属性</div>
+  <br>
+  <s-slider
+    v-model="sliderTo"
+    :step="10"
+    show-stops
+  />
+  <br>
+  <div style="margin-top: 15px">滑块高级属性</div>
+  <br>
+  <s-slider
+    v-model="sliderThree"
+    show-input
+    :step="10"
+  />
 </template>
 <script>
 import SButton from '@/components/SButton/SButton'
@@ -389,7 +405,9 @@ export default {
       groupValue: '',
       multipleArr: [],
       checked: false,
-      sliderNum: 20
+      sliderNum: 20,
+      sliderTo: 30,
+      sliderThree: 10
     }
   },
   methods: {

@@ -22,7 +22,7 @@
       @mouseenter="operateEnter(1)"
       @mouseleave="operateLeave(1)"
     >
-      +
+      <s-icon icon="icon-add1" />
     </span>
     <input
       type="number"
@@ -56,7 +56,7 @@
       @mouseenter="operateEnter(2)"
       @mouseleave="operateLeave(2)"
     >
-      -
+      <s-icon icon="icon-minus" />
     </span>
     <span
       v-if="showWay"
@@ -99,6 +99,7 @@
 <script>
 import { defineComponent, computed, ref } from 'vue'
 import './SInputNumber.css'
+import SIcon from '@/components/SIcon/SIcon'
 
 export default defineComponent({
   name: 'SInputNumber',
@@ -129,8 +130,11 @@ export default defineComponent({
     },
     step: {
       type: Number,
-      default: null
+      default: 1
     }
+  },
+  components: {
+    SIcon
   },
   setup (props) {
     const divBorder = ref(false)
@@ -160,6 +164,8 @@ export default defineComponent({
     function isAdd (num) {
       if (props.max) {
         return num <= props.max
+      } else {
+        return true
       }
     }
     function confirmAdd (_that) {
@@ -171,12 +177,13 @@ export default defineComponent({
     }
     function addOperate () {
       const that = this
-      const add = isAdd(props.modelValue + 1)
+      const add = isAdd(props.modelValue + props.step)
+      console.log(add)
       if (!add) {
         return
       }
       if (props.max !== null || props.min !== null) {
-        limitMax.value = (props.max && props.modelValue + 1 === props.max)
+        limitMax.value = (props.max && props.modelValue + props.step === props.max)
         limitMin.value = !(props.max + 1 > props.min)
       }
       if (!props.disabled) {
@@ -190,6 +197,8 @@ export default defineComponent({
     function isReduce (num) {
       if (props.min !== null) {
         return num >= props.min
+      } else {
+        return true
       }
     }
     function confirmReduce (_that) {

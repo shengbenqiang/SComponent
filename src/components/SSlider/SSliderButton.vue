@@ -64,13 +64,13 @@ export default defineComponent({
     const newPosition = ref(null)
     const positionNum = ref(undefined)
     const sliderData = inject('sliderValue', undefined)
-    const { mini, max, slider, sliderSize, formatTooltip } = sliderData
+    const { mini, max, slider, sliderSize, formatTooltip, step } = sliderData
 
     const currentPosition = computed(() => {
       if (formatTooltip.value) {
-        return `${Math.floor((((props.modelValue - mini.value) / (max.value - mini.value)) * 100) * 100) / 100}%`
+        return `${Math.floor((((props.modelValue - mini.value) / (max.value - mini.value)) * 100) * 100) / 100}`
       } else {
-        return `${((props.modelValue - mini.value) / (max.value - mini.value)) * 100}%`
+        return `${Math.round(((props.modelValue - mini.value) / (max.value - mini.value)) * 100)}`
       }
     })
 
@@ -91,8 +91,12 @@ export default defineComponent({
       if (newLeft > sliderSize.value) {
         newLeft = sliderSize.value
       }
-      positionNum.value = (newLeft / sliderSize.value) * 100
-      setPosition(positionNum.value)
+      const stepLength = sliderSize.value / step.value
+      const takePercent = newLeft / step.value
+      positionNum.value = (takePercent / stepLength) * 100
+      if (Math.round(positionNum.value) % step.value === 0) {
+        setPosition(positionNum.value)
+      }
     }
 
     const handleBallUp = () => {
@@ -103,10 +107,17 @@ export default defineComponent({
     }
 
     const setPosition = (percent) => {
+      if (percent > max.value || percent < mini.value) { return }
       if (props.vertical) {
         console.log('竖向')
       } else {
-        newPosition.value = { left: `${percent}%` }
+        if (percent > max.value) {
+          newPosition.value = { left: `${max.value}%` }
+        } else if (percent < mini.value) {
+          newPosition.value = { left: `${mini.value}%` }
+        } else {
+          newPosition.value = { left: `${percent}%` }
+        }
       }
       emit('update:modelValue', percent)
     }

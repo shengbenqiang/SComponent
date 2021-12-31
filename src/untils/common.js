@@ -25,3 +25,19 @@ export const on = (eventName, eventFun) => {
 export const off = (eventName, eventFun) => {
   document.removeEventListener(eventName, eventFun)
 }
+
+export const IntegerForensics = (num) => {
+  let newNum
+  if (num % 10 >= 5) {
+    newNum = (parseInt((num % 100) / 10) + 1) * 10
+  } else if (num % 10 <= 4 && num % 10 >= 1) {
+    newNum = parseInt((num % 100) / 10) * 10
+  } else if (num % 10 === 0) {
+    return num
+  }
+  return newNum
+}
+
+export const toIntNum = (num) => {
+  return Number(num.toFixed(0))
+}
