@@ -178,7 +178,6 @@ export default defineComponent({
     function addOperate () {
       const that = this
       const add = isAdd(props.modelValue + props.step)
-      console.log(add)
       if (!add) {
         return
       }

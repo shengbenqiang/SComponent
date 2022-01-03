@@ -238,6 +238,8 @@
     v-model="sliderThree"
     show-input
     :step="10"
+    :mini="1"
+    :max="200"
   />
 </template>
 <script>

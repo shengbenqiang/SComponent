@@ -32,7 +32,7 @@
 import { defineComponent, ref, inject, computed } from 'vue'
 import './SSliderButton.css'
 import SPopper from '@/components/SPopper/SPopper'
-import { on, off } from '@/untils/common'
+import { on, off, toIntNum, IntegerForensics } from '@/untils/common'
 
 export default defineComponent({
   name: 'SSliderButton',
@@ -62,7 +62,7 @@ export default defineComponent({
     const sliderButton = ref(null)
     const shiftX = ref(0)
     const newPosition = ref(null)
-    const positionNum = ref(undefined)
+    // const positionNum = ref(undefined)
     const sliderData = inject('sliderValue', undefined)
     const { mini, max, slider, sliderSize, formatTooltip, step } = sliderData
 
@@ -70,7 +70,7 @@ export default defineComponent({
       if (formatTooltip.value) {
         return `${Math.floor((((props.modelValue - mini.value) / (max.value - mini.value)) * 100) * 100) / 100}`
       } else {
-        return `${Math.round(((props.modelValue - mini.value) / (max.value - mini.value)) * 100)}`
+        return `${Math.round((props.modelValue / 100) * max.value)}`
       }
     })
 
@@ -84,18 +84,26 @@ export default defineComponent({
     }
 
     const handleBallMove = (event) => {
-      let newLeft = event.clientX - shiftX.value - slider.value.getBoundingClientRect().left
+      let percentNum
+      const newLeft = event.clientX - shiftX.value - slider.value.getBoundingClientRect().left
       if (newLeft < 0) {
-        newLeft = 0
+        return setPosition(0)
       }
       if (newLeft > sliderSize.value) {
-        newLeft = sliderSize.value
+        // newLeft = sliderSize.value
+        return setPosition(100)
       }
-      const stepLength = sliderSize.value / step.value
-      const takePercent = newLeft / step.value
-      positionNum.value = (takePercent / stepLength) * 100
-      if (Math.round(positionNum.value) % step.value === 0) {
-        setPosition(positionNum.value)
+      const stepTake = toIntNum((max.value - mini.value) / sliderSize.value, 2)
+      percentNum = toIntNum(newLeft * stepTake / (max.value - mini.value), 2) * 100
+      if (step.value !== 1) {
+        const tempNum = Math.round(toIntNum(newLeft * stepTake / (max.value - mini.value), 2) * (max.value - mini.value))
+        if (!Number.isInteger(tempNum / step.value)) {
+          const relate = IntegerForensics(tempNum, step.value)
+          percentNum = Math.round(toIntNum(relate / (max.value - mini.value), 2) * 100)
+        }
+      }
+      if (Number.isInteger((Math.round((percentNum / 100) * max.value)) / step.value)) {
+        setPosition(percentNum)
       }
     }
 
@@ -107,14 +115,15 @@ export default defineComponent({
     }
 
     const setPosition = (percent) => {
-      if (percent > max.value || percent < mini.value) { return }
+      // if (percent > max.value || percent < mini.value) { return }
       if (props.vertical) {
         console.log('竖向')
       } else {
-        if (percent > max.value) {
-          newPosition.value = { left: `${max.value}%` }
-        } else if (percent < mini.value) {
-          newPosition.value = { left: `${mini.value}%` }
+        if (percent >= 100) {
+          newPosition.value = { left: '100%' }
+        } else if (percent <= 0) {
+          console.log('执行了')
+          newPosition.value = { left: '0%' }
         } else {
           newPosition.value = { left: `${percent}%` }
         }

@@ -66,7 +66,7 @@ import { defineComponent, ref, provide, toRefs, watch, onMounted, nextTick } fro
 import './SSlider.css'
 import SSliderButton from './SSliderButton'
 import SInputNumber from '@/components/SInputNumber/SInputNumber'
-import { IntegerForensics, toIntNum } from '@/untils/common'
+import { toIntNum, IntegerForensics } from '@/untils/common'
 
 export default defineComponent({
   name: 'SSlider',
@@ -118,6 +118,10 @@ export default defineComponent({
     inputSize: {
       type: String,
       default: 'medium'
+    },
+    range: {
+      type: Boolean,
+      default: false
     }
   },
   setup (props, { emit }) {
@@ -158,20 +162,21 @@ export default defineComponent({
         if (props.formatTooltip) {
           firstButton.value.setPosition(Math.floor((((event.clientX - sliderOffsetLeft) / sliderSize.value) * 100) * 100) / 100)
         } else {
-          const stepLength = Math.round(sliderSize.value / props.step)
-          const takePercent = Math.round((event.clientX - sliderOffsetLeft) / props.step)
-          let percentNum
-          if (props.step === 1) {
-            percentNum = Math.round((takePercent / stepLength) * 100)
-          } else {
-            percentNum = IntegerForensics(Math.round((takePercent / stepLength) * 100))
+          const stepTake = toIntNum((props.max - props.mini) / sliderSize.value, 2)
+          const takePercent = event.clientX - sliderOffsetLeft
+          let percentNum = toIntNum(takePercent * stepTake / (props.max - props.mini), 2) * 100
+          if (props.step !== 1) {
+            const tempNum = Math.round(toIntNum(takePercent * stepTake / (props.max - props.mini), 2) * (props.max - props.mini))
+            if (!Number.isInteger(tempNum / props.step)) {
+              const relate = IntegerForensics(tempNum, props.step)
+              percentNum = toIntNum(relate / (props.max - props.mini), 2) * 100
+            }
           }
-          if (percentNum > props.max) {
-            percentNum = props.max
-          } else if (percentNum < props.mini) {
-            percentNum = props.mini
+          if (percentNum >= 100) {
+            percentNum = 100
+          } else if (percentNum < 0) {
+            percentNum = 0
           }
-          console.log(percentNum)
           firstButton.value.setPosition(percentNum)
         }
       }
@@ -202,14 +207,15 @@ export default defineComponent({
 
     watch(firstValue, (val) => {
       selectLine.value = { width: `${val}%` }
-      // console.log(Number(val.toFixed(0)))
-      inputNum.value = toIntNum(val)
+      console.log()
+      inputNum.value = Math.round((val / 100) * props.max)
       emit('update:modelValue', val)
     })
 
     watch(inputNum, (val) => {
-      firstValue.value = val
-      firstButton.value.setPosition(val)
+      // console.log((val / props.max) * 100)
+      firstValue.value = Math.round((val / props.max) * 100)
+      firstButton.value.setPosition(Math.round((val / props.max) * 100))
     })
 
     onMounted(async () => {

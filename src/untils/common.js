@@ -26,18 +26,31 @@ export const off = (eventName, eventFun) => {
   document.removeEventListener(eventName, eventFun)
 }
 
-export const IntegerForensics = (num) => {
-  let newNum
-  if (num % 10 >= 5) {
-    newNum = (parseInt((num % 100) / 10) + 1) * 10
-  } else if (num % 10 <= 4 && num % 10 >= 1) {
-    newNum = parseInt((num % 100) / 10) * 10
-  } else if (num % 10 === 0) {
-    return num
+export const IntegerForensics = (num, step) => {
+  const numArr = (num / step).toString().split('.')
+  if (num < 10) {
+    if (num < step / 2) {
+      return 0
+    } else if (num >= step / 2) {
+      return step
+    }
   }
-  return newNum
+  if (num >= 10 && num < 100) {
+    if (numArr[1] < step / 2) {
+      return Number(numArr[0]) * step
+    } else if (numArr[1] >= step / 2) {
+      return (Number(numArr[0]) + 1) * step
+    }
+  }
+  if (num >= 100) {
+    if (numArr[1] < step / 2) {
+      return Number(numArr[0]) * step
+    } else if (numArr[1] >= step / 2) {
+      return (Number(numArr[0]) + 1) * step
+    }
+  }
 }
 
-export const toIntNum = (num) => {
-  return Number(num.toFixed(0))
+export const toIntNum = (num, limit) => {
+  return Number(num.toFixed(limit))
 }
