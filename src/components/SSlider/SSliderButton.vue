@@ -85,7 +85,7 @@ export default defineComponent({
 
     const handleBallMove = (event) => {
       let percentNum
-      const newLeft = event.clientX - shiftX.value - slider.value.getBoundingClientRect().left
+      const newLeft = event.clientX - shiftX.value - (slider.value.getBoundingClientRect().left / 2)
       if (newLeft < 0) {
         return setPosition(0)
       }
@@ -115,14 +115,13 @@ export default defineComponent({
     }
 
     const setPosition = (percent) => {
-      // if (percent > max.value || percent < mini.value) { return }
+      console.log(2)
       if (props.vertical) {
         console.log('竖向')
       } else {
         if (percent >= 100) {
           newPosition.value = { left: '100%' }
         } else if (percent <= 0) {
-          console.log('执行了')
           newPosition.value = { left: '0%' }
         } else {
           newPosition.value = { left: `${percent}%` }

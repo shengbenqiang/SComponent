@@ -141,11 +141,14 @@ export default defineComponent({
     }
 
     const updateFirst = (val) => {
-      if (props.formatTooltip) {
-        firstValue.value = Math.floor(val * 100) / 100
-      } else {
-        firstValue.value = val
-      }
+      // if (props.formatTooltip) {
+      //   console.log(Math.floor(val * 100) / 100)
+      //   firstValue.value = Math.floor(val * 100) / 100
+      // } else {
+      //   firstValue.value = val
+      // }
+      console.log(val)
+      firstValue.value = val
     }
 
     const lineClick = (event) => {
@@ -160,6 +163,7 @@ export default defineComponent({
       } else {
         const sliderOffsetLeft = slider.value.getBoundingClientRect().left
         if (props.formatTooltip) {
+          console.log(1)
           firstButton.value.setPosition(Math.floor((((event.clientX - sliderOffsetLeft) / sliderSize.value) * 100) * 100) / 100)
         } else {
           const stepTake = toIntNum((props.max - props.mini) / sliderSize.value, 2)
@@ -207,15 +211,19 @@ export default defineComponent({
 
     watch(firstValue, (val) => {
       selectLine.value = { width: `${val}%` }
-      console.log()
-      inputNum.value = Math.round((val / 100) * props.max)
+      if (props.formatTooltip) {
+        inputNum.value = Math.floor((val / 100) * props.max)
+      } else {
+        inputNum.value = Math.round((val / 100) * props.max)
+      }
       emit('update:modelValue', val)
     })
 
     watch(inputNum, (val) => {
-      // console.log((val / props.max) * 100)
-      firstValue.value = Math.round((val / props.max) * 100)
-      firstButton.value.setPosition(Math.round((val / props.max) * 100))
+      if (!props.formatTooltip) {
+        firstValue.value = Math.round((val / props.max) * 100)
+        firstButton.value.setPosition(Math.round((val / props.max) * 100))
+      }
     })
 
     onMounted(async () => {
