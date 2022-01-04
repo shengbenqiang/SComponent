@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3032357 */
-  src: url('iconfont.woff2?t=1639977488937') format('woff2'),
-       url('iconfont.woff?t=1639977488937') format('woff'),
-       url('iconfont.ttf?t=1639977488937') format('truetype');
+  src: url('iconfont.woff2?t=1641282309237') format('woff2'),
+       url('iconfont.woff?t=1641282309237') format('woff'),
+       url('iconfont.ttf?t=1641282309237') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,54 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-cuowu1:before {
+  content: "\e621";
+}
+
+.icon-gantanhao1:before {
+  content: "\e620";
+}
+
+.icon-success2:before {
+  content: "\e61f";
+}
+
+.icon-info1:before {
+  content: "\e601";
+}
+
+.icon-info:before {
+  content: "\e887";
+}
+
+.icon-chenggong:before {
+  content: "\e8c3";
+}
+
+.icon-a-cuowu1:before {
+  content: "\e63e";
+}
+
+.icon-warning2:before {
+  content: "\e888";
+}
+
+.icon-cuowu:before {
+  content: "\e628";
+}
+
+.icon-0-58:before {
+  content: "\e61e";
+}
+
+.icon-gantanhao:before {
+  content: "\e886";
+}
+
+.icon-i:before {
+  content: "\e885";
 }
 
 .icon-RectangleCopy29:before {

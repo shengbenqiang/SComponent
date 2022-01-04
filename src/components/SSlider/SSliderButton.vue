@@ -62,14 +62,16 @@ export default defineComponent({
     const sliderButton = ref(null)
     const shiftX = ref(0)
     const newPosition = ref(null)
-    // const positionNum = ref(undefined)
     const sliderData = inject('sliderValue', undefined)
-    const { mini, max, slider, sliderSize, formatTooltip, step } = sliderData
+    const { mini, max, slider, sliderSize, formatTooltip, step, range } = sliderData
 
     const currentPosition = computed(() => {
       if (formatTooltip.value) {
         return `${Math.floor((((props.modelValue - mini.value) / (max.value - mini.value)) * 100) * 100) / 100}`
       } else {
+        if (range.value) {
+          console.log(Math.round((props.modelValue / 100) * max.value))
+        }
         return `${Math.round((props.modelValue / 100) * max.value)}`
       }
     })
@@ -85,16 +87,26 @@ export default defineComponent({
 
     const handleBallMove = (event) => {
       let percentNum
-      const newLeft = event.clientX - shiftX.value - (slider.value.getBoundingClientRect().left / 2)
+      // const newLeft = event.clientX - shiftX.value - (slider.value.getBoundingClientRect().left / 2)
+      const newLeft = event.clientX - shiftX.value - (slider.value.getBoundingClientRect().left + 2)
       if (newLeft < 0) {
         return setPosition(0)
       }
       if (newLeft > sliderSize.value) {
-        // newLeft = sliderSize.value
         return setPosition(100)
       }
       const stepTake = toIntNum((max.value - mini.value) / sliderSize.value, 2)
-      percentNum = toIntNum(newLeft * stepTake / (max.value - mini.value), 2) * 100
+      if (formatTooltip.value) {
+        if (toIntNum((newLeft * stepTake / (max.value - mini.value)) * 100, 2) >= 100) {
+          percentNum = 100
+        } else if (toIntNum((newLeft * stepTake / (max.value - mini.value)) * 100, 2) <= 0) {
+          percentNum = 0
+        } else {
+          percentNum = toIntNum((newLeft * stepTake / (max.value - mini.value)) * 100, 2)
+        }
+      } else {
+        percentNum = toIntNum(newLeft * stepTake / (max.value - mini.value), 2) * 100
+      }
       if (step.value !== 1) {
         const tempNum = Math.round(toIntNum(newLeft * stepTake / (max.value - mini.value), 2) * (max.value - mini.value))
         if (!Number.isInteger(tempNum / step.value)) {
@@ -102,7 +114,9 @@ export default defineComponent({
           percentNum = Math.round(toIntNum(relate / (max.value - mini.value), 2) * 100)
         }
       }
-      if (Number.isInteger((Math.round((percentNum / 100) * max.value)) / step.value)) {
+      if (Number.isInteger((Math.round((percentNum / 100) * max.value)) / step.value) && !formatTooltip.value) {
+        setPosition(percentNum)
+      } else {
         setPosition(percentNum)
       }
     }
@@ -115,7 +129,6 @@ export default defineComponent({
     }
 
     const setPosition = (percent) => {
-      console.log(2)
       if (props.vertical) {
         console.log('竖向')
       } else {

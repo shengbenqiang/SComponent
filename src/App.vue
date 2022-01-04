@@ -217,11 +217,10 @@
   <br>
   <div style="margin-top: 15px">滑块</div>
   <br>
-  <!-- disabled -->
+  <!-- disabled :format-tooltip="true"-->
   <s-slider
     v-model="sliderNum"
     :show-tooltip="true"
-    :format-tooltip="true"
   />
   <br>
   <div style="margin-top: 15px">滑块高级属性</div>
@@ -241,6 +240,33 @@
     :mini="1"
     :max="200"
   />
+  <br>
+  <div>滑块高级属性</div>
+  <br>
+  <s-slider
+    v-model="sliderFour"
+    show-stops
+    :max="10"
+    range
+  />
+  <br>
+  <div>提示</div>
+  <br>
+  <s-alter title="提示" show-icon description="这是我自己随便写的介绍内容"></s-alter>
+  <br>
+  <s-alter title="提示" type="success" show-icon description="这是我自己随便写的介绍内容"></s-alter>
+  <br>
+  <s-alter title="提示" type="warning" show-icon center></s-alter>
+  <br>
+  <s-alter title="提示" type="error" show-icon></s-alter>
+  <br>
+  <s-alter title="提示" effect="dark" closable show-icon></s-alter>
+  <br>
+  <s-alter title="提示" type="success" effect="dark" closable show-icon></s-alter>
+  <br>
+  <s-alter title="提示" type="warning" effect="dark"  close-text="关闭" show-icon></s-alter>
+  <br>
+  <s-alter title="提示" type="error" effect="dark" closable show-icon></s-alter>
 </template>
 <script>
 import SButton from '@/components/SButton/SButton'
@@ -260,6 +286,7 @@ import SOptionGroup from '@/components/SOptionGroup/SOptionGroup'
 import STag from '@/components/STag/STag'
 import SCheckTag from '@/components/SCheckTag/SCheckTag'
 import SSlider from '@/components/SSlider/SSlider'
+import SAlter from '@/components/SAlter/SAlter'
 
 export default {
   name: 'App',
@@ -280,7 +307,8 @@ export default {
     SOptionGroup,
     STag,
     SCheckTag,
-    SSlider
+    SSlider,
+    SAlter
   },
   watch: {
     myInput: {
@@ -409,7 +437,8 @@ export default {
       checked: false,
       sliderNum: 20,
       sliderTo: 30,
-      sliderThree: 10
+      sliderThree: 10,
+      sliderFour: [4, 8]
     }
   },
   methods: {
@@ -459,7 +488,7 @@ html, body{
 body {
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 2000px;
+  height: 3000px;
 }
 body::-webkit-scrollbar {
   display: none;

@@ -1,0 +1,79 @@
+.s-alter-base-div {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 3px;
+    padding: 8px 16px;
+    position: relative;
+    /*border: 1px solid #cccccc;*/
+}
+.s-alter-success-type {
+    background-color: #f0f9eb;
+    color: #67c23a;
+}
+.s-alter-warning-type {
+    background-color: #fdf6ec;
+    color: #e6a23c;
+}
+.s-alter-info-type {
+    background-color: #f4f4f5;
+    color: #909399;
+}
+.s-alter-error-type {
+    background-color: #fef0f0;
+    color: #f56c6c;
+}
+.s-alter-dark-success-type {
+    background-color: #67c23a;
+    color: #ffffff;
+}
+.s-alter-dark-warning-type {
+    background-color: #e6a23c;
+    color: #ffffff;
+}
+.s-alter-dark-info-type {
+    background-color: #f56c6c;
+    color: #ffffff;
+}
+.s-alter-dark-error-type {
+    background-color: #909399;
+    color: #ffffff;
+}
+.s-alter-close-div {
+    position: absolute;
+    right: 15px;
+    top: 8px;
+    color: #C2C6D1;
+    cursor: pointer;
+}
+.s-alter-icon-base {
+    width: 1em;
+    height: 1em;
+}
+.s-alter-type-icon {
+    margin-right: 10px;
+}
+.s-alter-success-icon-bg{
+    background-color: #67c23a;
+}
+.s-alter-warning-icon-bg{
+    background-color: #e6a23c;
+}
+.s-alter-info-icon-bg{
+    background-color: #909399;
+}
+.s-alter-error-icon-bg{
+    background-color: #f56c6c;
+}
+.s-alter-text-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.s-alter-des-con {
+    width: 100%;
+    margin-top: 5px;
+    white-space: normal;
+}
+.s-alter-content {
+    display: inline-flex;
+}
