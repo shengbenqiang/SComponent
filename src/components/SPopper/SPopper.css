@@ -1,7 +1,6 @@
 .s-popper-base-sty {
     display: inline-block;
     cursor: pointer;
-    transform: none;
 }
 .s-popper-show-base {
     border-radius: 4px;
@@ -70,6 +69,7 @@
 }
 
 .s-popper-show-base[data-popper-placement^='left'] > #arrow {
+    right: -4px;
     right: -4px;
 }
 .s-popper-show-base[data-popper-placement^='left'][data-light^='light'] > #arrow::before {

@@ -1,9 +1,18 @@
 .s-slider-button-con {
     width: 36px;
     height: 36px;
-    /*border: 1px solid #cccccc;*/
     position: absolute;
     top: -16px;
+    transform: translate(-50%);
+    text-align: center;
+    line-height: normal;
+    outline: none;
+    user-select: none;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 .s-slider-button-ball {
     width: 20px;
@@ -12,21 +21,7 @@
     border: 2px solid #409EFF;
     border-radius: 50%;
     background-color: #ffffff;
-}
-.s-slider-button-popper-con {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-.s-slider-button-popper-room {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    left: -19px;
+    transition: width 1s, height 1s;
 }
 .s-slider-button-ball-dis {
     border-color: #C0C4CC;

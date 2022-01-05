@@ -9,6 +9,7 @@
     <s-popper
       effect="light"
       :visible="showPopper"
+      strategy="fixed"
       placement="bottom"
     >
       <template #content>

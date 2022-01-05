@@ -2,29 +2,25 @@
   <div
     ref="sliderButton"
     :class="[
-      's-slider-button-con'
+      's-slider-button-con',
+      isDrag ? 's-slider-button-ball-drag' : 's-slider-button-ball-un-drag'
     ]"
     :style="newPosition"
+    @mousedown.stop.prevent="handleBallDown"
   >
-    <div :class="['s-slider-button-popper-con']">
-      <div :class="['s-slider-button-popper-room']">
-        <s-popper
-          :content="currentPosition"
-          :visible="showTooltip ? undefined : showTooltip"
-          placement="top"
-        >
-          <div
-            id="ball"
-            :class="[
-              's-slider-button-ball',
-              disabled ? 's-slider-button-ball-dis' : 's-slider-button-ball-oth',
-              isDrag ? 's-slider-button-ball-drag' : 's-slider-button-ball-un-drag'
-            ]"
-            @mousedown.stop.prevent="handleBallDown"
-          ></div>
-        </s-popper>
-      </div>
-    </div>
+    <s-popper
+      :content="currentPosition"
+      :visible="showTooltip ? undefined : showTooltip"
+      placement="top"
+    >
+      <div
+        id="ball"
+        :class="[
+          's-slider-button-ball',
+          disabled ? 's-slider-button-ball-dis' : 's-slider-button-ball-oth'
+        ]"
+      ></div>
+    </s-popper>
   </div>
 </template>
 
@@ -63,15 +59,12 @@ export default defineComponent({
     const shiftX = ref(0)
     const newPosition = ref(null)
     const sliderData = inject('sliderValue', undefined)
-    const { mini, max, slider, sliderSize, formatTooltip, step, range } = sliderData
+    const { mini, max, slider, sliderSize, formatTooltip, step } = sliderData
 
     const currentPosition = computed(() => {
       if (formatTooltip.value) {
         return `${Math.floor((((props.modelValue - mini.value) / (max.value - mini.value)) * 100) * 100) / 100}`
       } else {
-        if (range.value) {
-          console.log(Math.round((props.modelValue / 100) * max.value))
-        }
         return `${Math.round((props.modelValue / 100) * max.value)}`
       }
     })
@@ -87,7 +80,6 @@ export default defineComponent({
 
     const handleBallMove = (event) => {
       let percentNum
-      // const newLeft = event.clientX - shiftX.value - (slider.value.getBoundingClientRect().left / 2)
       const newLeft = event.clientX - shiftX.value - (slider.value.getBoundingClientRect().left + 2)
       if (newLeft < 0) {
         return setPosition(0)

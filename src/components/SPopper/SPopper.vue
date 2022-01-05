@@ -4,8 +4,10 @@
       's-popper-base-sty'
     ]"
   >
-    <div :id="slotDomId">
-      <slot />
+    <div>
+      <div :id="slotDomId">
+        <slot />
+      </div>
     </div>
     <div
       :id="showDomId"
@@ -49,7 +51,7 @@ export default defineComponent({
     // 'absolute' | 'fixed'
     strategy: {
       type: String,
-      default: 'fixed'
+      default: 'absolute'
     },
     content: {
       type: String,
