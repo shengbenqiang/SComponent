@@ -17,7 +17,8 @@
       backgroundColor: myBg ? myBg : styleObj.backgroundColor ? styleObj.backgroundColor : ''
     }"
   >
-    <img v-show="icon" :src="icon" alt="" class="SBtnImg">
+<!--    <img v-show="icon" :src="icon" alt="" class="SBtnImg">-->
+    <s-icon v-show="icon" :icon="icon" :size="19" class="SBtnImg" />
     <slot />
   </button>
 </template>
@@ -25,6 +26,8 @@
 <script>
 import { defineComponent, computed, watch, ref } from 'vue'
 import './SButton.css'
+import SIcon from '@/components/SIcon/SIcon'
+
 export default defineComponent({
   name: 'SButton',
   props: {
@@ -76,6 +79,9 @@ export default defineComponent({
       type: Boolean,
       default: false
     }
+  },
+  components: {
+    SIcon
   },
   setup (props) {
     const typeClass = ref(null)

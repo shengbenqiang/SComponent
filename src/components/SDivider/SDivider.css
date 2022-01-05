@@ -1,0 +1,38 @@
+.s-divider-con-horizontal {
+    width: 100%;
+    height: 1px;
+    border-top: 1px #cccccc;
+    margin: 24px 0;
+    display: block;
+    position: relative;
+}
+
+.s-divider-con-vertical {
+    width: 1px;
+    height: 1em;
+    position: relative;
+    border-left: 1px #cccccc;
+    margin: 0 8px;
+    display: inline-block;
+}
+.s-divider-text-con {
+    box-sizing: border-box;
+    font-weight: 500;
+    color: #303133;
+    font-size: 14px;
+    padding: 0 20px;
+    background-color: #ffffff;
+    position: absolute;
+}
+.s-divider-text-left {
+    left: 20px;
+    transform: translateY(-50%);
+}
+.s-divider-text-center {
+    left: 50%;
+    transform: translate(-50%) translateY(-50%);
+}
+.s-divider-text-right {
+    right: 20px;
+    transform: translateY(-50%);
+}

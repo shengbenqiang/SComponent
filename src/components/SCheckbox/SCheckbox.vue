@@ -17,10 +17,12 @@
         :class="[
           's-checkbox-my-sty',
           isFocus ? 's-checkbox-focus' : '',
-          isChecked ? 's-checkbox-check fa fa-check' : '',
+          isChecked ? 's-checkbox-check' : '',
           disabled ? 's-check-dis-bg' : ''
         ]"
-      ></span>
+      >
+        <s-icon v-show="isChecked" icon="icon-select-bold" />
+      </span>
       <input
         :class="[
           's-checkbox-input-base'
@@ -49,6 +51,7 @@
 import { defineComponent } from 'vue'
 import { useCheckbox } from '@/untils/checkbox'
 import './SCheckbox.css'
+import SIcon from '@/components/SIcon/SIcon'
 
 export default defineComponent({
   name: 'SCheckbox',
@@ -85,6 +88,9 @@ export default defineComponent({
       type: String,
       default: ''
     }
+  },
+  components: {
+    SIcon
   },
   setup (props) {
     return useCheckbox(props)

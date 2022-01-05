@@ -128,6 +128,7 @@
     justify-content: center;
     overflow: hidden;
     box-sizing: border-box;
+    padding-top: 2px;
     white-space: nowrap;
 }
 /* 半角样式 */
@@ -135,9 +136,9 @@
     border-radius: calc(100vh / 2);
 }
 .SBtnImg {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin: 5px;
+    margin-right: 5px;
+    box-sizing: border-box;
+    padding-bottom: 2px;
 }
 .allCir {
     border-radius: 100%;

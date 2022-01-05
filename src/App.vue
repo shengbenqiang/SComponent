@@ -4,6 +4,7 @@
   <s-button
     type="danger"
     plain
+    icon="icon-usercenter"
   >
     测试按钮
   </s-button>
@@ -21,10 +22,9 @@
     v-model="myInput"
     max-length="10"
     @blur="handleBlur"
+    left-icon="icon-user1"
+    right-icon="icon-RectangleCopy43"
   >
-    <template #rightAppend>
-      <SButton @click="clickTest" :icon="leftImg" :style-obj="testBtnSty"></SButton>
-    </template>
   </s-input>
   <br>
   <div>数字输入框</div>
@@ -84,8 +84,8 @@
     v-model="switchValue"
     active-color="#13ce66"
     in-active-color="#ff4949"
-    in-active-icon="fa-times"
-    active-icon="fa-check"
+    in-active-icon="icon-close"
+    active-icon="icon-select"
     active-value="100"
     in-active-value="0"
     @change="appSwitch"
@@ -267,6 +267,28 @@
   <s-alter title="提示" type="warning" effect="dark"  close-text="关闭" show-icon></s-alter>
   <br>
   <s-alter title="提示" type="error" effect="dark" closable show-icon></s-alter>
+  <br>
+  <div>分割线</div>
+  <br>
+  <div>
+    <span
+    >I sit at my window this morning where the world like a passer-by stops
+      for a moment, nods to me and goes.</span
+    >
+    <s-divider border-exhibit="dashed" content-position="center">Rabindranath Tagore</s-divider>
+    <span
+    >There little thoughts are the rustle of leaves; they have their whisper
+      of joy in my mind.</span
+    >
+  </div>
+  <br>
+  <div>
+    <span>Rain</span>
+    <s-divider direction="vertical" border-exhibit="dashed"></s-divider>
+    <span>Home</span>
+    <s-divider direction="vertical"></s-divider>
+    <span>Grass</span>
+  </div>
 </template>
 <script>
 import SButton from '@/components/SButton/SButton'
@@ -287,6 +309,7 @@ import STag from '@/components/STag/STag'
 import SCheckTag from '@/components/SCheckTag/SCheckTag'
 import SSlider from '@/components/SSlider/SSlider'
 import SAlter from '@/components/SAlter/SAlter'
+import SDivider from '@/components/SDivider/SDivider'
 
 export default {
   name: 'App',
@@ -308,7 +331,8 @@ export default {
     STag,
     SCheckTag,
     SSlider,
-    SAlter
+    SAlter,
+    SDivider
   },
   watch: {
     myInput: {

@@ -17,11 +17,11 @@
       v-if="inActiveIcon && !inlinePrompt"
       :class="[
         's-switch-wai-left',
-        'fa',
-        inActiveIcon,
         checked ? '' : 's-switch-text-color'
       ]"
-    ></span>
+    >
+      <s-icon :icon="inActiveIcon" :size="18" />
+    </span>
     <div
       :class="[
       's-switch-base-sty',
@@ -33,11 +33,9 @@
       @click.prevent="switchValue"
     >
       <div v-if="disabled" :class="['s-switch-disabled']"></div>
-      <i :class="[
-        'fa fa-circle',
-        's-switch-circle',
-        checked ? 's-switch-circle-tran-left' : 's-switch-circle-tran-right'
-      ]"></i>
+      <div :class="[checked ? 's-switch-circle-tran-left' : 's-switch-circle-tran-right']">
+        <s-icon icon="icon-circle" :size="21" :class="['s-switch-circle']" />
+      </div>
       <span
         v-if="inActiveText && activeText && inlinePrompt && checked"
         :class="[
@@ -98,17 +96,18 @@
       v-if="activeIcon && !inlinePrompt"
       :class="[
         's-switch-wai-right',
-        'fa',
-        activeIcon,
         checked ? 's-switch-text-color' : ''
       ]"
-    ></span>
+    >
+      <s-icon :icon="activeIcon" :size="18" />
+    </span>
   </div>
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue'
 import './SSwitch.css'
+import SIcon from '@/components/SIcon/SIcon'
 
 export default defineComponent({
   name: 'SSwitch',
@@ -167,6 +166,9 @@ export default defineComponent({
       type: String,
       default: ''
     }
+  },
+  components: {
+    SIcon
   },
   setup (props, { emit }) {
     const switchRef = ref(null)

@@ -61,7 +61,6 @@
     <span
       v-if="showWay"
       :class="[
-        sizeSty,
         operateWidth,
         's-input-way-base'
       ]"
@@ -73,25 +72,27 @@
           rightTop ? 's-input-right-hover' : '',
           limitMax ? 's-input-equal' : '',
           's-input-way-top-base',
-          's-input-way-common',
-          'fa fa-angle-up fa-lg'
+          's-input-way-common'
         ]"
         @click="addOperate"
         @mouseenter="operateRightEnter(1)"
         @mouseleave="operateRightLeave(1)"
-      />
+      >
+        <s-icon icon="icon-arrow-up-bold" />
+      </div>
       <div
         :class="[
           rightBto ? 's-input-right-hover' : '',
           limitMin ? 's-input-equal' : '',
           's-input-way-bot-base',
-          's-input-way-common',
-          'fa fa-angle-down'
+          's-input-way-common'
         ]"
         @click="reduceOperate"
         @mouseenter="operateRightEnter(2)"
         @mouseleave="operateRightLeave(2)"
-      />
+      >
+        <s-icon icon="icon-arrow-down-bold" />
+      </div>
     </span>
   </div>
 </template>

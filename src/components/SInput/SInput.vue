@@ -62,7 +62,7 @@
           's-input-icon-base'
         ]"
         >
-        <img :src="rightIcon" alt=""/>
+        <s-icon :icon="rightIcon" :size="16" />
       </span>
       <span
           v-if="leftIcon"
@@ -72,7 +72,7 @@
           's-input-icon-base'
         ]"
         >
-        <img :src="leftIcon" alt=""/>
+        <s-icon :icon="leftIcon" :size="16" />
       </span>
     </div>
     <span
@@ -90,6 +90,7 @@
 <script>
 import { defineComponent, computed, ref } from 'vue'
 import './SInput.css'
+import SIcon from '@/components/SIcon/SIcon'
 
 export default defineComponent({
   name: 'SInput',
@@ -135,6 +136,9 @@ export default defineComponent({
       type: String,
       default: ''
     }
+  },
+  components: {
+    SIcon
   },
   setup (props, { slots }) {
     const showClear = ref(false)

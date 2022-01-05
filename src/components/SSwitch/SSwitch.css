@@ -31,14 +31,15 @@
 }
 .s-switch-circle {
     color: #ffffff;
-    font-size: 17px;
     transition: transform 1s;
 }
 .s-switch-circle-tran-left {
-    transform: translateX(21px);
+    transition: transform 1s;
+    transform: translateX(16px) translateY(-1px);
 }
 .s-switch-circle-tran-right {
-    transform: translateX(0);
+    transition: transform 1s;
+    transform: translateX(-3px) translateY(-1px);
 }
 .s-switch-wai-left {
     width: auto;
