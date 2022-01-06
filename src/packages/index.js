@@ -10,6 +10,15 @@ import SRadioButton from '../components/SRadioButton/SRadioButton'
 import SRadioGroup from '../components/SRadioGroup/SRadioGroup'
 import SSelect from '../components/SSelect/SSelect'
 import SSwitch from '../components/SSwitch/SSwitch'
+import SAffix from '../components/SAffix/SAffix'
+import SAlter from '../components/SAlter/SAlter'
+import SCard from '../components/SCard/SCard'
+import SCheckTag from '../components/SCheckTag/SCheckTag'
+import SDivider from '../components/SDivider/SDivider'
+import SIcon from '../components/SIcon/SIcon'
+import SOption from '../components/SOption/SOption'
+import SOptionGroup from '../components/SOptionGroup/SOptionGroup'
+import SSlider from '../components/SSlider/SSlider'
 
 const components = [
   SInput,
@@ -23,7 +32,16 @@ const components = [
   SRadioButton,
   SRadioGroup,
   SSelect,
-  SSwitch
+  SSwitch,
+  SAffix,
+  SAlter,
+  SCard,
+  SCheckTag,
+  SDivider,
+  SIcon,
+  SOption,
+  SOptionGroup,
+  SSlider
 ]
 
 const install = function (Vue) {

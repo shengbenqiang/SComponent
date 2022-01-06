@@ -36,3 +36,7 @@
 .s-slider-button-ball-un-drag {
     cursor: grab;
 }
+.s-slider-button-span {
+    box-sizing: border-box;
+    padding: 2px 8px;
+}

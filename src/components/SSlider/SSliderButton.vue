@@ -1,23 +1,29 @@
 <template>
   <div
     ref="sliderButton"
-    :class="[
-      's-slider-button-con',
-      isDrag ? 's-slider-button-ball-drag' : 's-slider-button-ball-un-drag'
-    ]"
-    :style="newPosition"
-    @mousedown.stop.prevent="handleBallDown"
+    class="s-slider-button-con"
+    :class="{
+      isDrag: 's-slider-button-ball-drag',
+
+    }"
+    :style="wrapperStyle"
+    @mousedown="handleBallDown"
+    @mouseenter="handleBallEnter"
+    @mouseleave="handleBallLeave"
   >
     <s-popper
-      :content="currentPosition"
       :visible="showTooltip ? undefined : showTooltip"
       placement="top"
     >
+      <template #content>
+        <span class="s-slider-button-span">{{ formatValue }}</span>
+      </template>
       <div
         id="ball"
         :class="[
           's-slider-button-ball',
-          disabled ? 's-slider-button-ball-dis' : 's-slider-button-ball-oth'
+          disabled ? 's-slider-button-ball-dis' : 's-slider-button-ball-oth',
+          isDrag ? 's-slider-button-ball-drag' : 's-slider-button-ball-un-drag'
         ]"
       ></div>
     </s-popper>
@@ -28,7 +34,7 @@
 import { defineComponent, ref, inject, computed } from 'vue'
 import './SSliderButton.css'
 import SPopper from '@/components/SPopper/SPopper'
-import { on, off, toIntNum, IntegerForensics } from '@/untils/common'
+import { on, off } from '@/untils/common'
 
 export default defineComponent({
   name: 'SSliderButton',
@@ -55,93 +61,129 @@ export default defineComponent({
   },
   setup (props, { emit }) {
     const isDrag = ref(false)
+    const hover = ref(false)
+    // 拖拽相关数据
+    const startX = ref(undefined)
+    const startY = ref(undefined)
     const sliderButton = ref(null)
-    const shiftX = ref(0)
-    const newPosition = ref(null)
+    const newPosition = ref(undefined)
+    const startPosition = ref(undefined)
+    const currentY = ref(undefined)
+    const currentX = ref(undefined)
+    // 拖拽相关数据
     const sliderData = inject('sliderValue', undefined)
-    const { mini, max, slider, sliderSize, formatTooltip, step } = sliderData
+    const { mini, max, resetSize, sliderSize, step, precision } = sliderData
 
     const currentPosition = computed(() => {
-      if (formatTooltip.value) {
-        return `${Math.floor((((props.modelValue - mini.value) / (max.value - mini.value)) * 100) * 100) / 100}`
-      } else {
-        return `${Math.round((props.modelValue / 100) * max.value)}`
-      }
+      return `${
+        ((props.modelValue - mini.value) / (max.value - mini.value)) * 100
+      }%`
     })
+
+    const wrapperStyle = computed(() => {
+      return (
+        props.vertical
+          ? { bottom: currentPosition.value }
+          : { left: currentPosition.value }
+      )
+    })
+
+    const formatValue = computed(() => {
+      return props.modelValue
+    })
+
+    const handleBallEnter = () => {
+      hover.value = true
+    }
+
+    const handleBallLeave = () => {
+      hover.value = false
+    }
 
     const handleBallDown = (event) => {
       if (props.disabled) { return }
       event.preventDefault()
-      isDrag.value = true
-      shiftX.value = event.clientX - sliderButton.value.getBoundingClientRect().left
+      onDragStart(event)
       on('mousemove', handleBallMove)
       on('mouseup', handleBallUp)
     }
 
+    const onDragStart = (event) => {
+      isDrag.value = true
+      hover.value = false
+      const { clientX, clientY } = getClientXY(event)
+      if (props.vertical) {
+        startY.value = clientY
+      } else {
+        startX.value = clientX
+      }
+      startPosition.value = parseFloat(currentPosition.value)
+      newPosition.value = startPosition.value
+    }
+
     const handleBallMove = (event) => {
-      let percentNum
-      const newLeft = event.clientX - shiftX.value - (slider.value.getBoundingClientRect().left + 2)
-      if (newLeft < 0) {
-        return setPosition(0)
-      }
-      if (newLeft > sliderSize.value) {
-        return setPosition(100)
-      }
-      const stepTake = toIntNum((max.value - mini.value) / sliderSize.value, 2)
-      if (formatTooltip.value) {
-        if (toIntNum((newLeft * stepTake / (max.value - mini.value)) * 100, 2) >= 100) {
-          percentNum = 100
-        } else if (toIntNum((newLeft * stepTake / (max.value - mini.value)) * 100, 2) <= 0) {
-          percentNum = 0
+      if (isDrag.value) {
+        resetSize()
+        let diff
+        const { clientX, clientY } = getClientXY(event)
+        if (props.vertical) {
+          currentY.value = clientY
+          diff = ((startPosition.value - currentY.value) / sliderSize.value) * 100
         } else {
-          percentNum = toIntNum((newLeft * stepTake / (max.value - mini.value)) * 100, 2)
+          currentX.value = clientX
+          diff = ((currentX.value - startPosition.value) / sliderSize.value) * 100
         }
-      } else {
-        percentNum = toIntNum(newLeft * stepTake / (max.value - mini.value), 2) * 100
-      }
-      if (step.value !== 1) {
-        const tempNum = Math.round(toIntNum(newLeft * stepTake / (max.value - mini.value), 2) * (max.value - mini.value))
-        if (!Number.isInteger(tempNum / step.value)) {
-          const relate = IntegerForensics(tempNum, step.value)
-          percentNum = Math.round(toIntNum(relate / (max.value - mini.value), 2) * 100)
-        }
-      }
-      if (Number.isInteger((Math.round((percentNum / 100) * max.value)) / step.value) && !formatTooltip.value) {
-        setPosition(percentNum)
-      } else {
-        setPosition(percentNum)
+        newPosition.value = startPosition.value + diff
+        setPosition(newPosition.value)
       }
     }
 
     const handleBallUp = () => {
       emit('ballMoveEnd')
       isDrag.value = false
+      hover.value = true
       off('mousemove', handleBallMove)
       off('mouseup', handleBallUp)
     }
 
     const setPosition = (percent) => {
-      if (props.vertical) {
-        console.log('竖向')
-      } else {
-        if (percent >= 100) {
-          newPosition.value = { left: '100%' }
-        } else if (percent <= 0) {
-          newPosition.value = { left: '0%' }
-        } else {
-          newPosition.value = { left: `${percent}%` }
-        }
+      if (percent === null || isNaN(percent)) { return }
+      if (percent < 0) {
+        newPosition.value = 0
+      } else if (percent > 100) {
+        newPosition.value = 100
       }
-      emit('update:modelValue', percent)
+      const lengthPerStep = 100 / ((max.value - mini.value) / step.value)
+      const steps = Math.round(percent / lengthPerStep)
+      let value = steps * lengthPerStep * (max.value - mini.value) * 0.01 + mini.value
+      console.log(value)
+      value = parseFloat(value.toFixed(precision.value))
+      console.log(value)
+      emit('update:modelValue', value)
+    }
+
+    const getClientXY = (event) => {
+      const clientX = event.clientX
+      const clientY = event.clientY
+
+      return {
+        clientX,
+        clientY
+      }
     }
 
     return {
-      currentPosition,
-      sliderButton,
-      newPosition,
       isDrag,
+      hover,
+      formatValue,
+      newPosition,
+      sliderButton,
+      wrapperStyle,
+      currentPosition,
+      setPosition,
       handleBallDown,
-      setPosition
+      handleBallEnter,
+      handleBallLeave
     }
   }
 })

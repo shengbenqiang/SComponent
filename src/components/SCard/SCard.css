@@ -1,0 +1,30 @@
+.s-card-con {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 4px;
+    border: 1px solid #cccccc;
+}
+.s-card-header-con {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #cccccc;
+}
+.s-card-body-con {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+}
+.s-card-always-shadow {
+    box-shadow: #cccccc 0 0 10px;
+}
+.s-card-hover-shadow:hover {
+    box-shadow: #cccccc 0 0 10px;
+}
+.s-card-never-shadow {
+    box-shadow: none;
+}

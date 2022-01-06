@@ -289,6 +289,21 @@
     <s-divider direction="vertical"></s-divider>
     <span>Grass</span>
   </div>
+  <br>
+  <div>卡片</div>
+  <br>
+  <s-card shadow="never">
+    你好啊
+  </s-card>
+  <br>
+  <div>标签页</div>
+  <br>
+  <s-tabs>
+    <s-tab-pane label="User" name="first">User</s-tab-pane>
+    <s-tab-pane label="Config" name="second">Config</s-tab-pane>
+    <s-tab-pane label="Role" name="third">Role</s-tab-pane>
+    <s-tab-pane label="Task" name="fourth">Task</s-tab-pane>
+  </s-tabs>
 </template>
 <script>
 import SButton from '@/components/SButton/SButton'
@@ -310,6 +325,9 @@ import SCheckTag from '@/components/SCheckTag/SCheckTag'
 import SSlider from '@/components/SSlider/SSlider'
 import SAlter from '@/components/SAlter/SAlter'
 import SDivider from '@/components/SDivider/SDivider'
+import SCard from '@/components/SCard/SCard'
+import STabs from '@/components/STabs/STabs'
+import STabPane from '@/components/STabs/STabPane'
 
 export default {
   name: 'App',
@@ -332,7 +350,10 @@ export default {
     SCheckTag,
     SSlider,
     SAlter,
-    SDivider
+    SDivider,
+    SCard,
+    STabs,
+    STabPane
   },
   watch: {
     myInput: {
@@ -516,5 +537,15 @@ body {
 }
 body::-webkit-scrollbar {
   display: none;
+}
+.testCard {
+  width: 300px;
+}
+.text {
+  font-size: 14px;
+}
+
+.item {
+  margin-bottom: 18px;
 }
 </style>

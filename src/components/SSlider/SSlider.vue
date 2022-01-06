@@ -25,7 +25,6 @@
         :vertical="vertical"
         :show-tooltip="showTooltip"
         :disabled="disabled"
-        @update:model-value="updateFirst"
         @ballMoveEnd="handleBallMoveEnd"
       />
       <s-slider-button
@@ -70,11 +69,11 @@
 </template>
 
 <script>
-import { defineComponent, ref, provide, toRefs, watch, onMounted, nextTick } from 'vue'
+import { defineComponent, ref, provide, toRefs, watch, onMounted, nextTick, computed } from 'vue'
 import './SSlider.css'
 import SSliderButton from './SSliderButton'
 import SInputNumber from '@/components/SInputNumber/SInputNumber'
-import { toIntNum, IntegerForensics, isArr } from '@/untils/common'
+import { isArr } from '@/untils/common'
 
 export default defineComponent({
   name: 'SSlider',
@@ -144,48 +143,26 @@ export default defineComponent({
     const secondButton = ref(null)
     const secondValue = ref(isArr(props.modelValue) ? props.modelValue[1] : props.modelValue)
 
+    const precision = computed(() => {
+      const precisions = [props.mini, props.max, props.step].map(item => {
+        const decimal = `${item}`.split('.')[1]
+        return decimal ? decimal.length : 0
+      })
+      return Math.max.apply(null, precisions)
+    })
+
     const resetSize = () => {
       if (slider.value) {
         sliderSize.value = slider.value[`client${props.vertical ? 'Height' : 'Width'}`]
       }
     }
-
-    const updateFirst = (val) => {
-      firstValue.value = val
-    }
+    // @update:model-value="updateFirst"
+    // const updateFirst = (val) => {
+    //   firstValue.value = val
+    // }
 
     const lineClick = (event) => {
-      if (firstBallBrag.value) {
-        firstBallBrag.value = false
-        return
-      }
-      if (props.disabled) { return }
-      if (props.vertical) {
-        const sliderOffsetBottom = slider.value.value.getBoundingClientRect().bottom
-        console.log(sliderOffsetBottom)
-      } else {
-        const sliderOffsetLeft = slider.value.getBoundingClientRect().left
-        if (props.formatTooltip) {
-          firstButton.value.setPosition(Math.floor((((event.clientX - sliderOffsetLeft) / sliderSize.value) * 100) * 100) / 100)
-        } else {
-          const stepTake = toIntNum((props.max - props.mini) / sliderSize.value, 2)
-          const takePercent = event.clientX - sliderOffsetLeft
-          let percentNum = toIntNum(takePercent * stepTake / (props.max - props.mini), 2) * 100
-          if (props.step !== 1) {
-            const tempNum = Math.round(toIntNum(takePercent * stepTake / (props.max - props.mini), 2) * (props.max - props.mini))
-            if (!Number.isInteger(tempNum / props.step)) {
-              const relate = IntegerForensics(tempNum, props.step)
-              percentNum = toIntNum(relate / (props.max - props.mini), 2) * 100
-            }
-          }
-          if (percentNum >= 100) {
-            percentNum = 100
-          } else if (percentNum < 0) {
-            percentNum = 0
-          }
-          firstButton.value.setPosition(percentNum)
-        }
-      }
+      console.log('单点击事件')
     }
 
     const handleBallMoveEnd = () => {
@@ -208,7 +185,9 @@ export default defineComponent({
       name: 'slider',
       ...toRefs(props),
       slider,
-      sliderSize
+      sliderSize,
+      precision,
+      resetSize
     })
 
     watch(firstValue, (val) => {
@@ -245,15 +224,16 @@ export default defineComponent({
     })
 
     return {
-      firstButton,
-      firstValue,
       slider,
-      selectLine,
       stopsArr,
       inputNum,
-      secondButton,
+      precision,
+      selectLine,
+      firstValue,
+      firstButton,
       secondValue,
-      updateFirst,
+      secondButton,
+      // updateFirst,
       lineClick,
       handleBallMoveEnd
     }

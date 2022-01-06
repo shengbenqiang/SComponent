@@ -1,18 +1,12 @@
 <template>
-  <div
-    :class="[
-      's-tabs-con'
-    ]"
-  >
-    <slot />
-  </div>
+  nav
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import './STabs.css'
+import './STabNav.css'
 
 export default defineComponent({
-  name: 'STabs'
+  name: 'STabNav'
 })
 </script>
