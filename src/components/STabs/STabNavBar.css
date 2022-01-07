@@ -1,0 +1,9 @@
+.s-tab-nav-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background-color: #409EFF;
+    z-index: 2;
+    list-style: none;
+}

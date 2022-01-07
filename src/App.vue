@@ -298,7 +298,7 @@
   <br>
   <div>标签页</div>
   <br>
-  <s-tabs>
+  <s-tabs v-model="activeName">
     <s-tab-pane label="User" name="first">User</s-tab-pane>
     <s-tab-pane label="Config" name="second">Config</s-tab-pane>
     <s-tab-pane label="Role" name="third">Role</s-tab-pane>
@@ -380,6 +380,7 @@ export default {
   },
   data () {
     return {
+      activeName: 'first',
       mySty: {
         width: '20px',
         height: '20px'
