@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[
-      's-tab-nav-con'
+      !type ? 's-tab-nav-con' : `s-tab-nav-${type}-con`
     ]"
   >
     <div
@@ -10,17 +10,23 @@
       :ref="getRefs"
       :dom-name="itemNav.name"
       :class="[
-        's-tab-nav-item-con',
-        navEnter === itemNav.name ? 's-tab-nav-enter' : '',
-        isSelect === itemNav.name ? 's-tab-nav-select' : ''
+        !type ? 's-tab-nav-item-con' : `s-tab-nav-${type}-item-con`,
+        type && isSelect === itemNav.name ? `s-tab-nav-${type}-item-select` : ''
       ]"
       @mouseenter="handleNavEnter(itemNav.name)"
       @mouseleave="handleNavLeave"
       @click.prevent.stop="handleNavClick(itemNav.name)"
     >
-      {{ itemNav.label }}
+      <span
+        :class="[
+          navEnter === itemNav.name ? 's-tab-nav-enter' : '',
+          isSelect === itemNav.name ? 's-tab-nav-select' : '',
+        ]"
+      >
+        {{ itemNav.label }}
+      </span>
     </div>
-    <s-tab-nav-bar :bar-style="styleObj" />
+    <s-tab-nav-bar v-if="!type" :bar-style="styleObj" />
   </div>
 </template>
 
@@ -45,17 +51,25 @@ export default defineComponent({
     const refArr = ref([])
     const styleObj = ref({})
     const tabValue = inject('tabsValue', undefined)
-    const { modelValue } = tabValue
+    const { modelValue, type } = tabValue
 
     const isSelect = computed(() => {
       return modelValue.value
     })
 
     const getRefs = (el) => {
-      refArr.value.push({
-        name: el.getAttribute('dom-name'),
-        el: el
+      let haveDom = false
+      refArr.value.forEach(itemEl => {
+        if (itemEl.name === el.getAttribute('dom-name')) {
+          haveDom = true
+        }
       })
+      if (!haveDom) {
+        refArr.value.push({
+          name: el.getAttribute('dom-name'),
+          el: el
+        })
+      }
     }
 
     const handleNavEnter = (itemKey) => {
@@ -75,15 +89,14 @@ export default defineComponent({
       styleObj.value = {}
       let tranX = 0
       refArr.value.forEach(itemDom => {
-        console.log(itemDom)
-        tranX = +itemDom.el.clientWidth
+        tranX = tranX + itemDom.el.clientWidth
         if (itemDom.name === val) {
           if (refArr.value[0].name === itemDom.name) {
             styleObj.value.width = `${itemDom.el.clientWidth - 20}px`
             styleObj.value.transform = `translateX(${0}px)`
           } else {
             styleObj.value.width = `${itemDom.el.clientWidth - 40}px`
-            styleObj.value.transform = `translateX(${tranX - 20}px)`
+            styleObj.value.transform = `translateX(${tranX - (itemDom.el.clientWidth - 20)}px)`
           }
         }
       })
@@ -95,10 +108,12 @@ export default defineComponent({
 
     onMounted(async () => {
       await nextTick()
+      console.log(type)
       handleBarStyle(modelValue.value)
     })
 
     return {
+      type,
       navEnter,
       isSelect,
       styleObj,

@@ -3,10 +3,25 @@
     position: relative;
     overflow: hidden;
     padding: 32px;
-    background-color: #f4f5f7;
 }
 .s-tabs-header-con {
     padding: 0;
     position: relative;
+}
+.s-tabs-header-margin-none {
+    margin: 0;
+}
+.s-tabs-header-margin {
     margin: 0 0 15px;
+}
+.s-tabs-common-bg {
+    background-color: #f4f5f7;
+}
+.s-tabs-border-card-bg {
+    background-color: #ffffff;
+}
+.s-tabs-border-card-shadow {
+    box-shadow: 0 2px 4px #0000001f, 0 0 6px #0000000a;
+    border: 1px solid #DCDFE6;
+    border-radius: 2px;
 }

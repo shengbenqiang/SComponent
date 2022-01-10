@@ -6,4 +6,5 @@
     background-color: #409EFF;
     z-index: 2;
     list-style: none;
+    transition: all 0.5s;
 }

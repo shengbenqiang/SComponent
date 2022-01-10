@@ -298,7 +298,16 @@
   <br>
   <div>标签页</div>
   <br>
-  <s-tabs v-model="activeName">
+  <s-tabs v-model="activeName" type="card">
+    <s-tab-pane label="User" name="first">User</s-tab-pane>
+    <s-tab-pane label="Config" name="second">Config</s-tab-pane>
+    <s-tab-pane label="Role" name="third">Role</s-tab-pane>
+    <s-tab-pane label="Task" name="fourth">Task</s-tab-pane>
+  </s-tabs>
+  <br>
+  <div>标签页高级属性</div>
+  <br>
+  <s-tabs v-model="activeOneName" type="border-card">
     <s-tab-pane label="User" name="first">User</s-tab-pane>
     <s-tab-pane label="Config" name="second">Config</s-tab-pane>
     <s-tab-pane label="Role" name="third">Role</s-tab-pane>
@@ -484,7 +493,8 @@ export default {
       sliderNum: 20,
       sliderTo: 30,
       sliderThree: 10,
-      sliderFour: [4, 8]
+      sliderFour: [4, 8],
+      activeOneName: 'first'
     }
   },
   methods: {

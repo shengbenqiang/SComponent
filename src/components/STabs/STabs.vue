@@ -1,12 +1,14 @@
 <template>
   <div
     :class="[
-      's-tabs-con'
+      's-tabs-con',
+      type && type === 'border-card' ? 's-tabs-border-card-shadow' : ''
     ]"
   >
     <div
       :class="[
-        's-tabs-header-con'
+        's-tabs-header-con',
+        type && type === 'border-card' ? 's-tabs-header-margin-none' : 's-tabs-header-margin'
       ]"
     >
       <s-tab-nav
@@ -17,7 +19,8 @@
     <div
       ref="tabsPane"
       :class="[
-        's-tabs-pane-con'
+        's-tabs-pane-con',
+        type && type === 'border-card' ? 's-tabs-border-card-bg' : 's-tabs-common-bg'
       ]"
     >
       <slot />
@@ -36,6 +39,14 @@ export default defineComponent({
     modelValue: {
       type: String,
       default: ''
+    },
+    type: {
+      type: String,
+      default: ''
+    },
+    tabPosition: {
+      type: String,
+      default: 'top'
     }
   },
   components: {
@@ -58,9 +69,9 @@ export default defineComponent({
       })
     }
 
-    const handleTabClick = (navName) => {
+    const handleTabClick = (navName, event) => {
       emit('update:modelValue', navName)
-      emit('tab-click', navName)
+      emit('tab-click', navName, event)
     }
 
     provide('tabsValue', {

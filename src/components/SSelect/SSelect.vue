@@ -80,7 +80,7 @@
           v-show="showClear"
           :class="[
             's-select-input-icon',
-            'fa s-select-clear-color',
+            's-select-clear-color iconfont',
             clearIcon,
             enterBorder ? 's-select-icon-enter' : 's-select-icon-common',
             focusBorder ? 's-select-icon-focus' : '',
@@ -94,7 +94,7 @@
           ref="selectSpan"
           :class="[
             's-select-input-icon',
-            'fa s-select-fa-color',
+            's-select-fa-color iconfont',
             suffixIcon,
             enterBorder ? 's-select-icon-enter' : 's-select-icon-common',
             focusBorder ? 's-select-icon-focus' : '',
@@ -104,7 +104,7 @@
           ]"
           :style="{height: changeInputHeight ? changeInputHeight + 'px' : ''}"
           @click.stop.prevent="handleIconClick"
-          @mousedown.prevent="handleIconMouseDown"
+          @mousedown="handleIconMouseDown"
         ></span>
       </div>
     </s-popper>
@@ -114,8 +114,10 @@
 <script>
 import { reactive, provide, ref, computed, defineComponent, watch, onMounted, onUpdated, toRefs, nextTick } from 'vue'
 import './SSelect.css'
+import '@/assets/icon/iconfont.css'
 import SPopper from '@/components/SPopper/SPopper'
 import SCheckTag from '@/components/SCheckTag/SCheckTag'
+// import SIcon from '@/components/SIcon/SIcon'
 import { GenNonDuplicateID } from '@/untils/common'
 
 export default defineComponent({
@@ -156,11 +158,11 @@ export default defineComponent({
     },
     clearIcon: {
       type: String,
-      default: 'fa-times'
+      default: 'icon-cuowu'
     },
     suffixIcon: {
       type: String,
-      default: 'fa-angle-down'
+      default: 'icon-arrow-down'
     }
   },
   components: {
@@ -168,6 +170,7 @@ export default defineComponent({
     SCheckTag
   },
   setup (props, { emit }) {
+    const arrow = ref(null)
     const selectInput = ref()
     const selectSpan = ref()
     const enterBorder = ref(false)
@@ -347,6 +350,7 @@ export default defineComponent({
     }))
 
     return {
+      arrow,
       sizeSty,
       selectInput,
       enterBorder,
