@@ -156,9 +156,7 @@ export default defineComponent({
       const lengthPerStep = 100 / ((max.value - mini.value) / step.value)
       const steps = Math.round(percent / lengthPerStep)
       let value = steps * lengthPerStep * (max.value - mini.value) * 0.01 + mini.value
-      console.log(value)
       value = parseFloat(value.toFixed(precision.value))
-      console.log(value)
       emit('update:modelValue', value)
     }
 

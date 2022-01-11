@@ -8,3 +8,24 @@
     list-style: none;
     transition: all 0.5s;
 }
+.s-tab-nav-left-bar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 2px;
+    background-color: #409EFF;
+    z-index: 2;
+    list-style: none;
+    transition: all 0.5s;
+}
+.s-tab-nav-right-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2px;
+    background-color: #409EFF;
+    z-index: 2;
+    list-style: none;
+    transition: all 0.5s;
+}
+.s-tab-nav-bottom-bar {}

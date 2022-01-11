@@ -1,7 +1,8 @@
 <template>
   <div
     :class="[
-      !type ? 's-tab-nav-con' : `s-tab-nav-${type}-con`
+      !type ? tabPosition !== 'top' && tabPosition !== 'bottom' ? `s-tab-nav-${tabPosition}-con` : 's-tab-nav-con' : `s-tab-nav-${type}-con`,
+      tabPosition !== 'top' && tabPosition !== 'bottom' ? `s-tab-nav-${tabPosition}` : ''
     ]"
   >
     <div
@@ -10,8 +11,11 @@
       :ref="getRefs"
       :dom-name="itemNav.name"
       :class="[
-        !type ? 's-tab-nav-item-con' : `s-tab-nav-${type}-item-con`,
-        type && isSelect === itemNav.name ? `s-tab-nav-${type}-item-select` : ''
+        !type ?
+        tabPosition !== 'top' && tabPosition !== 'bottom' ? `s-tab-nav-${tabPosition}-item-con` : 's-tab-nav-item-con' :
+        tabPosition === 'left' || tabPosition === 'right' ? `s-tab-nav-${type}-item-${tabPosition}-con` : `s-tab-nav-${type}-item-con`,
+        type && isSelect === itemNav.name ?
+        tabPosition === 'left' || tabPosition === 'right' ? `s-tab-nav-${type}-item-${tabPosition}-select` : `s-tab-nav-${type}-item-select` : ''
       ]"
       @mouseenter="handleNavEnter(itemNav.name)"
       @mouseleave="handleNavLeave"
@@ -26,7 +30,7 @@
         {{ itemNav.label }}
       </span>
     </div>
-    <s-tab-nav-bar v-if="!type" :bar-style="styleObj" />
+    <s-tab-nav-bar v-if="!type" :bar-style="styleObj" :tab-position="tabPosition" />
   </div>
 </template>
 
@@ -51,20 +55,23 @@ export default defineComponent({
     const refArr = ref([])
     const styleObj = ref({})
     const tabValue = inject('tabsValue', undefined)
-    const { modelValue, type } = tabValue
+    const { modelValue, type, tabPosition } = tabValue
 
     const isSelect = computed(() => {
       return modelValue.value
     })
 
-    const getRefs = (el) => {
+    const getRefs = async (el) => {
+      await nextTick()
       let haveDom = false
       refArr.value.forEach(itemEl => {
+        if (el === null) { return }
         if (itemEl.name === el.getAttribute('dom-name')) {
           haveDom = true
         }
       })
       if (!haveDom) {
+        if (el === null) { return }
         refArr.value.push({
           name: el.getAttribute('dom-name'),
           el: el
@@ -85,18 +92,32 @@ export default defineComponent({
       emit('changeNav', navName)
     }
 
-    const handleBarStyle = (val) => {
+    const handleBarStyle = async (val) => {
+      await nextTick()
       styleObj.value = {}
       let tranX = 0
       refArr.value.forEach(itemDom => {
-        tranX = tranX + itemDom.el.clientWidth
-        if (itemDom.name === val) {
-          if (refArr.value[0].name === itemDom.name) {
-            styleObj.value.width = `${itemDom.el.clientWidth - 20}px`
-            styleObj.value.transform = `translateX(${0}px)`
-          } else {
-            styleObj.value.width = `${itemDom.el.clientWidth - 40}px`
-            styleObj.value.transform = `translateX(${tranX - (itemDom.el.clientWidth - 20)}px)`
+        if (tabPosition.value === 'left' || tabPosition.value === 'right') {
+          tranX = tranX + itemDom.el.clientHeight
+          if (itemDom.name === val) {
+            if (refArr.value[0].name === itemDom.name) {
+              styleObj.value.height = `${itemDom.el.clientHeight}px`
+              styleObj.value.transform = `translateY(${0}px)`
+            } else {
+              styleObj.value.height = `${itemDom.el.clientHeight}px`
+              styleObj.value.transform = `translateY(${tranX - 40}px)`
+            }
+          }
+        } else if (tabPosition.value === 'top' || tabPosition.value === 'bottom') {
+          tranX = tranX + itemDom.el.clientWidth
+          if (itemDom.name === val) {
+            if (refArr.value[0].name === itemDom.name) {
+              styleObj.value.width = `${itemDom.el.clientWidth - 20}px`
+              styleObj.value.transform = `translateX(${0}px)`
+            } else {
+              styleObj.value.width = `${itemDom.el.clientWidth - 40}px`
+              styleObj.value.transform = `translateX(${tranX - (itemDom.el.clientWidth - 20)}px)`
+            }
           }
         }
       })
@@ -108,7 +129,6 @@ export default defineComponent({
 
     onMounted(async () => {
       await nextTick()
-      console.log(type)
       handleBarStyle(modelValue.value)
     })
 
@@ -117,6 +137,7 @@ export default defineComponent({
       navEnter,
       isSelect,
       styleObj,
+      tabPosition,
       getRefs,
       handleNavEnter,
       handleNavLeave,

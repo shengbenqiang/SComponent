@@ -2,13 +2,15 @@
   <div
     :class="[
       's-tabs-con',
-      type && type === 'border-card' ? 's-tabs-border-card-shadow' : ''
+      type && type === 'border-card' ? 's-tabs-border-card-shadow' : '',
+      tabPosition !== 'top' ? `s-tab-${tabPosition}` : ''
     ]"
   >
     <div
+      v-if="tabPosition === 'left' || tabPosition === 'top'"
       :class="[
         's-tabs-header-con',
-        type && type === 'border-card' ? 's-tabs-header-margin-none' : 's-tabs-header-margin'
+        type && type === 'border-card' ? `s-tabs-header-margin-none s-tabs-header-${tabPosition}-border` : tabPosition !== 'top' ? `s-tab-header-${tabPosition}-margin` : 's-tabs-header-margin',
       ]"
     >
       <s-tab-nav
@@ -24,6 +26,18 @@
       ]"
     >
       <slot />
+    </div>
+    <div
+      v-if="tabPosition === 'right' || tabPosition === 'bottom'"
+      :class="[
+        's-tabs-header-con',
+        type && type === 'border-card' ? `s-tabs-header-margin-none  s-tabs-header-${tabPosition}-border` : tabPosition !== 'top' ? `s-tab-header-${tabPosition}-margin` : 's-tabs-header-margin',
+      ]"
+    >
+      <s-tab-nav
+        v-model="navArr"
+        @changeNav="handleTabClick"
+      />
     </div>
   </div>
 </template>

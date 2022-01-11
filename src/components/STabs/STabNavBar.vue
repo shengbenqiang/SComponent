@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[
-      's-tab-nav-bar'
+      tabPosition !== 'top' && tabPosition !== 'bottom' ? `s-tab-nav-${tabPosition}-bar` : 's-tab-nav-bar'
     ]"
     :style="barStyle"
   ></div>
@@ -17,6 +17,10 @@ export default defineComponent({
     barStyle: {
       type: Object,
       default: () => ({})
+    },
+    tabPosition: {
+      type: String,
+      default: 'top'
     }
   }
 })

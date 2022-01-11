@@ -298,7 +298,16 @@
   <br>
   <div>标签页</div>
   <br>
-  <s-tabs v-model="activeName" type="card">
+  <s-tabs v-model="activeName">
+    <s-tab-pane label="User" name="first">User</s-tab-pane>
+    <s-tab-pane label="Config" name="second">Config</s-tab-pane>
+    <s-tab-pane label="Role" name="third">Role</s-tab-pane>
+    <s-tab-pane label="Task" name="fourth">Task</s-tab-pane>
+  </s-tabs>
+  <br>
+  <div>标签页高级属性</div>
+  <br>
+  <s-tabs v-model="activeThreeName" type="card">
     <s-tab-pane label="User" name="first">User</s-tab-pane>
     <s-tab-pane label="Config" name="second">Config</s-tab-pane>
     <s-tab-pane label="Role" name="third">Role</s-tab-pane>
@@ -308,6 +317,15 @@
   <div>标签页高级属性</div>
   <br>
   <s-tabs v-model="activeOneName" type="border-card">
+    <s-tab-pane label="User" name="first">User</s-tab-pane>
+    <s-tab-pane label="Config" name="second">Config</s-tab-pane>
+    <s-tab-pane label="Role" name="third">Role</s-tab-pane>
+    <s-tab-pane label="Task" name="fourth">Task</s-tab-pane>
+  </s-tabs>
+  <br>
+  <div>标签页高级属性</div>
+  <br>
+  <s-tabs v-model="activeTwoName" tab-position="right" type="border-card">
     <s-tab-pane label="User" name="first">User</s-tab-pane>
     <s-tab-pane label="Config" name="second">Config</s-tab-pane>
     <s-tab-pane label="Role" name="third">Role</s-tab-pane>
@@ -390,6 +408,8 @@ export default {
   data () {
     return {
       activeName: 'first',
+      activeTwoName: 'first',
+      activeThreeName: 'first',
       mySty: {
         width: '20px',
         height: '20px'
@@ -544,7 +564,7 @@ html, body{
 body {
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 3000px;
+  height: 4000px;
 }
 body::-webkit-scrollbar {
   display: none;
