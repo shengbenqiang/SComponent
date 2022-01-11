@@ -233,13 +233,13 @@
   <br>
   <div style="margin-top: 15px">滑块高级属性</div>
   <br>
-  <s-slider
-    v-model="sliderThree"
-    show-input
-    :step="10"
-    :mini="1"
-    :max="200"
-  />
+<!--  <s-slider-->
+<!--    v-model="sliderThree"-->
+<!--    show-input-->
+<!--    :step="10"-->
+<!--    :mini="1"-->
+<!--    :max="200"-->
+<!--  />-->
   <br>
   <div>滑块高级属性</div>
   <br>

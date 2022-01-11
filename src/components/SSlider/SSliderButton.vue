@@ -131,7 +131,7 @@ export default defineComponent({
           diff = ((startPosition.value - currentY.value) / sliderSize.value) * 100
         } else {
           currentX.value = clientX
-          diff = ((currentX.value - startPosition.value) / sliderSize.value) * 100
+          diff = ((currentX.value - startX.value) / sliderSize.value) * 100
         }
         newPosition.value = startPosition.value + diff
         setPosition(newPosition.value)

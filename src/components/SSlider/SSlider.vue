@@ -26,6 +26,7 @@
         :show-tooltip="showTooltip"
         :disabled="disabled"
         @ballMoveEnd="handleBallMoveEnd"
+        @update:model-value="updateFirst"
       />
       <s-slider-button
         v-if="range"
@@ -156,10 +157,9 @@ export default defineComponent({
         sliderSize.value = slider.value[`client${props.vertical ? 'Height' : 'Width'}`]
       }
     }
-    // @update:model-value="updateFirst"
-    // const updateFirst = (val) => {
-    //   firstValue.value = val
-    // }
+    const updateFirst = (val) => {
+      firstValue.value = val
+    }
 
     const lineClick = (event) => {
       console.log('单点击事件')
@@ -233,8 +233,8 @@ export default defineComponent({
       firstButton,
       secondValue,
       secondButton,
-      // updateFirst,
       lineClick,
+      updateFirst,
       handleBallMoveEnd
     }
   }
