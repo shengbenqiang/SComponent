@@ -24,10 +24,13 @@
       <span
         :class="[
           navEnter === itemNav.name ? 's-tab-nav-enter' : '',
-          isSelect === itemNav.name ? 's-tab-nav-select' : '',
+          isSelect === itemNav.name ? 's-tab-nav-select' : ''
         ]"
       >
-        {{ itemNav.label }}
+        <span v-if="!isShowDefault(itemNav)">{{ itemNav.label }}</span>
+        <span v-else>
+          <slot name="label" />
+        </span>
       </span>
     </div>
     <s-tab-nav-bar v-if="!type" :bar-style="styleObj" :tab-position="tabPosition" />
@@ -55,7 +58,7 @@ export default defineComponent({
     const refArr = ref([])
     const styleObj = ref({})
     const tabValue = inject('tabsValue', undefined)
-    const { modelValue, type, tabPosition } = tabValue
+    const { modelValue, type, tabPosition, slotArr } = tabValue
 
     const isSelect = computed(() => {
       return modelValue.value
@@ -123,13 +126,23 @@ export default defineComponent({
       })
     }
 
+    const isShowDefault = (navItem) => {
+      let isHave = false
+      slotArr.value.forEach(itemNode => {
+        if (itemNode.props.name === navItem.name) {
+          isHave = true
+        }
+      })
+      return isHave
+    }
+
     watch(modelValue, (val) => {
       handleBarStyle(val)
     })
 
     onMounted(async () => {
       await nextTick()
-      handleBarStyle(modelValue.value)
+      await handleBarStyle(modelValue.value)
     })
 
     return {
@@ -139,6 +152,7 @@ export default defineComponent({
       styleObj,
       tabPosition,
       getRefs,
+      isShowDefault,
       handleNavEnter,
       handleNavLeave,
       handleNavClick

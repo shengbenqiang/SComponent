@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, inject, ref } from 'vue'
+import { computed, defineComponent, inject, ref, getCurrentInstance, onMounted } from 'vue'
 import './STabPane.css'
 
 export default defineComponent({
@@ -27,12 +27,18 @@ export default defineComponent({
     }
   },
   setup (props) {
+    const instance = getCurrentInstance()
     const tabsPane = ref(null)
     const tabValue = inject('tabsValue', undefined)
+    const tabPaneValue = inject('tabPaneValue', undefined)
     const { modelValue } = tabValue
 
     const showPane = computed(() => {
       return props.name === modelValue.value
+    })
+
+    onMounted(() => {
+      tabPaneValue.getTabPaneInstance(instance)
     })
 
     return {

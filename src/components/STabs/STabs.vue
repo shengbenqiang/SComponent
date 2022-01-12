@@ -69,6 +69,7 @@ export default defineComponent({
   setup (props, { emit }) {
     const tabsPane = ref(null)
     const navArr = reactive([])
+    const slotArr = ref([])
 
     const getPaneName = () => {
       const childNodes = tabsPane.value.children
@@ -83,13 +84,27 @@ export default defineComponent({
       })
     }
 
+    const getTabPaneInstance = (node) => {
+      const tempObj = {}
+      if (node.slots.label) {
+        tempObj.props = node.props
+        tempObj.slots = node.slots
+        slotArr.value.push(tempObj)
+      }
+    }
+
     const handleTabClick = (navName, event) => {
       emit('update:modelValue', navName)
       emit('tab-click', navName, event)
     }
 
     provide('tabsValue', {
-      ...toRefs(props)
+      ...toRefs(props),
+      slotArr
+    })
+
+    provide('tabPaneValue', {
+      getTabPaneInstance
     })
 
     onMounted(() => {
