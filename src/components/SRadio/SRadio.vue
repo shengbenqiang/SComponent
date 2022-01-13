@@ -21,9 +21,9 @@
       <input
         ref="refRadio"
         :class="[
-        's-radio-base-sty',
-        radioSize
-      ]"
+          's-radio-base-sty',
+          radioSize
+        ]"
         v-model="modelValues"
         :value="label"
         :name="name"
