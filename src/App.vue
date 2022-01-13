@@ -318,7 +318,9 @@
   <br>
   <s-tabs v-model="activeOneName" type="border-card">
     <s-tab-pane label="User" name="first">
-      <template #label>你好</template>
+      <template #label>
+        你好
+      </template>
       User
     </s-tab-pane>
     <s-tab-pane label="Config" name="second">Config</s-tab-pane>

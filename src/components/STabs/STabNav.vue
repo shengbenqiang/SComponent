@@ -28,9 +28,7 @@
         ]"
       >
         <span v-if="!isShowDefault(itemNav)">{{ itemNav.label }}</span>
-        <span v-else>
-          <slot name="label" />
-        </span>
+        <span v-else class="customNav" :dom-name="itemNav.name"></span>
       </span>
     </div>
     <s-tab-nav-bar v-if="!type" :bar-style="styleObj" :tab-position="tabPosition" />
@@ -38,7 +36,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, inject, computed, onMounted, nextTick, watch } from 'vue'
+import { defineComponent, ref, inject, computed, onMounted, nextTick, watch, h, createApp } from 'vue'
 import './STabNav.css'
 import STabNavBar from './STabNavBar'
 
@@ -136,12 +134,38 @@ export default defineComponent({
       return isHave
     }
 
+    const solveSlot = () => {
+      if (slotArr.value.length === 0) { return }
+      slotArr.value.forEach(itemNode => {
+        props.modelValue.forEach(navItem => {
+          if (itemNode.props.name === navItem.name) {
+            renderCustom(itemNode)
+          }
+        })
+      })
+    }
+
+    const renderCustom = (itemNode) => {
+      const { props, slots } = itemNode
+      const domArr = document.getElementsByClassName('customNav')
+      Object.keys(domArr).forEach(itemDom => {
+        if (domArr[itemDom].getAttribute('dom-name') === props.name) {
+          createApp({
+            render () {
+              return h('span', {}, slots.label())
+            }
+          }).mount(domArr[itemDom])
+        }
+      })
+    }
+
     watch(modelValue, (val) => {
       handleBarStyle(val)
     })
 
     onMounted(async () => {
       await nextTick()
+      solveSlot()
       await handleBarStyle(modelValue.value)
     })
 
