@@ -1,5 +1,5 @@
 <template>
-  <div class="s-affix-con" :style="affixSty">
+  <div class="s-affix-con">
     <slot />
   </div>
 </template>

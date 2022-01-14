@@ -20,14 +20,14 @@
     >
       <input
         :class="[
-        's-input-base-sty',
-        $slots.leftAppend ? 's-input-left-border' : 's-input-base-border',
-        $slots.rightAppend ? 's-input-right-border' : 's-input-base-border',
-        $slots.leftAppend && $slots.rightAppend ? 's-input-all-border' : 's-input-base-border',
-        leftIcon ? 's-input-left-padding' : rightIcon ? 's-input-right-padding s-input-padding' : 's-input-padding',
-        sInputSize,
-        disabled ? 'disableBg' : ''
-      ]"
+          's-input-base-sty',
+          $slots.leftAppend ? 's-input-left-border' : 's-input-base-border',
+          $slots.rightAppend ? 's-input-right-border' : 's-input-base-border',
+          $slots.leftAppend && $slots.rightAppend ? 's-input-all-border' : 's-input-base-border',
+          leftIcon ? 's-input-left-padding' : rightIcon ? 's-input-right-padding s-input-padding' : 's-input-padding',
+          sInputSize,
+          disabled ? 'disableBg' : ''
+        ]"
         :disabled="disabled"
         :placeholder="placeholder"
         :value="modelValue"
