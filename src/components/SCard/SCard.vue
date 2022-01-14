@@ -25,7 +25,6 @@ export default defineComponent({
       type: Object,
       default: () => ({})
     },
-    // always / hover / never
     shadow: {
       type: String,
       default: ''

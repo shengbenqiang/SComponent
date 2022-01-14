@@ -17,7 +17,6 @@
       backgroundColor: myBg ? myBg : styleObj.backgroundColor ? styleObj.backgroundColor : ''
     }"
   >
-<!--    <img v-show="icon" :src="icon" alt="" class="SBtnImg">-->
     <s-icon v-show="icon" :icon="icon" :size="19" class="SBtnImg" />
     <slot />
   </button>
