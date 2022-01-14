@@ -15,6 +15,13 @@
     普通按钮
   </s-button>
   <br>
+  <div>固钉</div>
+  <br>
+  <s-affix>
+    <s-button>设置 offset</s-button>
+  </s-affix>
+  <br>
+  <br>
   <div>输入框</div>
   <br>
   <s-input
@@ -298,7 +305,7 @@
   <br>
   <div>标签页</div>
   <br>
-  <s-tabs v-model="activeName">
+  <s-tabs v-model="activeName" editable>
     <s-tab-pane label="User" name="first">User</s-tab-pane>
     <s-tab-pane label="Config" name="second">Config</s-tab-pane>
     <s-tab-pane label="Role" name="third">Role</s-tab-pane>
@@ -360,6 +367,7 @@ import SDivider from '@/components/SDivider/SDivider'
 import SCard from '@/components/SCard/SCard'
 import STabs from '@/components/STabs/STabs'
 import STabPane from '@/components/STabs/STabPane'
+import SAffix from '@/components/SAffix/SAffix'
 
 export default {
   name: 'App',
@@ -385,7 +393,8 @@ export default {
     SDivider,
     SCard,
     STabs,
-    STabPane
+    STabPane,
+    SAffix
   },
   watch: {
     myInput: {

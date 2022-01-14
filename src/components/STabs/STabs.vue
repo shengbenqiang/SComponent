@@ -61,6 +61,10 @@ export default defineComponent({
     tabPosition: {
       type: String,
       default: 'top'
+    },
+    closable: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -98,9 +102,14 @@ export default defineComponent({
       emit('tab-click', navName, event)
     }
 
+    const handleTabRemove = (name) => {
+      emit('tab-remove', name)
+    }
+
     provide('tabsValue', {
       ...toRefs(props),
-      slotArr
+      slotArr,
+      handleTabRemove
     })
 
     provide('tabPaneValue', {

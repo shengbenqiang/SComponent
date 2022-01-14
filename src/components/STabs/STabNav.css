@@ -350,3 +350,19 @@
     cursor: pointer;
     user-select: none;
 }
+.s-tab-nav-icon-con {
+    margin-left: 6px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+}
+.s-tab-nav-icon-leave {
+    color: #409EFF;
+}
+.s-tab-nav-icon-enter {
+    background-color: #C0C4CC;
+    color: #ffffff;
+}
+.s-tab-nav-base {
+    transition: all 1s;
+}

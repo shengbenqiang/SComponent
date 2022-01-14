@@ -11,6 +11,7 @@
       :ref="getRefs"
       :dom-name="itemNav.name"
       :class="[
+        's-tab-nav-base',
         !type ?
         tabPosition !== 'top' && tabPosition !== 'bottom' ? `s-tab-nav-${tabPosition}-item-con` : 's-tab-nav-item-con' :
         tabPosition === 'left' || tabPosition === 'right' ? `s-tab-nav-${type}-item-${tabPosition}-con` : `s-tab-nav-${type}-item-con`,
@@ -30,6 +31,17 @@
         <span v-if="!isShowDefault(itemNav)">{{ itemNav.label }}</span>
         <span v-else class="customNav" :dom-name="itemNav.name"></span>
       </span>
+      <s-icon
+        v-show="closable && (isSelect === itemNav.name || enterShowIcon === itemNav.name)"
+        :class="[
+          's-tab-nav-icon-con',
+          iconStatus ? 's-tab-nav-icon-enter' : 's-tab-nav-icon-leave'
+        ]"
+        icon="icon-close"
+        @mouseenter="handleIconEnter(itemNav.name)"
+        @mouseleave="handleIconLeave"
+        @click.prevent.stop="handleIconClick(itemNav.name)"
+      />
     </div>
     <s-tab-nav-bar v-if="!type" :bar-style="styleObj" :tab-position="tabPosition" />
   </div>
@@ -39,6 +51,7 @@
 import { defineComponent, ref, inject, computed, onMounted, nextTick, watch, h, createApp } from 'vue'
 import './STabNav.css'
 import STabNavBar from './STabNavBar'
+import SIcon from '@/components/SIcon/SIcon'
 
 export default defineComponent({
   name: 'STabNav',
@@ -49,14 +62,17 @@ export default defineComponent({
     }
   },
   components: {
+    SIcon,
     STabNavBar
   },
   setup (props, { emit }) {
+    const enterShowIcon = ref('')
+    const iconStatus = ref(false)
     const navEnter = ref(undefined)
     const refArr = ref([])
     const styleObj = ref({})
     const tabValue = inject('tabsValue', undefined)
-    const { modelValue, type, tabPosition, slotArr } = tabValue
+    const { modelValue, type, tabPosition, slotArr, closable, handleTabRemove } = tabValue
 
     const isSelect = computed(() => {
       return modelValue.value
@@ -82,10 +98,12 @@ export default defineComponent({
 
     const handleNavEnter = (itemKey) => {
       navEnter.value = itemKey
+      enterShowIcon.value = itemKey
     }
 
     const handleNavLeave = () => {
       navEnter.value = ''
+      enterShowIcon.value = ''
     }
 
     const handleNavClick = (navName) => {
@@ -159,6 +177,18 @@ export default defineComponent({
       })
     }
 
+    const handleIconEnter = (name) => {
+      iconStatus.value = name
+    }
+
+    const handleIconLeave = () => {
+      iconStatus.value = ''
+    }
+
+    const handleIconClick = (name) => {
+      handleTabRemove(name)
+    }
+
     watch(modelValue, (val) => {
       handleBarStyle(val)
     })
@@ -174,12 +204,18 @@ export default defineComponent({
       navEnter,
       isSelect,
       styleObj,
+      closable,
+      iconStatus,
       tabPosition,
+      enterShowIcon,
       getRefs,
       isShowDefault,
       handleNavEnter,
       handleNavLeave,
-      handleNavClick
+      handleNavClick,
+      handleIconEnter,
+      handleIconLeave,
+      handleIconClick
     }
   }
 })
