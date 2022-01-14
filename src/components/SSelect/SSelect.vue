@@ -18,7 +18,7 @@
           :class="[
             's-select-popper-un-date'
           ]"
-          @mouseenter.stop.prevent="handlePopperEnter"
+          @mouseenter="handlePopperEnter"
         >
           暂无数据
         </div>
@@ -28,7 +28,7 @@
           :class="[
             's-select-to-options'
           ]"
-          @mouseenter.stop.prevent="handlePopperEnter"
+          @mouseenter="handlePopperEnter"
         >
           <slot />
         </div>
@@ -46,7 +46,7 @@
             sizeSty
           ]"
           @click.stop.prevent="handleMultipleClick"
-          @mousedown.prevent="handleIconMouseDown"
+          @mousedown="handleIconMouseDown"
         >
           <s-check-tag
             v-for="item in multipleData"
@@ -117,7 +117,6 @@ import './SSelect.css'
 import '@/assets/icon/iconfont.css'
 import SPopper from '@/components/SPopper/SPopper'
 import SCheckTag from '@/components/SCheckTag/SCheckTag'
-// import SIcon from '@/components/SIcon/SIcon'
 import { GenNonDuplicateID } from '@/untils/common'
 
 export default defineComponent({
