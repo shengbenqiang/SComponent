@@ -240,13 +240,11 @@
   <br>
   <div style="margin-top: 15px">滑块高级属性</div>
   <br>
-<!--  <s-slider-->
-<!--    v-model="sliderThree"-->
-<!--    show-input-->
-<!--    :step="10"-->
-<!--    :mini="1"-->
-<!--    :max="200"-->
-<!--  />-->
+  <s-slider
+    v-model="sliderThree"
+    :step="10"
+    :max="200"
+  />
   <br>
   <div>滑块高级属性</div>
   <br>
@@ -526,7 +524,7 @@ export default {
       checked: false,
       sliderNum: 20,
       sliderTo: 30,
-      sliderThree: 10,
+      sliderThree: 15,
       sliderFour: [4, 8],
       activeOneName: 'first'
     }

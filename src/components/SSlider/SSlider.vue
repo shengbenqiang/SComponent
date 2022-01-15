@@ -7,16 +7,16 @@
     <div
       ref="slider"
       :class="[
-      's-slider-base-line',
-      showInput ? 's-slider-input-width' : 's-slider-default-width'
-    ]"
+        's-slider-base-line',
+        showInput ? 's-slider-input-width' : 's-slider-default-width'
+      ]"
       @click="lineClick"
     >
       <div
         :class="[
-        's-slider-select-line',
-        disabled ? 's-slider-select-dis' : 's-slider-select-use'
-      ]"
+          's-slider-select-line',
+          disabled ? 's-slider-select-dis' : 's-slider-select-use'
+        ]"
         :style="selectLine"
       ></div>
       <s-slider-button
@@ -39,13 +39,13 @@
       <div
         v-if="showStops"
         :class="[
-        's-slider-show-stops-div'
-      ]"
+          's-slider-show-stops-div'
+        ]"
       >
         <div
           :class="[
-          's-slider-stop'
-        ]"
+            's-slider-stop'
+          ]"
           v-for="itemStop in stopsArr"
           :key="itemStop"
           :style="{ left: itemStop }"
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, provide, toRefs, watch, onMounted, nextTick, computed } from 'vue'
+import { defineComponent, ref, provide, toRefs, onMounted, nextTick, computed } from 'vue'
 import './SSlider.css'
 import SSliderButton from './SSliderButton'
 import SInputNumber from '@/components/SInputNumber/SInputNumber'
@@ -132,7 +132,7 @@ export default defineComponent({
       default: false
     }
   },
-  setup (props, { emit }) {
+  setup (props) {
     const firstBallBrag = ref(false)
     const firstButton = ref(null)
     const firstValue = ref(isArr(props.modelValue) ? props.modelValue[0] : props.modelValue)
@@ -161,7 +161,7 @@ export default defineComponent({
       firstValue.value = val
     }
 
-    const lineClick = (event) => {
+    const lineClick = () => {
       console.log('单点击事件')
     }
 
@@ -190,36 +190,17 @@ export default defineComponent({
       resetSize
     })
 
-    watch(firstValue, (val) => {
-      selectLine.value = { width: `${val}%` }
-      if (props.formatTooltip) {
-        inputNum.value = Math.floor((val / 100) * props.max)
-      } else {
-        inputNum.value = Math.round((val / 100) * props.max)
-      }
-      emit('update:modelValue', val)
-    })
-
-    watch(inputNum, (val) => {
-      if (!props.formatTooltip) {
-        firstValue.value = Math.round((val / props.max) * 100)
-        firstButton.value.setPosition(Math.round((val / props.max) * 100))
-      }
-    })
-
     onMounted(async () => {
       window.addEventListener('resize', resetSize)
       await nextTick()
       resetSize()
       handleStops()
       if (isArr(props.modelValue)) {
-        console.log()
         firstButton.value.setPosition((props.modelValue[0] / props.max) * 100)
         secondButton.value.setPosition((props.modelValue[1] / props.max) * 100)
       } else {
         inputNum.value = props.modelValue
         firstButton.value.setPosition(props.modelValue)
-        selectLine.value = { width: `${props.modelValue}%` }
       }
     })
 

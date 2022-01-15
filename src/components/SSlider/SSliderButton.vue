@@ -76,7 +76,7 @@ export default defineComponent({
 
     const currentPosition = computed(() => {
       return `${
-        ((props.modelValue - mini.value) / (max.value - mini.value)) * 100
+          ((props.modelValue - mini.value) / (max.value - mini.value)) * 100
       }%`
     })
 
@@ -134,6 +134,9 @@ export default defineComponent({
           diff = ((currentX.value - startX.value) / sliderSize.value) * 100
         }
         newPosition.value = startPosition.value + diff
+        if (newPosition.value < mini.value || newPosition.value > max.value) {
+          return
+        }
         setPosition(newPosition.value)
       }
     }
@@ -149,10 +152,11 @@ export default defineComponent({
     const setPosition = (percent) => {
       if (percent === null || isNaN(percent)) { return }
       if (percent < 0) {
-        newPosition.value = 0
+        percent = 0
       } else if (percent > 100) {
-        newPosition.value = 100
+        percent = 100
       }
+      // const realNum = max.value >= 100 ? (max.value - mini.value) / (max.value / 100) : max.value <= 10 ? (max.value - mini.value) : ''
       const lengthPerStep = 100 / ((max.value - mini.value) / step.value)
       const steps = Math.round(percent / lengthPerStep)
       let value = steps * lengthPerStep * (max.value - mini.value) * 0.01 + mini.value
